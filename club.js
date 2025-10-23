@@ -2,15 +2,17 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebas
 // TODO: import libraries for Cloud Firestore Database
 // https://firebase.google.com/docs/firestore
 import { getFirestore, collection, query, getCountFromServer, where, addDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyAH3oWF9S-ePd0352Ca-TdE5cu6oinzlXo",
-    authDomain: "softwareengineering-94854.firebaseapp.com",
-    projectId: "softwareengineering-94854",
-    storageBucket: "softwareengineering-94854.appspot.com",
-    messagingSenderId: "565847408909",
-    appId: "1:565847408909:web:9e116dae6ede6b965bb044"
-  };
+  apiKey: "AIzaSyDKBBs0TWerQno_u8yjNqV5qmvQImf6xA0",
+  authDomain: "club-hub-2.firebaseapp.com",
+  projectId: "club-hub-2",
+  storageBucket: "club-hub-2.firebasestorage.app",
+  messagingSenderId: "339870020143",
+  appId: "1:339870020143:web:cc698c287ed642e3798cda",
+  measurementId: "G-P97ML6ZP15"
+};
 
   // Initialize Firebase
 const app = initializeApp(firebaseConfig);
