@@ -3,9 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Service Sheet Home</title>
+    <title>Saints Service Sheet</title>
 </head>
 <body>
-<h1>Service Sheet Home</h1>
+
+
+<!-- creates the header box and the title, inside the box -->
+<header class="header" id="header">
+   <h1> Saints Service Sign Up</h1>
+</header>
+  <!-- Creates a bar below header box with nav buttons -->
+<div class="nav">
+  <!-- <a class="button" href="#calendar">Calendar</a> -->
+   <button class="button" onClick = "location.replace('index.html');">Club Hub</button>
+   <button class="button" id="login" onClick = "location.replace('serviceAccountSelection.html');">Login</button>
+</div>
+
+<!-- Hidden Modal for Delete Confirmation -->
+<div id="eventInfoModal" class="eventInfoModal">
+    <div class="eventInfoModalContent">
+    <p id="meetInfoPopUpService">Opportunity Information:</p>
+    <p id="clubPopUpService">Activity: </p>
+    <p id="datePopUpService">Date: </p>
+    <p id="timePopUpService">Time: </p>
+    <p id="locationPopUpService">Location: </p>
+    <button id="loginToSignUp" class="confbtn"  onclick="location.replace('serviceAccountSelection.html');">Login to Sign Up</button>
+    <br>
+    <button id="confCancelDelete" class="confbtn" onclick="document.getElementById('eventInfoModal').style.display = 'none';">Close</button>
+    </div>
+</div>
+<!-- END OF DELETE CONF MODAL!!!! -->
+
+
+<section id="calendar">  
+    <div class="calendarTitle">
+        <h1>Calendar</h1>
+    </div>
+
+    <!-- Calendar Display -->
+    <div class="calendar">
+        <!-- Calendar Header -->
+        <div class="Cheader">
+           <div id="prev" class="arrow left">
+                <div class="arrow-container">
+                    <i></i>
+                </div>
+            </div>
+            <div id="month-year"></div>
+            <div id="next" class="arrow right">
+                <div class="arrow-container">
+                    <i></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-toggle" role="group" aria-label="Calendar view">
+            <button id="weekViwToggleBtn" type="button" class="view-toggle__btn" data-view="week">Week</button>
+            <button id="monthViwToggleBtn" type="button" class="view-toggle__btn" data-view="month">Month</button>
+        </div>
+
+        <!-- Days of the Week -->
+        <div class="weekdays">
+            <div class="dayName">Sun</div> <!-- Sunday -->
+            <div class="dayName">Mon</div> <!-- Monday -->
+            <div class="dayName">Tue</div> <!-- Tuesday -->
+            <div class="dayName">Wed</div> <!-- Wednesday -->
+            <div class="dayName">Thu</div> <!-- Thursday -->
+            <div class="dayName">Fri</div> <!-- Friday -->
+            <div class="dayName">Sat</div> <!-- Saturday -->
+        </div>
+
+        <!-- Calendar Days -->
+        <div class="days" id="days"></div> <!-- Populated dynamically with days -->
+
+    </div>
+</section>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="logos">
+        <img class="logo" src="images/stab_logo.webp" alt="logo">
+    </div>
+    <div class="devSplit">
+        <div>Developers:</div>
+        <div></div>
+    </div>
+    <button class="button ContactButton" onClick = "location.replace('contactPage.html');">Feedback & Requests</button>
+</div>
+
+
 </body>
 </html>
