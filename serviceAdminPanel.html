@@ -11,23 +11,17 @@
         import { checkLogin, displayClubsInDanger, renderAdminClubInfo, logout, resetPoints, deleteClub, goToClub} from './script.js';
         window.checkLogin = checkLogin;
         window.resetPoints = resetPoints;
-        window.displayClubsInDanger = displayClubsInDanger;
-        window.renderAdminClubInfo = renderAdminClubInfo;
         window.logout = logout;
-        window.deleteClub = deleteClub;
-        window.goToClub = goToClub;
-        renderAdminClubInfo();
         checkLogin();
-        displayClubsInDanger();
     </script>
 </head>
 <body>
-<!-- creates the header box and the title, inside the box -->
+
 <header class="header" id="header">
     <h1>Service To The School Admin Page</h1>
 </header>
 
-<!-- Creates a bar bellow hearder box with nav buttons -->
+<!-- Creates a bar bellow header box with nav buttons -->
 <div class="nav">
     <button class="button" onClick="location.replace('index.html');">Home</button>
     <button class="button" onClick = "location.replace('serviceAccountSelection.html');">Club Directory</button>
@@ -57,18 +51,16 @@
             </div>
             <div class="adminClubInfo">
                 <div class="adminInfoSplit">
-                    <div class="adminaboutClub" id="adminaboutClub" data-title="Club Info">Please search for a club or select one from the left to view details.</div>
-                    <div class="adminNextMeeting" id="adminNextMeeting" data-title="Next Meeting"></div>
+                    <div class="adminaboutClub" id="adminaboutClub" data-title="Student Name">Please search for a club or select one from the left to view student details.</div>
+                    <div class="adminNextMeeting" id="adminNextMeeting" data-title="Non-School Hours"></div>
                 </div>
                 <div class="adminInfoSplit">
-                    <div class="adminInDangerDiv" id="adminInDangerDiv" data-title="Status"></div>
-                    <div class="adminPastMeetings" id="adminPastMeetings" data-title="Past Meetings"></div>
+                    <div class="adminInDangerDiv" id="adminInDangerDiv" data-title="Student Grade"></div>
+                    <div class="adminPastMeetings" id="adminPastMeetings" data-title="School Hours"></div>
                 </div>
             </div>
         </div>
         <div class="DCB-GCB-Wrapper">
-            <button class="deleteClubButton" onclick="deleteClub()">
-                <span class="buttonText">Delete Club</span>
                 <span class="spark spark1"></span>
                 <span class="spark spark2"></span>
                 <span class="spark spark3"></span>
@@ -84,8 +76,6 @@
                 <span class="spark spark13"></span>
                 <span class="spark spark14"></span>
                 <span class="spark spark15"></span>
-            </button>
-            <button class="adminGoToClubButton" onclick="goToClub()"><span>Go to Club's Page</span></button>
         </div>
     </div>
 </div>
