@@ -7,7 +7,23 @@
 </head>
 <body>
 
+<script type="module" src="script.js"></script>
+ <script type="module" src="./scriptC.js"></script>
+ <script type="module">
+    import {login} from './script.js';
+    import {addMeetings, correctNavDisplay} from './scriptC.js';
+    import {loadLeaderboard} from './leaderboardScore.js';
+    import {renderActiveAnnouncements} from './announcement.js';
 
+    window.correctNavDisplay = correctNavDisplay;
+    window.addMeetings = addMeetings;
+    window.loadLeaderboard = loadLeaderboard;
+
+    correctNavDisplay();
+    addMeetings();
+    loadLeaderboard();
+    renderActiveAnnouncements(); 
+ </script>
 <!-- creates the header box and the title, inside the box -->
 <header class="header" id="header">
    <h1>Saints Service Sign Up</h1>
