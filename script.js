@@ -17,7 +17,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// ——————LOGIN CODE TO VERIFY THE ADMIN IS LOGED IN—————//
+// ——————LOGIN CODE TO VERIFY THE ADMIN IS LOGGED IN—————//
 export const login =  function(email, password){
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
