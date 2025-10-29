@@ -2,9 +2,103 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Service Student Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fixed the type attribute in the link tag -->
+    <link rel="stylesheet" type="text/css" href="serviceStudentPage.css">
+   
+    <title>Club Hub</title>
 </head>
 <body>
 
+ <script type="module" src="script.js"></script>
+ <script type="module" src="./scriptC.js"></script>
+ <script type="module">
+    import {login} from './script.js';
+    import {addMeetings, correctNavDisplay} from './scriptC.js';
+    import {loadLeaderboard} from './leaderboardScore.js';
+    import {renderActiveAnnouncements} from './announcement.js';
+
+    window.correctNavDisplay = correctNavDisplay;
+    window.addMeetings = addMeetings;
+    window.loadLeaderboard = loadLeaderboard;
+
+    correctNavDisplay();
+    addMeetings();
+    loadLeaderboard();
+    renderActiveAnnouncements(); 
+ </script>
+     <!-- creates the header box and the title, inside the box -->
+    <header class="header" id="header">
+        <h1> St. Anne's-Belfield Club Hub</h1>
+    </header>
+       <!-- Creates a bar below header box with nav buttons -->
+   <div class="nav">
+       <!-- <a class="button" href="#calendar">Calendar</a> -->
+        <button class="button" onClick = "location.replace('serviceStudentHours.html');">Your Service Log</button>
+        <button class="button" id="login" onClick = "location.replace('serviceAccountSelection.html');">Log More Hours</button>
+        <button class="button" id="login" onClick = "location.replace('serviceAccountSelection.html');">Login</button>
+        <button class="button" id="logout" onclick="" >Logout</button>
+        <button class="button" id="adminPageBtn"onclick="location.replace('serviceAdminPanel.html');" >Admin Page</button>
+   </div>
+
+    
+    <!-- Calendar Section -->
+    <section id="calendar">  
+        <div class="calendarTitle">
+            <h1>Quick Overview</h1>
+        </div>
+
+        <!-- Calendar Display -->
+        <div class="calendar">
+            <!-- Calendar Header -->
+            <div class="Cheader">
+               <div id="prev" class="arrow left">
+                    <div class="arrow-container">
+                        <i></i>
+                    </div>
+                </div>
+                <div id="month-year"></div>
+                <div id="next" class="arrow right">
+                    <div class="arrow-container">
+                        <i></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view-toggle" role="group" aria-label="Calendar view">
+                <button id="weekViwToggleBtn" type="button" class="view-toggle__btn" data-view="week">Week</button>
+                <button id="monthViwToggleBtn" type="button" class="view-toggle__btn" data-view="month">Month</button>
+            </div>
+
+            <!-- Days of the Week -->
+            <div class="weekdays">
+                <div class="dayName">Sun</div> <!-- Sunday -->
+                <div class="dayName">Mon</div> <!-- Monday -->
+                <div class="dayName">Tue</div> <!-- Tuesday -->
+                <div class="dayName">Wed</div> <!-- Wednesday -->
+                <div class="dayName">Thu</div> <!-- Thursday -->
+                <div class="dayName">Fri</div> <!-- Friday -->
+                <div class="dayName">Sat</div> <!-- Saturday -->
+            </div>
+
+            <!-- Calendar Days -->
+            <div class="days" id="days"></div> <!-- Populated dynamically with days -->
+
+        </div>
+    </section>
+
+
+
+<!-- Footer -->
+    <div class="footer">
+        <div class="logos">
+            <img class="logo" src="images/stab_logo.webp" alt="logo">
+        </div>
+        <div class="devSplit">
+            <div>Developer:</div>
+            <div>Kate R. '26</div>
+        </div>
+        <button class="button ContactButton" onClick = "location.replace('contactPage.html');">Feedback & Requests</button>
+    </div>
 </body>
 </html>
