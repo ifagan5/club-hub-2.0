@@ -50,8 +50,8 @@ export const registerService = async function(user, pass){
     
           console.log(user);
       // saving username across pages
-      localStorage.setItem("username", user);
-      localStorage.setItem("password", pass)
+      localStorage.setItem("serviceEmail", user);
+      localStorage.setItem("servicePassword", pass)
       // switches page to more information page beyond registration page
       window.location.href="serviceStudentPage.html";
         
