@@ -63,7 +63,7 @@ export const checkLogin = async function(){
             window.location.href = "login.html";
       }
       else{
-        return
+        return;
       }
     } 
     else{
