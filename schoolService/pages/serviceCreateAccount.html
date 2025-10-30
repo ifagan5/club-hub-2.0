@@ -31,6 +31,11 @@
   </script>
 
   <div class="loginBox">
+    <script type="module">
+      import { registerService } from '../../schoolService/javascript/serviceCreateAccount.js';
+      window.registerService = registerService;
+    </script>
+
     <header class="subheading">Create a Service Account:</header>
       <!-- label and then text input, both with ids -->
       <!-- The "placeholder" is the grey script in the text boxes before you type anything in-->
@@ -40,7 +45,7 @@
       <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
       <!-- <button class="loginButton" onclick="register(document.getElementById('username').value, document.getElementById('password').value); ">Continue</button> -->
         <button class="loginButton" onclick="registerService(document.getElementById('serviceEmail').value, document.getElementById('servicePassword').value); ">Continue</button>
-      <a href="serviceStudentLogin.html"><p></p>Already have an account? Login Here</a>
+      <a href="serviceStudentLogin.html">Already have an account? Login Here</a>
   </div>
 </body>
 
