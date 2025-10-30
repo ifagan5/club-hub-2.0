@@ -5,13 +5,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Login</title>
-  <link href="login.css" rel="stylesheet" type="text/css" />
+  <link href="../../clubhub/login.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
    <header class="head">
       <div class="rightHead">
-        <img class="image" src="images/stab_logo.webp" alt="logo" onClick="location.replace('serviceHome.html');">
+        <img class="image" src="../../clubhub/images/stab_logo.webp" alt="logo" onClick="location.replace('serviceHome.html');">
         <p onClick="location.replace('serviceHome.html');">St. Anne's Belfield School</p>
       </div>
       <div class="leftHead">
@@ -21,11 +21,11 @@
 
 
   <!-- type must be "module": https://www.w3schools.com/js/js_modules.asp#:~:text=JavaScript%20modules%20allow%20you%20to,in%20the%20tag.-->  
-  <script type="module" src="clubinfo.js"></script>
+  <script type="module" src="../../clubhub/clubinfo.js"></script>
   <script type="module">
-    import {login} from './script.js';
+    import {login} from '../../clubhub/script.js';
     window.login = login;
-    import {cLogin,correctNavDisplayCD} from './clubinfo.js';
+    import {cLogin,correctNavDisplayCD} from '../../clubhub/clubinfo.js';
     window.cLogin = cLogin;
     window.correctNavDisplayCD = correctNavDisplayCD;
   </script>

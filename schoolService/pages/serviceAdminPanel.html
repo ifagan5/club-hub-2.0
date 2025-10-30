@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Fixed the type attribute in the link tag -->
-    <link rel="stylesheet" type="text/css" href="serviceAdminPanel.css">
+    <link rel="stylesheet" type="text/css" href="../css/serviceAdminPanel.css">
 <!--    <script type="module" src="script.js"></script>-->
     <title>Service to The School Admin Page</title>
     <script type="module">
-        import { checkLogin, displayClubsInDanger, renderAdminClubInfo, logout, resetPoints, deleteClub, goToClub} from './script.js';
+        import { checkLogin, displayClubsInDanger, renderAdminClubInfo, logout, resetPoints, deleteClub, goToClub} from '../../clubhub/script.js';
         window.checkLogin = checkLogin;
         window.resetPoints = resetPoints;
         window.logout = logout;
@@ -37,7 +37,7 @@
             <div id="searchUsers" class="studentSearch">
                 <div class="searchInputContainer">
                     <input class="searchInput" type="text" spellcheck="false" placeholder="Search For Students Here"/>
-                    <img class="searchIcon" src="images/search-icon.png" alt="search"/>
+                    <img class="searchIcon" src="../../clubhub/images/search-icon.png" alt="search"/>
                 </div>
                 <!-- results generate here -->
             </div>
@@ -85,7 +85,7 @@
 <!-- creates a footer at the bottom of the page -->
 <div class="footer">
     <div class="logos">
-        <img class="logo" src="images/stab_logo.webp" alt="logo">
+        <img class="logo" src="../../clubhub/images/stab_logo.webp" alt="logo">
     </div>
     <div class="devSplit">
         <div>Developer:</div>
