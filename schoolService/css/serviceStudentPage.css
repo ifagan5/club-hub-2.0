@@ -700,26 +700,6 @@ option {
     order: 2;
   }
 
-  /* “Clubs in Danger” buttons: auto-fit grid */
-  .clubsInDangerButtons {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 10px;
-  }
-  .clubsInDangerButtons button {
-    width: 100%;
-  }
-
-  /* Reset panel height: let content define height */
-  .resetPointsDiv { 
-    height: auto; 
-    align-items: center; 
-    justify-content: center;
-    border-top: transparent;
-    border-left: transparent;
-    border-right: transparent;
-    padding: 0;
-  }
 
   /* Search block: full width, taller input for touch */
   .search-container { width: 85%; }
