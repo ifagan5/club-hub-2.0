@@ -91,8 +91,8 @@ body {
     background-color: rgb(141, 13, 24);
     font-size: 35px;
     color: white;
-    margin-left: 2vw;
-    margin-right: 2vw;
+    margin-left: 12.5%;
+    margin-right: 12.5%;
     margin-bottom: -29px;
     text-align: center;
     background-image: url("../../clubhub/images/whiteboard.png");
@@ -100,30 +100,7 @@ body {
     font-weight: 700;
     letter-spacing: 0.5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
-}
-
-/* -- creates a column that can be 
-resized to fit nicely beside the calendar -- */
-/* --- basic information box -- */
-.description {
-    height: 8vw;
-    width: 8vw;
-    padding: 1vw;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-    font-size: 1.5vw;
-    color: white;
-    background-color: rgba(141, 13, 24, 0.9);
-    border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* subtle neutral shadow */
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.description:hover {
-    background-color: rgba(141, 13, 24, 1); /* solid color on hover */
-    transform: scale(1.02); /* subtle zoom */
+    max-width: 1500px;
 }
 
 /*-- the calendar --*/
@@ -133,11 +110,14 @@ resized to fit nicely beside the calendar -- */
     margin-bottom: 20px;
     overflow: scroll;
     position: relative;
-    margin-left: 2%;
-    width: 96%;
+    margin-left: 12.5%;
+    margin-right: 12.5%;
     height: 97vh;
     background-color: rgb(237, 237, 237);
     color: rgb(141, 13, 24);
+    max-width: 1500px;
+    
+    
 }
 
 .studentPageHeader {
@@ -149,6 +129,7 @@ resized to fit nicely beside the calendar -- */
     margin: 0.75vw;
     background-color: transparent; /* removed gray background */
     border-bottom: 2px solid rgb(141, 13, 24); /* sleek red underline */
+    max-width: 1500px;
 }
 
 #student-Name {
@@ -180,6 +161,35 @@ resized to fit nicely beside the calendar -- */
     transition: all 0.18s ease;
 }
 
+.red-box-left {
+  background-color: rgb(141, 13, 24); /* Sets the background color of the box to red */
+  width: 25%;         /* Sets the width of the box */
+  height: 50%;        /* Sets the height of the box */
+  border: 2px solid darkred; /* Adds a border to the box (optional) */
+  padding: 10px;        /* Adds padding inside the box (optional) */
+  border-radius: 10px;
+  font-size: 40px;
+  font-family: 'Inter', sans-serif;
+  color: white;         /* Sets the text color inside the box (optional) */
+  text-align: center;   /* Centers the text horizontally (optional) */
+  /* line-height: 100px;   Vertically centers text for a single line (optional) */
+  margin-left: 2%;
+  margin-top: 10%; 
+  display: grid;
+  grid-template-columns: 1fr,1fr,1fr;
+  overflow: hidden;
+  min-width: 300px;
+  min-height: 300px;
+}
+#red-text-left-description{
+font-size: 20px;
+}
+#hours{
+  font-size: 180%;
+  text-align: center;
+
+  
+}
 .view-toggle__btn:hover {
     background-color: rgba(141, 13, 24, 0.1);
 }
