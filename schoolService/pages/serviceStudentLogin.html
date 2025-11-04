@@ -28,6 +28,8 @@
     import {cLogin,correctNavDisplayCD} from '../../clubhub/clubinfo.js';
     window.cLogin = cLogin;
     window.correctNavDisplayCD = correctNavDisplayCD;
+    import {sLogin} from '../../javascript/serviceStudentLogin.js';
+    window.sLogin = sLogin;
   </script>
 
 
@@ -42,7 +44,7 @@
 
     <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
     <!-- <button onclick = "sessionStorage.setItem('club', document.getElementById('username').value); localStorage.setItem('password', document.getElementById('password').value); cLogin()" class="loginButton clubLB">Login</button> -->     
-    <button onclick = "sessionStorage.setItem('email', document.getElementById('Email').value); localStorage.setItem('servicePassword', document.getElementById('servicePassword').value); cLogin()" class="loginButton clubLB">Login</button>    <!-- still needs to  -->
+    <button onclick = "sessionStorage.setItem('email', document.getElementById('Email').value); localStorage.setItem('servicePassword', document.getElementById('servicePassword').value); sLogin(); location.replace('serviceStudentPage.html');" class="loginButton clubLB">Login</button>    <!-- still needs to  -->
     <a href="serviceCreateAccount.html"><p></p>Don't have an account? Register here!</a>
   </div>
 </body>

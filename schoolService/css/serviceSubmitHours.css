@@ -57,6 +57,8 @@ label {
     font-size: 16px; font-family: Helvetica, sans-serif;
     margin: 10px 0 5px 0;
     color: black;
+    text-align: center;
+    justify-content: center;
 }
 
 input {

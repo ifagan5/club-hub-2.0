@@ -31,5 +31,3 @@ export const registerService = async function(user, pass){
         console.error("Error registering service:", error);
     }
 }
-
-registerService("test1", "test1");
