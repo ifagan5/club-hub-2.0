@@ -1,11 +1,9 @@
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-// TODO: import libraries for Cloud Firestore Database
-// https://firebase.google.com/docs/firestore
-import { getFirestore, collection, query, getCountFromServer, where, addDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
-const firebaseConfig = {
+export const firebaseConfig = {
     apiKey: "AIzaSyDKBBs0TWerQno_u8yjNqV5qmvQImf6xA0",
     authDomain: "club-hub-2.firebaseapp.com",
     projectId: "club-hub-2",
@@ -13,12 +11,13 @@ const firebaseConfig = {
     messagingSenderId: "339870020143",
     appId: "1:339870020143:web:cc698c287ed642e3798cda",
     measurementId: "G-P97ML6ZP15"
-  };
+};
 
-    // Initialize Firebase
+export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-// const auth = getAuth(app);
 
 export const registerService = async function(user, pass){
 
@@ -39,8 +38,8 @@ export const registerService = async function(user, pass){
     
           console.log(user);
       // saving username across pages
-      localStorage.setItem("serviceEmail", user);
-      localStorage.setItem("servicePassword", pass)
+      localStorage.setItem("username", user);
+      localStorage.setItem("password", pass)
       // switches page to more information page beyond registration page
       window.location.href="serviceStudentPage.html";
       
