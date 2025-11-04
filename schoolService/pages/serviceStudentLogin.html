@@ -21,31 +21,20 @@
 
 
   <!-- type must be "module": https://www.w3schools.com/js/js_modules.asp#:~:text=JavaScript%20modules%20allow%20you%20to,in%20the%20tag.-->  
-  <script type="module" src="../../clubhub/clubinfo.js"></script>
-  <script type="module">
-    import {login} from '../../clubhub/script.js';
-    window.login = login;
-    import {cLogin,correctNavDisplayCD} from '../../clubhub/clubinfo.js';
-    window.cLogin = cLogin;
-    window.correctNavDisplayCD = correctNavDisplayCD;
-  </script>
-
-
-  
+<!--  <script type="module" src="../../clubhub/clubinfo.js"></script>-->
   <div class="loginBox">
+      <script type="module">
+          import { studentLogin } from "../javascript/serviceStudentLogin.js";
+          window.studentLogin = studentLogin;
+      </script>
+
     <header class="subheading">Student Login</header>
 
-    <!-- label and then text input, both with ids -->
-    <!-- The "placeholder" is the grey script in the text boxes before you type anything in-->
     <label>Email:</label><input type="text" id="Email" placeholder = "Student Email">
-    <label>Password:</label><input type="password" id="servicePapassword" placeholder = "Type Here">
+    <label>Password:</label><input type="password" id="servicePassword" placeholder = "Type Here">
 
-    <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
-    <!-- <button onclick = "sessionStorage.setItem('club', document.getElementById('username').value); localStorage.setItem('password', document.getElementById('password').value); cLogin()" class="loginButton clubLB">Login</button> -->     
-    <button onclick = "sessionStorage.setItem('email', document.getElementById('Email').value); localStorage.setItem('servicePassword', document.getElementById('servicePassword').value); cLogin()" class="loginButton clubLB">Login</button>    <!-- still needs to  -->
+    <button onclick="studentLogin(document.getElementById('Email').value, document.getElementById('servicePassword').value)" class="loginButton">Login</button>
     <a href="serviceCreateAccount.html"><p></p>Don't have an account? Register here!</a>
   </div>
 </body>
-
-
 </html>

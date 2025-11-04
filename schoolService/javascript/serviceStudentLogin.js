@@ -1,12 +1,9 @@
-import { initializeApp } from
-"https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-// TODO: import libraries for Cloud Firestore Database
-// https://firebase.google.com/docs/firestore
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {updatePoints} from "./leaderboardScore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyDKBBs0TWerQno_u8yjNqV5qmvQImf6xA0",
   authDomain: "club-hub-2.firebaseapp.com",
@@ -19,12 +16,30 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+// const loginButton = document.getElementById("loginButton");
 
 
-export async function sLogin() {
-    const studentId = sessionStorage.getItem("email");
-    const enteredPassword = localStorage.getItem("password");
+export async function studentLogin(enteredUsername, enteredPassword) {
+    // const enteredPassword = localStorage.getItem("password");
+    // const studentUsername = localStorage.getItem("email");
 
-    const docRef = doc(db, "students", "");
-    const docSnap = await getDoc(docRef);
+    const studentsRef = collection(db, "students");
+    const q = query(studentsRef, where("username", "==", enteredUsername)); // Use collection for queries
+    const querySnapshot = await getDocs(q); // collection query
+    if (querySnapshot.empty) {
+        alert("No username found with that name.")
+        return;
+    }
+
+    const studentDoc = querySnapshot.docs[0];
+    const studentData = studentDoc.data(); // Get the data from the first document
+
+    if (studentData.password === enteredPassword) { // Compare with enteredPassword
+        console.log("Login successful!");
+        localStorage.setItem("username", enteredUsername); // Store the correct username
+        window.location.href = "serviceStudentPage.html";
+    } else {
+        alert("Incorrect password.");
+    }
+
 }
