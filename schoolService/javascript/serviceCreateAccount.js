@@ -1,8 +1,7 @@
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// See: https://firebase.google.com/docs/web/learn-more#config-object
 export const firebaseConfig = {
     apiKey: "AIzaSyDKBBs0TWerQno_u8yjNqV5qmvQImf6xA0",
     authDomain: "club-hub-2.firebaseapp.com",
@@ -13,34 +12,24 @@ export const firebaseConfig = {
     measurementId: "G-P97ML6ZP15"
 };
 
-export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const registerService = async function(user, pass){
+    try {
+        const docRef = doc(db, "students", user); // Use the username as the document ID
+        await setDoc(docRef, {
+            password: pass,
+            username: user
+        });
 
-      const q = query(collection(db, "students"), where("username", "==", user));
-
-      const snapshot = await getCountFromServer(q);
-      console.log(snapshot.data().count);
-      console.log("hello");
-      // testing if username exists
-      if(snapshot.data().count != 0){
-        console.log("hiiii");
-        console.log("username exists");
-        // alert!!
-          alert("An account with this email already exists. Please try again.");
-          // stops function so that club cannot create an account with an already-in-use username
-          return;
-      }
-    
-          console.log(user);
-      // saving username across pages
-      localStorage.setItem("username", user);
-      localStorage.setItem("password", pass)
-      // switches page to more information page beyond registration page
-      window.location.href="serviceStudentPage.html";
-      
+        localStorage.setItem("username", user);
+        localStorage.setItem("password", pass);
+        // switches page to more information page beyond registration page
+        window.location.href="serviceStudentPage.html";
+    } catch (error) {
+        console.error("Error registering service:", error);
     }
+}
+
+registerService("test1", "test1");
