@@ -12,20 +12,9 @@
 
  <script type="module" src="../../clubhub/script.js"></script>
  <script type="module" src="../../clubhub/scriptC.js"></script>
+ <script type="module" src="../../schoolService/javascript/serviceStudentPage.js"></script>
  <script type="module">
     import {login} from '../../clubhub/script.js';
-    import {addMeetings, correctNavDisplay} from '../../clubhub/scriptC.js';
-    import {loadLeaderboard} from '../../clubhub/leaderboardScore.js';
-    import {renderActiveAnnouncements} from '../../clubhub/announcement.js';
-
-    window.correctNavDisplay = correctNavDisplay;
-    window.addMeetings = addMeetings;
-    window.loadLeaderboard = loadLeaderboard;
-
-    correctNavDisplay();
-    addMeetings();
-    loadLeaderboard();
-    renderActiveAnnouncements(); 
  </script>
      <!-- creates the header box and the title, inside the box -->
     <header class="header" id="header">
@@ -57,16 +46,37 @@
                 </div>
                 
             </div>
-            <div class="red-box-left    ">
-                <div class="red-text-left">You have:</div>
-                <div id="hours">
-                    #
-                </div>
-                <div id="red-text-left-description">
-                    total community service hours
-                </div>
+            <div>
+                <div class="red-box-left">
+                    <div class="red-text-left">You have:</div>
+                    <div id="hours">
+                        #
+                    </div>
+                    <div id="red-text-left-description">
+                       total community service hours
+                    </div>
 
+                </div>
+                
+                <div class="red-box-right">
+                    <div class="red-text-right">Last Log:</div>
+                    <div id="hours">
+                        # hours
+                    </div>
+                    <div id="red-text-right-description">
+                        of community service hours
+                    </div>
+
+                </div>
+                <div class = "center-text-hours">
+                   # hours are service to the school (# required)
+                   <br>
+                   <br>
+                   <br>
+                   you need # total community service hours to graduate
+                </div>
             </div>
+            
 
         </div>
     </section>
