@@ -3,7 +3,7 @@ import { getFirestore, collection, collectionGroup, addDoc, getDocs,getDoc, doc,
 import {updatePoints} from "./leaderboardScore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 
-
+//haha
 const firebaseConfig = {
   apiKey: "AIzaSyDKBBs0TWerQno_u8yjNqV5qmvQImf6xA0",
   authDomain: "club-hub-2.firebaseapp.com",
