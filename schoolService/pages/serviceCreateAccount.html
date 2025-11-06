@@ -24,8 +24,8 @@
 
   <!-- type must be "module": https://www.w3schools.com/js/js_modules.asp#:~:text=JavaScript%20modules%20allow%20you%20to,in%20the%20tag.-->  
   <script type="module">
-    import {register} from '../../clubhub/club.js';
-    window.register = register;
+    import {registerService} from '../javascript/createServiceAccount.js';
+    window.registerService = registerService;
     import {correctNavDisplayCD} from '../../clubhub/clubinfo.js';
         window.correctNavDisplayCD = correctNavDisplayCD;
         correctNavDisplayCD();
@@ -42,10 +42,12 @@
       <!-- The "placeholder" is the grey script in the text boxes before you type anything in-->
       <label>Email:</label><input type="text" id="email" placeholder = "Email">
       <label>Password:</label><input type="text" id="password" placeholder = "Password">
+      <label>First Name:</label><input type="text" id="firstName" placeholder = "First Name">
+      <label>Last Name:</label><input type="text" id="lastName" placeholder = "Last Name">
 
       <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
       <!-- <button class="loginButton" onclick="register(document.getElementById('username').value, document.getElementById('password').value); ">Continue</button> -->
-        <button class="loginButton" onclick="registerService(document.getElementById('email').value, document.getElementById('password').value); ">Continue</button>
+        <button class="loginButton" onclick="registerService(document.getElementById('email').value, document.getElementById('password').value, document.getElementById('firstName').value, document.getElementById('lastName').value); ">Continue</button>
       <a href="serviceStudentLogin.html">Already have an account? Login Here</a>
   </div>
 </body>

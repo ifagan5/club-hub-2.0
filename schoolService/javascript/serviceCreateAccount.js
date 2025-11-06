@@ -14,20 +14,39 @@ export const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-export const registerService = async function(user, pass){
+export const registerService = async function(email, pass, first, last){
+    var user;
+    var uid;
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed up 
+                user = userCredential.user;
+                uid = userCredential.uid;
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            });
+    
     try {
-        const docRef = doc(db, "students", user); // Use the username as the document ID
+        const docRef = doc(db, "students", uid); // Use the uid as the document ID
         await setDoc(docRef, {
             password: pass,
-            username: user
+            email: email,
+            firstName: first,
+            lastName: last
         });
 
-        localStorage.setItem("username", user);
+        localStorage.setItem("email", email);
         localStorage.setItem("password", pass);
+        localStorage.setItem("firstName", first);
+        localStorage.setItem("lastName", last);
         // switches page to more information page beyond registration page
-        window.location.href="serviceStudentPage.html";
+       // window.location.href="serviceStudentPage.html";
     } catch (error) {
         console.error("Error registering service:", error);
     }
+
 }

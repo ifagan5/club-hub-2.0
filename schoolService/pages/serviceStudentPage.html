@@ -15,7 +15,21 @@
  <script type="module" src="../../schoolService/javascript/serviceStudentPage.js"></script>
  <script type="module">
     import {login} from '../../clubhub/script.js';
+    import { getAuth, onAuthStateChanged } from "firebase/auth";
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const uid = user.uid;
+        // const first = user.firstName;
+        // const last = user.lastName;
+        const email = user.email;
+    } else {
+        
+    }
+    });
  </script>
+
      <!-- creates the header box and the title, inside the box -->
     <header class="header" id="header">
         <h1>Your Service Hours</h1>
@@ -30,6 +44,7 @@
         <button class="button" id="adminPageBtn"onclick="location.replace('serviceAdminPanel.html');" >Admin Page</button>
    </div>
 
+
     
     <!-- Calendar Section -->
     <section id="studentPage">  
@@ -42,7 +57,7 @@
             <!-- Calendar Header -->
             <div class="studentPageHeader">
                 <div id="student-Name">
-                    Student Name(TBC)
+                    EMAIL
                 </div>
                 
             </div>
