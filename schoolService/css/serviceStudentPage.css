@@ -213,7 +213,11 @@ font-size: 20px;
 #red-text-left-description{
 font-size: 20px;
 }
-#hours{
+#total-hours{
+  font-size: 180%;
+  text-align: center;
+}
+#last-log-hours{
   font-size: 180%;
   text-align: center;
 }
