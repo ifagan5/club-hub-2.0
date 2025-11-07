@@ -18,7 +18,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 
-export const studentLogin = async function(email, pass) {
+export const studentLogin = async function() {
+    const email = document.getElementById("email");
+    const pass = document.getElementById("password");
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, pass);
         window.location.href = "../pages/serviceStudentPage.html";
@@ -27,3 +29,6 @@ export const studentLogin = async function(email, pass) {
         console.log("Error logging in: " + e);
     }
 }
+
+const button = document.getElementById("THEBUTTON");
+button.addEventListener("click", studentLogin);
