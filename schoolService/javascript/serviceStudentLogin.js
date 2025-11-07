@@ -3,7 +3,6 @@ import { getFirestore, collection, collectionGroup, addDoc, getDocs,getDoc, doc,
 import {updatePoints} from "./leaderboardScore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 
-//haha
 const firebaseConfig = {
   apiKey: "AIzaSyDKBBs0TWerQno_u8yjNqV5qmvQImf6xA0",
   authDomain: "club-hub-2.firebaseapp.com",
@@ -14,33 +13,17 @@ const firebaseConfig = {
   measurementId: "G-P97ML6ZP15"
 };
 // Initialize Firebase
+// const loginButton = document.getElementById("loginButton");
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-// const loginButton = document.getElementById("loginButton");
 
 
-export const studentLogin = async function(enteredUsername, enteredPassword) {
-    // const enteredPassword = localStorage.getItem("password");
-    // const studentUsername = localStorage.getItem("email");
-
-    const studentsRef = collection(db, "students");
-    const q = query(studentsRef, where("username", "==", enteredUsername)); // Use collection for queries
-    const querySnapshot = await getDocs(q); // collection query
-    if (querySnapshot.empty) {
-        alert("No username found with that name.")
-        return;
+export const studentLogin = async function(email, pass) {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+        window.location.href = "../pages/serviceStudentPage.html";
     }
-
-    const studentDoc = querySnapshot.docs[0];
-    const studentData = studentDoc.data(); // Get the data from the first document
-
-    if (studentData.password === enteredPassword) { // Compare with enteredPassword
-        console.log("Login successful!");
-        localStorage.setItem("username", enteredUsername); // Store the correct username
-        window.location.href = "serviceStudentPage.html";
-    } else {
-        alert("Incorrect password.");
+    catch(e) {
+        console.log("Error logging in: " + e);
     }
 }
-
-studentLogin("werf", "werughiv")
