@@ -17,44 +17,38 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 export const registerService = async function(email, pass, first, last){
-
    try {
-       await createUserWithEmailAndPassword(auth, email, pass);
+        // createUserWithEmailAndPassword returns a UserCredential on success.
+        const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+        const user = userCredential.user;
+        const uid = user.uid;
+        console.log("User created successfully with UID:", uid);
+ 
+        // Use setDoc to create a document with a specific ID (the user's UID).
+        // The path will be 'students/{uid}'.
+        await setDoc(doc(db, "students", uid), {
+            password: pass,
+            email: email,
+            firstName: first,
+            lastName: last
+        });
+ 
+        localStorage.setItem("email", email);
+        localStorage.setItem("password", pass);
+        localStorage.setItem("firstName", first);
+        localStorage.setItem("lastName", last);
+        // switches page to more information page beyond registration page
+        // window.location.href="serviceStudentPage.html";
    } catch (error) {
-       console.log("Error signing up: ", error);
+       console.error("Error during registration process:", error);
    }
-
-
-   await signInWithEmailAndPassword(auth, email, pass);
-   onAuthStateChanged(auth, (user) => {
-       if (user) {
-           const uid = user.id;
-           console.log("Logged in user: " + uid)
-       } else {
-           console.log("No user is logged in.")
-       }
-   });
-    
-    // try {
-    //    const uid = user.id;
-    //     const docRef = await addDoc(collection(db, "students", uid), {
-    //         password: pass,
-    //         email: email,
-    //         firstName: first,
-    //         lastName: last
-    //     });
-    //
-    //     localStorage.setItem("email", email);
-    //     localStorage.setItem("password", pass);
-    //     localStorage.setItem("firstName", first);
-    //     localStorage.setItem("lastName", last);
-    //     // switches page to more information page beyond registration page
-    //     // window.location.href="serviceStudentPage.html";
-    // } catch (error) {
-    //     console.error("Error registering service:", error);
-    // }
-
-    
 }
 
-registerService("jorhndwergoe@exmaple.com", "password", "John", "Doe")
+export const theFlood = async function() {
+    const queryRef = query(collection(db, "students"));
+    const snapshot = await getDocs(queryRef);
+    for (const item of snapshot.docs) {
+        await deleteDoc(doc(db, "students", item.id));
+    }
+};
+// theFlood()
