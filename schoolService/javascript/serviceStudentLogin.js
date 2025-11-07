@@ -19,7 +19,7 @@ const db = getFirestore(app);
 // const loginButton = document.getElementById("loginButton");
 
 
-export async function studentLogin(enteredUsername, enteredPassword) {
+export const studentLogin = async function(enteredUsername, enteredPassword) {
     // const enteredPassword = localStorage.getItem("password");
     // const studentUsername = localStorage.getItem("email");
 
@@ -41,5 +41,6 @@ export async function studentLogin(enteredUsername, enteredPassword) {
     } else {
         alert("Incorrect password.");
     }
-
 }
+
+studentLogin("werf", "werughiv")
