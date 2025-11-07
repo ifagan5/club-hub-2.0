@@ -21,7 +21,7 @@ export const db = getFirestore(app);
         const userId = user.uid;
         
         loadUserData(userId);
-      } else {
+      } else {  
         
         console.log("User is logged out.");
       }
