@@ -21,8 +21,8 @@
     if (user) {
         // https://firebase.google.com/docs/reference/js/auth.user
         const uid = user.uid;
-        // const first = user.firstName;
-        // const last = user.lastName;
+        const first = user.firstName;
+        const last = user.lastName;
         const email = user.email;
     } else {
         
@@ -56,9 +56,8 @@
         <div class="studentPage">
             <!-- Calendar Header -->
             <div class="studentPageHeader">
-                <div id="student-Name">
-                    EMAIL
-                </div>
+                <p id="student-Name"></p>
+                <script> document.getElementById("student-Name").textContent = email;</script>
                 
             </div>
             <div>

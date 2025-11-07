@@ -50,5 +50,6 @@ export const theFlood = async function() {
     for (const item of snapshot.docs) {
         await deleteDoc(doc(db, "students", item.id));
     }
+    
 };
 // theFlood()
