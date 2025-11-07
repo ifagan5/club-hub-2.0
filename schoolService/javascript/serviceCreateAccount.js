@@ -42,6 +42,7 @@ export const registerService = async function(email, pass, first, last){
    } catch (error) {
        console.error("Error during registration process:", error);
    }
+    window.location.href = "../pages/serviceStudentPage.html";
 }
 
 export const theFlood = async function() {
