@@ -3,6 +3,7 @@ import { getFirestore, collection, collectionGroup, addDoc, getDocs,getDoc, doc,
 import {updatePoints} from "./leaderboardScore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 
+//haha
 const firebaseConfig = {
   apiKey: "AIzaSyDKBBs0TWerQno_u8yjNqV5qmvQImf6xA0",
   authDomain: "club-hub-2.firebaseapp.com",
@@ -13,14 +14,12 @@ const firebaseConfig = {
   measurementId: "G-P97ML6ZP15"
 };
 // Initialize Firebase
-// const loginButton = document.getElementById("loginButton");
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+// const loginButton = document.getElementById("loginButton");
 
 
-export const studentLogin = async function() {
-    const email = document.getElementById("email");
-    const pass = document.getElementById("password");
+export const studentLogin = async function(email, pass) {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, pass);
         window.location.href = "../pages/serviceStudentPage.html";
@@ -29,6 +28,3 @@ export const studentLogin = async function() {
         console.log("Error logging in: " + e);
     }
 }
-
-const button = document.getElementById("THEBUTTON");
-button.addEventListener("click", studentLogin);
