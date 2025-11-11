@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width">
   <title>Login</title>
   <link href="../../clubhub/login.css" rel="stylesheet" type="text/css" />
-  <link rel="icon" type="image/x-icon" href="../../clubhub/images/stab_logo.webp">
+    <script type="module" src="../javascript/serviceStudentLogin.js"></script>
+
 </head>
 
 <body>
@@ -27,18 +28,16 @@
     <header class="subheading">Student Login</header>
     <label>Email:</label><input type="text" id="Email" placeholder = "Student Email">
     <label>Password:</label><input type="password" id="servicePassword" placeholder = "Type Here">
-    <button class="loginButton" id="loginButton">Login</button>
+      <script type="module" src="../javascript/serviceStudentLogin.js"></script>
       <script>
-          import { studentLogin } from '../javascript/serviceStudentLogin.js';
-          const loginButton = document.getElementById("loginButton");
           function startLoginStudent() {
               let studentEmail = document.getElementById("Email").value;
               let studentPassword = document.getElementById("servicePassword").value;
               console.log(studentEmail);
-              studentLogin(studentEmail, studentPassword);
+              window.studentLogin(studentEmail, studentPassword);
           }
-          loginButton.addEventListener("click", startLoginStudent);
       </script>
+    <button class="loginButton" id="buttonOfLogin" onclick="startLoginStudent()">Login</button>
     <a href="serviceCreateAccount.html"><p></p>Don't have an account? Register here!</a>
   </div>
 </body>

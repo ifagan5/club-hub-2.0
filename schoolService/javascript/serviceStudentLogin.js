@@ -16,14 +16,23 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 
 export const studentLogin = async function(email, pass) {
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, pass);
-        window.location.href = "../pages/serviceStudentPage.html";
-    }
-    catch(e) {
-        console.log("Error logging in: " + e);
-    }
+    console.log("staritng login");
+        signInWithEmailAndPassword(auth, email, pass)
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                window.location.href = "../pages/serviceStudentPage.html";
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode + " - " + errorMessage)
+            });
 }
+
+//testing auto login
+studentLogin("example@example.com", "example").catch(e => console.error("Auto-login failed:", e));
