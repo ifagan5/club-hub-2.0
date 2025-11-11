@@ -43,10 +43,9 @@ m<!DOCTYPE html>
 
     <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
     <!-- <button onclick = "sessionStorage.setItem('club', document.getElementById('username').value); localStorage.setItem('password', document.getElementById('password').value); cLogin()" class="loginButton clubLB">Login</button> -->   
-       
-    <button onclick = "sessionStorage.setItem('email', document.getElementById('Email').value); localStorage.setItem('servicePassword', document.getElementById('servicePassword').value);" class="loginButton clubLB">Log</button>    <!-- still needs to  -->
-    
-    
+  
+    <button onclick = "addLog(document.getElementById('hourslog').value, document.getElementById('description').value, document.getElementById('varifier').value, document.getElementById('dates').value)" class="loginButton clubLB">Log</button>
+
   </div>
 </body>
 </html>

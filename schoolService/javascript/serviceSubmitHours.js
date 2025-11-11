@@ -24,14 +24,19 @@ export const addLog = async function(hours, description, contact, date){
     // Source - https://stackoverflow.com/a
     // Posted by aran
     // Retrieved 2025-11-11, License - CC BY-SA 4.0
+    //gets the number of fields the student doc has and subtracts 4 (email, password, fistName, lastName)
+    //to get the number of previous logs. Then adds one so you start at index 1. 
   const docFetched= await getDoc(docRef);
   const numFields= Object.keys(docFetched.data()).length;
-  const numLogs = numFields - 4;
+  const numLogs = numFields - 4 +1;
 
+  //makes a new field for the log that is an array
+  //[log number, hours, description, contact person, date(s) completed]
     await updateDoc(docRef, {
         log: ["Log " + numLogs, hours, description, contact, date]
     });
 
+    //remanes the field so it has the log number as its name
     await updateDoc(docRef, {
         [log]: "Log " + numLogs
       })
@@ -42,5 +47,6 @@ export const addLog = async function(hours, description, contact, date){
         console.error("Error updating document:", error);
       });
 
-
+      //changes page to the student's page
+      window.location.href = "../pages/serviceStudentPage.html";
 }
