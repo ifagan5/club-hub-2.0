@@ -27,11 +27,20 @@ export const addLog = async function(hours, description, contact, date){
   const docFetched= await getDoc(docRef);
   const numFields= Object.keys(docFetched.data()).length;
   const numLogs = numFields - 4;
-  const name = "log " + numLogs
 
     await updateDoc(docRef, {
-        name: ["Log " + numLogs, hours, description, contact, date]
+        log: ["Log " + numLogs, hours, description, contact, date]
     });
+
+    await updateDoc(docRef, {
+        [log]: "Log " + numLogs
+      })
+      .then(() => {
+        console.log("Document successfully updated with dynamic field name!");
+      })
+      .catch((error) => {
+        console.error("Error updating document:", error);
+      });
 
 
 }
