@@ -16,7 +16,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-// const loginButton = document.getElementById("loginButton");
 
 
 export const studentLogin = async function(email, pass) {
