@@ -42,5 +42,5 @@ export const addLog = async function(hours, description, contact, date){
         console.error("Error updating document:", error);
       });
 
-
+      window.location.href = "../pages/serviceStudentPage.html";
 }
