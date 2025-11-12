@@ -46,5 +46,5 @@ export const addLog = async function(hours, description, contact, date){
       });
 
       //changes page to the student's page
-      window.location.href = "../pages/serviceStudentPage.html";
+      window.location.href = "serviceStudentPage.html";
 }

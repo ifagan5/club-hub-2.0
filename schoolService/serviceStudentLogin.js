@@ -25,7 +25,7 @@ export const studentLogin = async function(email, pass) {
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
-                window.location.href = "../pages/serviceStudentPage.html";
+                window.location.href = "serviceStudentPage.html";
             })
             .catch((error) => {
                 const errorCode = error.code;
