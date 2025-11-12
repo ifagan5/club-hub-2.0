@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script type = "module" src="new.js"></script>
+</head>
+
+<body>
+ <!-- <script type="module" src="../../clubhub/clubinfo.js"></script> -->
+  <script type="module">
+    // import {login} from '../../clubhub/script.js';
+    // window.login = login;
+    // import {correctNavDisplayCD} from '../../clubhub/clubinfo.js';
+    // window.cLogin = cLogin;
+    // window.correctNavDisplayCD = correctNavDisplayCD;
+    import {sLogin} from './new.js';
+    window.sLogin = sLogin;
+  </script>
+    <div class="loginBox">
+        <header class="subheading">Club Login</header>
+    
+        <!-- label and then text input, both with ids -->
+        <!-- The "placeholder" is the grey script in the text boxes before you type anything in-->
+        <label>Email:</label><input type="text" id="email" placeholder = "Club Name">
+        <label>Password:</label><input type="password" id="password" placeholder = "Type Here">
+    
+        <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
+        <button onclick = "sessionStorage.setItem('student', document.getElementById('email').value); sessionStorage.setItem('password', document.getElementById('password').value); sLogin()" class="loginButton clubLB">Login</button>      
+    
+        
+      </div>
+</body>

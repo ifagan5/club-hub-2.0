@@ -1,7 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-import {updatePoints} from "./leaderboardScore.js";
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , updateDoc, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 
 //haha
 const firebaseConfig = {
