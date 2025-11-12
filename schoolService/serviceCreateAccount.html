@@ -25,7 +25,7 @@
 
   <!-- type must be "module": https://www.w3schools.com/js/js_modules.asp#:~:text=JavaScript%20modules%20allow%20you%20to,in%20the%20tag.-->  
   <script type="module">
-    import {registerService} from '../javascript/createServiceAccount.js';
+    import {registerService} from './createServiceAccount.js';
     window.registerService = registerService;
     import {correctNavDisplayCD} from '../../clubhub/clubinfo.js';
         window.correctNavDisplayCD = correctNavDisplayCD;
@@ -34,7 +34,7 @@
 
   <div class="loginBox">
     <script type="module">
-      import { registerService } from '../../schoolService/javascript/serviceCreateAccount.js';
+      import { registerService } from './serviceCreateAccount.js';
       window.registerService = registerService;
     </script>
 
