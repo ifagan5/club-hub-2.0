@@ -18,14 +18,27 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 export async function sLogin() {
-    const uid = sessionStorage.getItem("student");
-    const enteredPassword = localStorage.getItem("password");
-    console.log(uid + " " + enteredPassword);
+    const usersRef = collection(db, "students");
+    console.log(sessionStorage.getItem("student"));
+    const q = query(usersRef, where("email", "==", sessionStorage.getItem("student")));
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        var uid = userDoc.id;
+    } else {
+        console.log("No matching student found");
+        alert("No matching student found");
+        return;
+    }
+    console.log(sessionStorage.getItem("password"));
+    const enteredPassword = sessionStorage.getItem("password");
+
     const docRef = doc(db, "students", uid);
     const docSnap = await getDoc(docRef);
+    console.log(docSnap.data().password);
     if (docSnap.exists()) {
-      const studentData = docSnap.data();
-      if (enteredPassword === studentData.password) {
+      const studentData = docSnap.data().password;
+      if (enteredPassword === studentData) {
         console.log("student login working");
         location.replace("serviceStudentPage.html");
       } 
