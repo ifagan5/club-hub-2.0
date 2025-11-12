@@ -2,43 +2,31 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Login</title>
-  <link href="../../clubhub/login.css" rel="stylesheet" type="text/css" />
-    <script type="module" src="../../schoolService/serviceStudentLogin.js"></script>
-
+    <script type = "module" src="serviceStudentLogin.js"></script>
 </head>
 
 <body>
-   <header class="head">
-      <div class="rightHead">
-        <img class="image" src="../../clubhub/images/stab_logo.webp" alt="logo" onClick="location.replace('serviceHome.html');">
-        <p onClick="location.replace('serviceHome.html');">St. Anne's Belfield School</p>
+ <!-- <script type="module" src="../../clubhub/clubinfo.js"></script> -->
+  <script type="module">
+    // import {login} from '../../clubhub/script.js';
+    // window.login = login;
+    // import {correctNavDisplayCD} from '../../clubhub/clubinfo.js';
+    // window.cLogin = cLogin;
+    // window.correctNavDisplayCD = correctNavDisplayCD;
+    import {sLogin} from './serviceStudentLogin.js';
+    window.sLogin = sLogin;
+  </script>
+    <div class="loginBox">
+        <header class="subheading">Club Login</header>
+    
+        <!-- label and then text input, both with ids -->
+        <!-- The "placeholder" is the grey script in the text boxes before you type anything in-->
+        <label>Email:</label><input type="text" id="email" placeholder = "Club Name">
+        <label>Password:</label><input type="password" id="password" placeholder = "Type Here">
+    
+        <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
+        <button onclick = "sessionStorage.setItem('student', document.getElementById('email').value); sessionStorage.setItem('password', document.getElementById('password').value); sLogin()" class="loginButton clubLB">Login</button>      
+    
+        
       </div>
-      <div class="leftHead">
-        <p class="headLink" onClick="location.replace('serviceHome.html');">Back to homepage</p>
-      </div>
-    </header>
-
-
-  <!-- type must be "module": https://www.w3schools.com/js/js_modules.asp#:~:text=JavaScript%20modules%20allow%20you%20to,in%20the%20tag.-->  
-<!--  <script type="module" src="../../clubhub/clubinfo.js"></script>-->
-  <div class="loginBox">
-    <header class="subheading">Student Login</header>
-    <label>Email:</label><input type="text" id="Email" placeholder = "Student Email">
-    <label>Password:</label><input type="password" id="servicePassword" placeholder = "Type Here">
-      <script type="module" src="../../schoolService/serviceStudentLogin.js"></script>
-      <script>
-          function startLoginStudent() {
-              let studentEmail = document.getElementById("Email").value;
-              let studentPassword = document.getElementById("servicePassword").value; 
-              console.log(studentEmail);
-              window.studentLogin(studentEmail, studentPassword);
-          }
-      </script>
-    <button class="loginButton" id="buttonOfLogin" onclick="startLoginStudent()">Login</button>
-    <a href="serviceCreateAccount.html"><p></p>Don't have an account? Register here!</a>
-  </div>
 </body>
-</html>
