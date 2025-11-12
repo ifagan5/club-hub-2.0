@@ -15,14 +15,16 @@ export const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        
-        const userId = user.uid;
-        
-        loadUserData(userId);
-      } else {  
-        
-        console.log("User is logged out.");
-      }
+const logout = function () {
+    console.log("Logout function called");
+    signOut(auth).then(() => {
+        // Sign-out successful.
+        console.log("User signed out successfully.");
+        localStorage.clear();
+        location.reload();
+    }).catch((error) => {
+        // An error happened.
+        console.error("Error signing out:", error);
     });
+}
+

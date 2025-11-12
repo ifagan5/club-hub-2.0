@@ -11,9 +11,9 @@
 </head>
 <body>
 
- <script type="module" src="../../clubhub/script.js"></script>
- <script type="module" src="../../clubhub/scriptC.js"></script>
- <script type="module" src="../../schoolService/javascript/serviceStudentPage.js"></script>
+ <script type="module" src="../clubhub/script.js"></script>
+ <script type="module" src="../clubhub/scriptC.js"></script>
+ <script type="module" src="serviceStudentPage.js"></script>
  <script type="module">
     import {login} from '../../clubhub/script.js';
     import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -41,7 +41,7 @@
         <button class="button" onClick = "location.replace('serviceStudentHours.html');">Your Service Log</button>
         <button class="button" id="login" onClick = "location.replace('serviceSubmitHours.html');">Log More Hours</button>
         <button class="button" id="login" onClick = "location.replace('serviceAccountSelection.html');">Logout</button>
-        <button class="button" id="logout" onclick="" >Logout</button>
+        <button class="button" id="logout" onclick="logout()" >Logout</button>
         <button class="button" id="adminPageBtn"onclick="location.replace('serviceAdminPanel.html');" >Admin Page</button>
    </div>
 

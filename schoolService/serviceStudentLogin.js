@@ -17,6 +17,12 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+
+const loggedInUser = sessionStorage.getItem("loggedInStudent");
+if (loggedInUser) {
+    location.replace("serviceStudentPage.html");
+}
+
 export async function sLogin() {
     const usersRef = collection(db, "students");
     console.log(sessionStorage.getItem("student"));
