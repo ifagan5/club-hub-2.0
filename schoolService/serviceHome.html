@@ -8,14 +8,14 @@
 </head>
 <body>
 
-<script type="module" src="../../clubhub/script.js"></script>
- <script type="module" src="../../clubhub/scriptC.js"></script>
+<script type="module" src="../clubhub/script.js"></script>
+ <script type="module" src="../clubhub/scriptC.js"></script>
  <script type="module">
-    import {login} from '../../clubhub/script.js';
+    import {login} from '../clubhub/script.js';
     //
-    import {addMeetings, correctNavDisplay} from '../../clubhub/scriptC.js';
-    import {loadLeaderboard} from '../../clubhub/leaderboardScore.js';
-    import {renderActiveAnnouncements} from '../../clubhub/announcement.js';
+    import {addMeetings, correctNavDisplay} from '../clubhub/scriptC.js';
+    import {loadLeaderboard} from '../clubhub/leaderboardScore.js';
+    import {renderActiveAnnouncements} from '../clubhub/announcement.js';
 
     window.correctNavDisplay = correctNavDisplay;
     window.addMeetings = addMeetings;
@@ -34,7 +34,7 @@
 <div class="nav">
   <!-- <a class="button" href="#calendar">Calendar</a> -->
   <button class="button" id="login" onClick = "location.replace('serviceAccountSelection.html');">Login</button>
-   <button class="button" onClick = "location.replace('../../clubhub/index.html');">Club Hub</button>
+   <button class="button" onClick = "location.replace('../clubhub/index.html');">Club Hub</button>
 </div>
 
 <!-- Hidden Modal for Delete Confirmation -->
@@ -100,7 +100,7 @@
 <!-- Footer -->
 <div class="footer">
     <div class="logos">
-        <img class="logo" src="../../clubhub/images/stab_logo.webp" alt="logo">
+        <img class="logo" src="../clubhub/images/stab_logo.webp" alt="logo">
     </div>
     <div class="devSplit">
         <div>Developers:</div>
