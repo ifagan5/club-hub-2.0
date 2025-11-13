@@ -1,6 +1,6 @@
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const firebaseConfig = {
@@ -15,16 +15,42 @@ export const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-export const logout = function () {
-    console.log("Logout function called");
-    signOut(auth).then(() => {
-        // Sign-out successful.
-        console.log("User signed out successfully.");
-        sessionStorage.clear();
-        location.reload();
-    }).catch((error) => {
-        // An error happened.
-        console.error("Error signing out:", error);
-    });
-}
+export const auth = getAuth(app);
+export function correctNavDisplay() {
+  const loginBtn = document.getElementById("login");
+  const logoutBtn = document.getElementById("logout");
+  const adminBtn = document.getElementById("adminPageBtn");
 
+  const clubAuth = localStorage.getItem("loggedInStudent");
+  const isGod = localStorage.getItem("isGod");
+  const loggedIn = clubAuth === "true" || isGod === "true";
+
+  if (loggedIn) {
+    if (loginBtn) loginBtn.style.display = "none";
+
+    if (logoutBtn) {
+      logoutBtn.style.display = "inline-block";
+      logoutBtn.onclick = function () {
+        if (isGod === "true") {
+          signOut(auth)
+            .then(() => {
+              localStorage.clear();
+              location.reload();
+            })
+            .catch((error) => {
+              console.error("Error signing out:", error);
+            });
+        } else {
+          localStorage.clear();
+          location.reload();
+        }
+      };
+    }
+
+    if (isGod === "true" && adminBtn) adminBtn.style.display = "inline-block";
+  } else {
+    if (loginBtn) loginBtn.style.display = "inline-block";
+    if (logoutBtn) logoutBtn.style.display = "none";
+    if (adminBtn) adminBtn.style.display = "none";
+  }
+}

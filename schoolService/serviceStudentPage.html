@@ -15,8 +15,10 @@
  <script type="module" src="../clubhub/scriptC.js"></script>
  <script type="module" src="serviceStudentPage.js"></script>
  <script type="module">
-    import {login} from '../../clubhub/script.js';
-    import {logout} from '../../serviceSchool/serviceStudentPage.js';
+    import {login} from '../clubhub/script.js';
+    import {correctNavDisplay} from './serviceStudentPage.js';
+    window.correctNavDisplay = correctNavDisplay;
+    correctNavDisplay();
  </script>
 
      <!-- creates the header box and the title, inside the box -->
@@ -27,9 +29,9 @@
    <div class="nav">
        <!-- <a class="button" href="#calendar">Calendar</a> -->
         <button class="button" onClick = "location.replace('serviceStudentHistory.html');">Your Service Log</button>
-        <button class="button" id="login" onClick = "location.replace('serviceSubmitHours.html');">Log More Hours</button>
-        <button class="button" id="login" onClick = "location.replace('serviceAccountSelection.html');">Logout</button>
-        <button class="button" id="logout" onclick="logout()" >Logout</button>
+        <button class="button" id="login-more-hours" onClick = "location.replace('serviceSubmitHours.html');">Log More Hours</button>
+        <button class="button" id="login" onClick = "location.replace('serviceAccountSelection.html');">Login</button>
+        <button class="button" id="logout" >Logout</button>
         <button class="button" id="adminPageBtn"onclick="location.replace('serviceAdminPanel.html');" >Admin Page</button>
    </div>
 
