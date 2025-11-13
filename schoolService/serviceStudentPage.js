@@ -15,12 +15,12 @@ export const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-const logout = function () {
+export const logout = function () {
     console.log("Logout function called");
     signOut(auth).then(() => {
         // Sign-out successful.
         console.log("User signed out successfully.");
-        localStorage.clear();
+        sessionStorage.clear();
         location.reload();
     }).catch((error) => {
         // An error happened.
