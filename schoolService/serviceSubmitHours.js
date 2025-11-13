@@ -35,20 +35,6 @@ export const addLog = async function(hours, description, contact, date){
     await updateDoc(docRef, {
         [`log${numLogs}`]: arrayUnion("Log " + numLogs, hours, description, contact, date),
     });
-    // const docSnap = await getDoc(docRef);
-    // const data = docSnap.data();
-    // console.log("Log info " + data.log);
-
-    //remanes the field so it has the log number as its name
-    // await updateDoc(docRef, {
-    //   [log]: "Log " + numLogs
-    //   })
-    //   .then(() => {
-    //     console.log("Document successfully updated with dynamic field name!");
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error updating document:", error);
-    //   });
 
       //changes page to the student's page
       window.location.href = "serviceStudentPage.html";
