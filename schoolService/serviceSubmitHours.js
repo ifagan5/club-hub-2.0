@@ -18,7 +18,6 @@ const db = getFirestore(app);
 
 export const addLog = async function(hours, description, contact, date){
     const uid = localStorage.getItem("studentUID");
-    console.log("Current studentUID from localStorage:", uid);
     if (!uid) {
         alert("No student logged in. Please log in first.");
         return;
