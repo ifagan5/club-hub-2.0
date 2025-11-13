@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, arrayUnion, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 
 //haha
 const firebaseConfig = {
@@ -16,14 +17,15 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const addLog = async function(hours, description, contact, date){
-    const user = userCredential.user;
+    const auth = getAuth();
+    const user = auth.currentUser;
     const uid = user.uid;
     const docRef = doc(db, "students", uid);
     // Source - https://stackoverflow.com/a
     // Posted by aran
     // Retrieved 2025-11-11, License - CC BY-SA 4.0
     //gets the number of fields the student doc has and subtracts 4 (email, password, fistName, lastName)
-    //to get the number of previous logs. Then adds one so you start at index 1. 
+    //to get the number of previous logs.
   const docFetched= await getDoc(docRef);
   const numFields= Object.keys(docFetched.data()).length;
   const numLogs = numFields - 4 +1;
@@ -31,19 +33,22 @@ export const addLog = async function(hours, description, contact, date){
   //makes a new field for the log that is an array
   //[log number, hours, description, contact person, date(s) completed]
     await updateDoc(docRef, {
-        log: ["Log " + numLogs, hours, description, contact, date]
+        [`log${numLogs}`]: arrayUnion("Log " + numLogs, hours, description, contact, date),
     });
+    // const docSnap = await getDoc(docRef);
+    // const data = docSnap.data();
+    // console.log("Log info " + data.log);
 
     //remanes the field so it has the log number as its name
-    await updateDoc(docRef, {
-        [log]: "Log " + numLogs
-      })
-      .then(() => {
-        console.log("Document successfully updated with dynamic field name!");
-      })
-      .catch((error) => {
-        console.error("Error updating document:", error);
-      });
+    // await updateDoc(docRef, {
+    //   [log]: "Log " + numLogs
+    //   })
+    //   .then(() => {
+    //     console.log("Document successfully updated with dynamic field name!");
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error updating document:", error);
+    //   });
 
       //changes page to the student's page
       window.location.href = "serviceStudentPage.html";

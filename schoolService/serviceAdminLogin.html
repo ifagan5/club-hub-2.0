@@ -22,20 +22,20 @@
   
 
   <!-- type must be "module": https://www.w3schools.com/js/js_modules.asp#:~:text=JavaScript%20modules%20allow%20you%20to,in%20the%20tag.-->  
-  <script type="module" src="../clubhub/script.js"></script>
+  <script type="module" src="serviceAdminLogin.js"></script>
   <script type="module">
-    import {login} from '../clubhub/script.js';
-    window.login = login;
+    import {adminLogin} from './serviceAdminLogin.js';
+    window.adminLogin = adminLogin;
   </script>
 
 <div class="loginBox">
   <header class="subheading">Admin login</header>
 <!-- label and then text  input, both with ids -->
  <!-- PROPER FORMAT NEEDED? (IE username and password) -->
-  <label>Email:</label><input type="email" id="Email" placeholder="Faculty Email"> 
-  <label>Password:</label><input type="servicePassword" id="Password" placeholder="Type Here">
+  <label>Email:</label><input type="email" id="adminEmail" placeholder="Faculty Email">
+  <label>Password:</label><input type="servicePassword" id="adminPassword" placeholder="Type Here">
   <!-- <button class="loginButton" onclick="login(document.getElementById('Username').value, document.getElementById('Password').value );">Log In</button> -->
-  <button class="loginButton" onclick="login(document.getElementById('Email').value, document.getElementById('Password').value ); location.replace('serviceAdminPanel.html');">Log In</button>
+  <button class="loginButton" onclick="adminLogin(document.getElementById('adminEmail').value, document.getElementById('adminPassword').value);">Log In</button>
 
 </body>
 
