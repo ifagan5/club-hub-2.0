@@ -26,10 +26,11 @@
   <!-- type must be "module": https://www.w3schools.com/js/js_modules.asp#:~:text=JavaScript%20modules%20allow%20you%20to,in%20the%20tag.-->  
 <!--  <script type="module" src="../../clubhub/clubinfo.js"></script>-->
   <div class="loginBox">
-      <script type="module">
-          import { studentLogin } from "../javascript/serviceStudentLogin.js";
-          window.studentLogin = studentLogin;
-      </script>
+    <script type="module">
+      // The local file exports `sLogin` (not `studentLogin`). Import it and alias to studentLogin.
+      import { sLogin as studentLogin } from "./serviceStudentLogin.js";
+      window.studentLogin = studentLogin;
+    </script>
 
     <header class="subheading">Service Log</header>
     <div class="red-box">
