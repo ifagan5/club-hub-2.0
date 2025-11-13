@@ -12,11 +12,12 @@
 <body>
 
  <script type="module" src="../clubhub/script.js"></script>
- <script type="module" src="../clubhub/scriptC.js"></script>
  <script type="module" src="serviceStudentPage.js"></script>
  <script type="module">
     import {login} from '../../clubhub/script.js';
-    import {logout} from '../../serviceSchool/serviceStudentPage.js';
+    import {logout, getEmail} from './serviceStudentPage.js';
+    window.getEmail = getEmail;
+    getEmail();
  </script>
 
      <!-- creates the header box and the title, inside the box -->
@@ -39,13 +40,15 @@
     <section id="studentPage">  
         <div class="studentPageTitle">
             <h1>Quick Overview</h1>
+            <p id="name"></p>
+            <script>document.getElementById("name").innerText = getFirstName() + " " + getLastName()</script>
         </div>
 
         <!-- Calendar Display -->
         <div class="studentPage">
             <!-- Calendar Header -->
                 <div class="studentPageHeader">
-                <p id="student-Name"></p>
+                <p id="student-Email"></p>
 
             </div>
             <div>

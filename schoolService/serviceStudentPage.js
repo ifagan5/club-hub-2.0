@@ -15,6 +15,8 @@ export const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+const auth = getAuth(app);
+
 export const logout = function () {
     console.log("Logout function called");
     signOut(auth).then(() => {
@@ -27,4 +29,35 @@ export const logout = function () {
         console.error("Error signing out:", error);
     });
 }
+
+export const getFirstName= async function(){
+    const user = auth.currentUser;
+    const firstName = user.firstName;
+    return firstName
+}
+
+export const getLastName= async function(){
+    const user = auth.currentUser;
+    const lastName = user.lastName;
+    return lastName
+}
+
+export const getEmail= async function(){
+    try{
+        console.log("works");
+        const user = auth.currentUser;
+        if(!user){
+            alert("Please log in first");
+        }
+        const email = user.email;
+        document.getElementById("student-Email").innerHTML = email;
+    }
+    catch (e){
+        console.log("user not found");
+    }
+    
+}
+
+
+
 
