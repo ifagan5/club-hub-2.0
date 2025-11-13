@@ -17,9 +17,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const addLog = async function(hours, description, contact, date){
-    const auth = getAuth();
-    const user = auth.currentUser;
-    const uid = user.uid;
+    const uid = localStorage.getItem("studentUID");
+    if (!uid) {
+        alert("No student logged in. Please log in first.");
+        return;
+    }
     const docRef = doc(db, "students", uid);
     // Source - https://stackoverflow.com/a
     // Posted by aran
