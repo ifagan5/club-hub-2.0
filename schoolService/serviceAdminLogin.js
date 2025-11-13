@@ -18,35 +18,30 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 
-const loggedInUser = sessionStorage.getItem("loggedInStudent");
-if (loggedInUser) {
-    location.replace("serviceStudentPage.html");
-}
+// const loggedInUser = sessionStorage.getItem("loggedInStudent");
+// if (loggedInUser) {
+//     location.replace("serviceStudentPage.html");
+// }
 
-export async function adminLogin() {
-    const usersRef = collection(db, "students");
-    console.log(sessionStorage.getItem("student"));
-    const q = query(usersRef, where("email", "==", sessionStorage.getItem("student")));
+export async function adminLogin(adminEmail, adminPassword) {
+    const usersRef = collection(db, "serviceAdmins");
+    const q = query(usersRef, where("email", "==", adminEmail));
     const querySnapshot = await getDocs(q);
     if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
         var uid = userDoc.id;
     } else {
-        console.log("No matching student found");
-        alert("No matching student found");
+        console.log("Incorrect email.");
+        alert("Incorrect email.");
         return;
     }
-    console.log(sessionStorage.getItem("password"));
-    const enteredPassword = sessionStorage.getItem("password");
 
-    const docRef = doc(db, "students", uid);
+    const docRef = doc(db, "serviceAdmins", uid);
     const docSnap = await getDoc(docRef);
-    console.log(docSnap.data().password);
     if (docSnap.exists()) {
-        const studentData = docSnap.data().password;
-        if (enteredPassword === studentData) {
-            console.log("student login working");
-            location.replace("serviceStudentPage.html");
+        const actualAdminPassword = docSnap.data().password;
+        if (adminPassword === actualAdminPassword) {
+            location.replace("serviceAdminPanel.html");
         }
         else {
             console.log("wrong username/password");
