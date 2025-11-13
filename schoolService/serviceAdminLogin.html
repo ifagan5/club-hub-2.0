@@ -24,8 +24,8 @@
 
 <!-- <script type="module" src="../../clubhub/clubinfo.js"></script> -->
 <script type="module">
-    import {sLogin} from './serviceStudentLogin.js';
-    window.sLogin = sLogin;
+    import {adminLogin} from './serviceAdminLogin.js';
+    window.adminLogin = adminLogin;
 </script>
 <div class="loginBox">
     <header class="subheading">Admin Login</header>
@@ -36,7 +36,7 @@
     <label>Password:</label><input type="password" id="password" placeholder = "Password">
 
     <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
-    <button onclick = "sessionStorage.setItem('student', document.getElementById('email').value); sessionStorage.setItem('password', document.getElementById('password').value); sLogin()" class="loginButton clubLB">Login</button>
+    <button onclick = "sessionStorage.setItem('admin', document.getElementById('email').value); sessionStorage.setItem('password', document.getElementById('password').value); adminLogin()" class="loginButton clubLB">Login</button>
 
 
 </div>
