@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 
 //haha
 const firebaseConfig = {
@@ -16,7 +17,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const addLog = async function(hours, description, contact, date){
-    const user = userCredential.user;
+    const auth = getAuth();
+    const user = auth.currentUser;
     const uid = user.uid;
     const docRef = doc(db, "students", uid);
     // Source - https://stackoverflow.com/a
