@@ -18,39 +18,7 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 export const registerService = async function(email, pass, first, last){
-    try {
-        await createUser(email, pass, first, last);
-    }
-    catch (e) {
-        alert("Error during registration: " + e.message);
-    }
-
-   // try {
-   //      // createUserWithEmailAndPassword returns a UserCredential on success.
-   //      const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-   //      const user = userCredential.user;
-   //      const uid = user.uid;
-   //      console.log("User created successfully with UID:", uid);
-   //
-   //      // Use setDoc to create a document with a specific ID (the user's UID).
-   //      // The path will be 'students/{uid}'.
-   //      await setDoc(doc(db, "students", uid), {
-   //          password: pass,
-   //          email: email,
-   //          firstName: first,
-   //          lastName: last
-   //      });
-   //
-   //      localStorage.setItem("email", email);
-   //      localStorage.setItem("password", pass);
-   //      localStorage.setItem("firstName", first);
-   //      localStorage.setItem("lastName", last);
-   //      // switches page to more information page beyond registration page
-   //      // window.location.href="serviceStudentPage.html";
-   // } catch (error) {
-   //     console.error("Error during registration process:", error);
-   // }
-   //  window.location.href = "serviceStudentPage.html";
+    await createUser(email, pass, first, last);
 }
 
 export const theFlood = async function() {
