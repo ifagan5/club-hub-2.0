@@ -33,7 +33,12 @@
     import {cLogin,correctNavDisplayCD} from '../clubhub/clubinfo.js';
     window.cLogin = cLogin;
     window.correctNavDisplayCD = correctNavDisplayCD;
-  </script> 
+  </script>
+
+    <script type="module">
+    import {addLog} from './serviceSubmitHours.js';
+    window.addLog = addLog;
+    </script>
 
     <div class="loginBox">
         <header class="subheading">Log Service Hours</header>
@@ -45,8 +50,8 @@
     <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
     <!-- <button onclick = "sessionStorage.setItem('club', document.getElementById('username').value); localStorage.setItem('password', document.getElementById('password').value); cLogin()" class="loginButton clubLB">Login</button> -->   
   
-    <button onclick = "addLog(document.getElementById('hourslog').value, document.getElementById('description').value, document.getElementById('varifier').value, document.getElementById('dates').value)" class="loginButton clubLB">Log</button>
-
+<!--    <button onclick = "addLog(document.getElementById('hourslog').value, document.getElementById('description').value, document.getElementById('varifier').value, document.getElementById('dates').value)" class="loginButton clubLB">Log</button>-->
+        <button onclick="addLog(document.getElementById('hoursLog').value, document.getElementById('description').value, document.getElementById('varifier').value, document.getElementById('dates').value)" class="loginButton clubLB">Log</button>
   </div>
 </body>
 </html>
