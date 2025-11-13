@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import {getCookie} from "./serviceAuth.js";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const firebaseConfig = {
@@ -46,7 +47,7 @@ export const getLastName= async function(){
 export const getEmail= async function(){
     try{
         console.log("works");
-        const user = auth.currentUser;
+        const authCookie = getCookie("serviceStudentAuth")
         if(!user){
             alert("Please log in first");
         }

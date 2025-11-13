@@ -1,0 +1,101 @@
+// Import everything you need
+import { initializeApp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { collection, doc, setDoc, getFirestore, serverTimestamp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
+// Firebase config
+export const firebaseConfig = {
+    apiKey: "AIzaSyDKBBs0TWerQno_u8yjNqV5qmvQImf6xA0",
+    authDomain: "club-hub-2.firebaseapp.com",
+    projectId: "club-hub-2",
+    storageBucket: "club-hub-2.firebasestorage.app",
+    messagingSenderId: "339870020143",
+    appId: "1:339870020143:web:cc698c287ed642e3798cda",
+    measurementId: "G-P97ML6ZP15"
+};
+
+const app = initializeApp(firebaseConfig);
+export const db   = getFirestore(app);
+export const auth = getAuth(app);
+
+//Cookie helpers
+function generateSecureRandomString(lengthInBytes) {
+    const byteArray = new Uint8Array(lengthInBytes);
+    window.crypto.getRandomValues(byteArray);
+    return Array.from(byteArray, (byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+export function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = `${cname}=${cvalue};${expires};path=/;SameSite=Strict`;
+}
+export function delete_cookie(name) {
+    document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+}
+export function getCookie(cname) {
+    const nameEQ = cname + "=";
+    const ca = document.cookie.split(";");
+    for (let c of ca) {
+        c = c.trim();
+        if (c.startsWith(nameEQ)) return decodeURIComponent(c.substring(nameEQ.length));
+    }
+    return "";
+}
+
+
+// Create a new user (Firebase Auth + Firestore profile)
+export async function createUser(email, password, firstName, lastName) {
+    try {
+        // Create the auth record
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const uid = userCredential.user.uid;
+
+        // Store a profile document – not password because bad
+        await setDoc(doc(db, "students", uid), {
+            uid,
+            email,
+            firstName,
+            lastName,
+            createdAt: serverTimestamp()
+        });
+        window.location.href = "./serviceStudentPage.html";
+        return true;
+    } catch (err) {
+        alert("Account creation failed: " + err.message);
+        console.error("createUser error:", err);
+        return false;
+    }
+}
+
+export async function loginUser(email, password) {
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = "./serviceStudentPage.html";
+        return { success: true };
+    } catch (err) {
+        alert("Login failed: " + err.message);
+        console.warn("loginUser error:", err);
+        return { success: false, error: err };
+    }
+}
+
+// Log out
+export async function logoutUser() {
+    try {
+        await signOut(auth);
+        window.location.href = "./serviceHome.html";
+    } catch (err) {
+        alert("Logout failed: " + err.message);
+        console.error("logout error:", err);
+    }
+}
+
+// Check if a user is already signed in
+export async function checkLoginStatus() {
+    return new Promise((resolve) => {
+        onAuthStateChanged(auth, (user) => {
+            resolve(!!user);
+        });
+    });
+}

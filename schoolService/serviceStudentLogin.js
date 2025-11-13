@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import {loginUser} from "./serviceAuth.js";
 
 //haha
 const firebaseConfig = {
@@ -23,39 +24,48 @@ if (loggedInUser) {
     location.replace("serviceStudentPage.html");
 }
 
-export async function sLogin() {
-    const usersRef = collection(db, "students");
-    console.log(sessionStorage.getItem("student"));
-    const q = query(usersRef, where("email", "==", sessionStorage.getItem("student")));
-    const querySnapshot = await getDocs(q);
-    if (!querySnapshot.empty) {
-        const userDoc = querySnapshot.docs[0];
-        var uid = userDoc.id;
-    } else {
-        console.log("No matching student found");
-        alert("No matching student found");
-        return;
-    }
-    console.log(sessionStorage.getItem("password"));
-    const enteredPassword = sessionStorage.getItem("password");
+export async function sLogin(email, password) {
+    await loginUser(email, password);
+    // console.log("bruh");
+    // const usersRef = collection(db, "students");
+    // console.log(sessionStorage.getItem("student"));
+    // const q = query(usersRef, where("email", "==", sessionStorage.getItem("student")));
+    // const querySnapshot = await getDocs(q);
+    // if (!querySnapshot.empty) {
+    //     const userDoc = querySnapshot.docs[0];
+    //     var uid = userDoc.id;
+    // } else {
+    //     console.log("No matching student found");
+    //     alert("No matching student found");
+    //     return;
+    // }
+    // console.log(sessionStorage.getItem("password"));
+    // const enteredPassword = sessionStorage.getItem("password");
+    //
+    // const docRef = doc(db, "students", uid);
+    // const docSnap = await getDoc(docRef);
+    // console.log(docSnap.data().password);
+    // if (docSnap.exists()) {
+    //   const studentData = docSnap.data().password;
+    //   if (enteredPassword === studentData) {
+    //     createAuthenticationCookie("serviceStudentAuth", 30);
+    //     const authCookie = getCookie("serviceStudentAuth")
+    //       await updateDoc(docRef, {
+    //           authCookie: authCookie
+    //       });
+    //     localStorage.setItem("loggedInStudent", "true");
+    //     localStorage.setItem("studentUID", uid);
+    //     location.replace("serviceStudentPage.html");
+    //   }
+    //   else {
+    //     console.log("wrong username/password");
+    //     alert("Wrong Username or Password");
+    //   }
+    // }
+    // else {
+    //   console.log("Student not found");
+    //   alert("Student not found");
+    // }
 
-    const docRef = doc(db, "students", uid);
-    const docSnap = await getDoc(docRef);
-    console.log(docSnap.data().password);
-    if (docSnap.exists()) {
-      const studentData = docSnap.data().password;
-      if (enteredPassword === studentData) {
-        localStorage.setItem("loggedInStudent", "true");
-        localStorage.setItem("studentUID", uid);
-        location.replace("serviceStudentPage.html");
-      } 
-      else {
-        console.log("wrong username/password");
-        alert("Wrong Username or Password");
-      }
-    } 
-    else {
-      console.log("Student not found");
-      alert("Student not found");
-    }
+
   }
