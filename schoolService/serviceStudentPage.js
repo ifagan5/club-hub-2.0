@@ -20,7 +20,7 @@ export const logout = function () {
     signOut(auth).then(() => {
         // Sign-out successful.
         console.log("User signed out successfully.");
-        localStorage.clear();
+        sessionStorage.clear();
         location.reload();
     }).catch((error) => {
         // An error happened.
