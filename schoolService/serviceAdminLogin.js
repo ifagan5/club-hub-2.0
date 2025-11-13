@@ -56,6 +56,7 @@ const auth = getAuth(app);
 //     }
 // }
 console.log("loaded!")
-export const adminLogin = function (adminEmail, adminPassword) {
+export const adminLogin = function () {
     console.log("Admin login function called with email: " + adminEmail);
 }
+window.adminLogin = adminLogin;
