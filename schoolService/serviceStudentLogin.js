@@ -45,7 +45,8 @@ export async function sLogin() {
     if (docSnap.exists()) {
       const studentData = docSnap.data().password;
       if (enteredPassword === studentData) {
-        console.log("student login working");
+        localStorage.setItem("loggedInStudent", "true");
+        localStorage.setItem("studentUID", uid);
         location.replace("serviceStudentPage.html");
       } 
       else {

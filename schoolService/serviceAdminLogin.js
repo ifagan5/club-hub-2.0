@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import {createAuthenticationCookie} from "cookie.js"
 
 //haha
 const firebaseConfig = {
@@ -23,33 +24,38 @@ const auth = getAuth(app);
 //     location.replace("serviceStudentPage.html");
 // }
 
-export async function adminLogin(adminEmail, adminPassword) {
-    const usersRef = collection(db, "serviceAdmins");
-    const q = query(usersRef, where("email", "==", adminEmail));
-    const querySnapshot = await getDocs(q);
-    if (!querySnapshot.empty) {
-        const userDoc = querySnapshot.docs[0];
-        var uid = userDoc.id;
-    } else {
-        console.log("Incorrect email.");
-        alert("Incorrect email.");
-        return;
-    }
-
-    const docRef = doc(db, "serviceAdmins", uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-        const actualAdminPassword = docSnap.data().password;
-        if (adminPassword === actualAdminPassword) {
-            location.replace("serviceAdminPanel.html");
-        }
-        else {
-            console.log("wrong username/password");
-            alert("Wrong Username or Password");
-        }
-    }
-    else {
-        console.log("Student not found");
-        alert("Student not found");
-    }
+// export async function adminLogin(adminEmail, adminPassword) {
+//     const usersRef = collection(db, "serviceAdmins");
+//     const q = query(usersRef, where("email", "==", adminEmail));
+//     const querySnapshot = await getDocs(q);
+//     if (!querySnapshot.empty) {
+//         const userDoc = querySnapshot.docs[0];
+//         var uid = userDoc.id;
+//     } else {
+//         console.log("Incorrect email.");
+//         alert("Incorrect email.");
+//         return;
+//     }
+//
+//     const docRef = doc(db, "serviceAdmins", uid);
+//     const docSnap = await getDoc(docRef);
+//     if (docSnap.exists()) {
+//         const actualAdminPassword = docSnap.data().password;
+//         if (adminPassword === actualAdminPassword) {
+//             createAuthenticationCookie("serviceAdminAuth", 30);
+//             location.replace("serviceAdminPanel.html");
+//         }
+//         else {
+//             console.log("wrong username/password");
+//             alert("Wrong Username or Password");
+//         }
+//     }
+//     else {
+//         console.log("Student not found");
+//         alert("Student not found");
+//     }
+// }
+console.log("loaded!")
+export const adminLogin = function (adminEmail, adminPassword) {
+    console.log("Admin login function called with email: " + adminEmail);
 }

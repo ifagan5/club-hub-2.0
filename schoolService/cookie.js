@@ -1,8 +1,23 @@
-// code from w3schools.com
+import { randomBytes } from 'crypto';
+// some code from w3schools.com
+function generateSecureRandomString(lengthInBytes) {
+    const byteArray = new Uint8Array(lengthInBytes);
+    window.crypto.getRandomValues(byteArray);
+    return Array.from(byteArray, byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
 export function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     let expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+export function createAuthenticationCookie(cname, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    let expires = "expires="+d.toUTCString();
+    let cvalue = generateSecureRandomString(32);
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
@@ -33,3 +48,6 @@ export function checkCookie() {
         }
     }
 }
+
+createAuthenticationCookie("authToken", 1);
+console.log("Authentication cookie created with value: " + getCookie("authToken"));
