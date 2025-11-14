@@ -1,7 +1,7 @@
 // Import everything you need
 import { initializeApp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-import { collection, doc, setDoc, getFirestore, serverTimestamp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { collection, getDoc, doc, setDoc, getFirestore, serverTimestamp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 // Firebase config
 export const firebaseConfig = {
@@ -99,3 +99,32 @@ export async function checkLoginStatus() {
         });
     });
 }
+
+// Get the current user's first name
+export async function getFirstName() {
+    const user = auth.currentUser;
+    if (!user) return null;
+
+    const docRef = doc(db, "students", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.exists() ? docSnap.data().firstName : null;
+}
+
+// Get the current user's last name
+export async function getLastName() {
+    const user = auth.currentUser;
+    if (!user) return null;
+
+    const docRef = doc(db, "students", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.exists() ? docSnap.data().lastName : null;
+}
+
+// Get the current user's email
+export function getEmail() {
+    const user = auth.currentUser;
+    return user ? user.email : null;
+}
+
