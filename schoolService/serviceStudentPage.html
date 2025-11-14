@@ -6,7 +6,7 @@
     <!-- Fixed the type attribute in the link tag -->
     <link rel="stylesheet" type="text/css" href="serviceStudentPage.css">
     <link rel="icon" type="image/x-icon" href="images/stab_logo.webp">
-   
+
     <title>Saints Service Sign Up</title>
 </head>
 <body>
@@ -14,10 +14,19 @@
 <!-- <script type="module" src="../clubhub/script.js"></script>-->
  <script type="module" src="./serviceStudentPage.js"></script>
  <script type="module">
-    import {logout} from './serviceStudentPage.js';
+    import {logout, getFirstNameFromAuth, getLastNameFromAuth} from './serviceStudentPage.js';
+    window.getFirstNameFromAuth = getFirstNameFromAuth;
+    window.getLastNameFromAuth = getLastNameFromAuth;
     window.logout = async () => {
         await logout();
     };
+
+    // Populate user name after the page has loaded
+    window.addEventListener('DOMContentLoaded', async (event) => {
+        const firstName = await getFirstNameFromAuth();
+        const lastName = await getLastNameFromAuth();
+        document.getElementById("name").innerText = `${firstName} ${lastName}`;
+    });
  </script>
 
      <!-- creates the header box and the title, inside the box -->
@@ -36,13 +45,12 @@
    </div>
 
 
-    
+
     <!-- Calendar Section -->
-    <section id="studentPage">  
+    <section id="studentPage">
         <div class="studentPageTitle">
             <h1>Quick Overview</h1>
             <p id="name"></p>
-            <script>document.getElementById("name").innerText = getFirstName() + " " + getLastName()</script>
         </div>
 
         <!-- Calendar Display -->
@@ -63,7 +71,7 @@
                     </div>
 
                 </div>
-                
+
                 <div class="red-box-right">
                     <div class="red-text-right">Last Log:</div>
                     <div id="last-log-hours">
@@ -82,7 +90,7 @@
                    you need # total community service hours to graduate
                 </div>
             </div>
-            
+
 
         </div>
     </section>

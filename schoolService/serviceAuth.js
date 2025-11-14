@@ -1,4 +1,4 @@
-// Import everything you need
+// Imports
 import { initializeApp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { collection, getDoc, doc, setDoc, getFirestore, serverTimestamp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
@@ -14,11 +14,12 @@ export const firebaseConfig = {
     measurementId: "G-P97ML6ZP15"
 };
 
+// setting vars
 const app = initializeApp(firebaseConfig);
 export const db   = getFirestore(app);
 export const auth = getAuth(app);
 
-//Cookie helpers
+//Cookie helpers from https://www.w3schools.com/js/js_cookies.asp
 function generateSecureRandomString(lengthInBytes) {
     const byteArray = new Uint8Array(lengthInBytes);
     window.crypto.getRandomValues(byteArray);
@@ -42,6 +43,16 @@ export function getCookie(cname) {
     }
     return "";
 }
+
+// was having problems with rendering the users name on club page due to improper async handeling
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(auth, user => {
+            unsubscribe();
+            resolve(user);
+        }, reject);
+    });
+};
 
 
 // Create a new user (Firebase Auth + Firestore profile)
@@ -93,16 +104,13 @@ export async function logoutUser() {
 
 // Check if a user is already signed in
 export async function checkLoginStatus() {
-    return new Promise((resolve) => {
-        onAuthStateChanged(auth, (user) => {
-            resolve(!!user);
-        });
-    });
+    const user = await getCurrentUser();
+    return !!user;
 }
 
 // Get the current user's first name
 export async function getFirstName() {
-    const user = auth.currentUser;
+    const user = await getCurrentUser();
     if (!user) return null;
 
     const docRef = doc(db, "students", user.uid);
@@ -113,7 +121,7 @@ export async function getFirstName() {
 
 // Get the current user's last name
 export async function getLastName() {
-    const user = auth.currentUser;
+    const user = await getCurrentUser();
     if (!user) return null;
 
     const docRef = doc(db, "students", user.uid);
@@ -123,8 +131,20 @@ export async function getLastName() {
 }
 
 // Get the current user's email
-export function getEmail() {
-    const user = auth.currentUser;
+export async function getEmail() {
+    const user = await getCurrentUser();
     return user ? user.email : null;
 }
 
+// check if the user had admin perms
+export async function checkAdminStatus() {
+    const user = await getCurrentUser();
+    if (!user) return false;
+    const docRef = doc(db, "students", user.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        const userData = docSnap.data();
+        return userData.admin === true;
+    }
+    return false;
+}
