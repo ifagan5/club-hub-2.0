@@ -61,6 +61,7 @@ export async function createUser(email, password, firstName, lastName) {
         // Create the auth record
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const uid = userCredential.user.uid;
+        await signInWithEmailAndPassword(auth, email, password);
 
         // Store a profile document – not password because bad
         await setDoc(doc(db, "students", uid), {
