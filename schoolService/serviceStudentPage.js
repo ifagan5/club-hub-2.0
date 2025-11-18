@@ -33,6 +33,9 @@ export const getEmailFromAuth = async function(){
     return await getEmail();
 };
 
+export const getHoursFromSubmitHours = async function(){
+    return await getTotalHours();
+}
 // Semicolon added to prevent ASI issues
 ;(async () => {
     const loggedIn = await checkLoginStatus();

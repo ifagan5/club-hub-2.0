@@ -13,8 +13,11 @@
 
 <!-- <script type="module" src="../clubhub/script.js"></script>-->
  <script type="module" src="./serviceStudentPage.js"></script>
+ <script type="module" src="./serviceSubmitHours.js"></script>
  <script type="module">
     import {logout, getFirstNameFromAuth, getLastNameFromAuth} from './serviceStudentPage.js';
+    import {getTotalHours} from './serviceSubmitHours.js';
+    window.getTotalHours = getTotalHours;
     window.getFirstNameFromAuth = getFirstNameFromAuth;
     window.getLastNameFromAuth = getLastNameFromAuth;
     window.logout = async () => {
@@ -26,6 +29,8 @@
         const firstName = await getFirstNameFromAuth();
         const lastName = await getLastNameFromAuth();
         document.getElementById("name").innerText = `${firstName} ${lastName}`;
+        const totalHours = await getTotalHours();
+        document.getElementById("total-hours").innerText= `${totalHours}`;
     });
  </script>
 
@@ -50,22 +55,21 @@
     <section id="studentPage">
         <div class="studentPageTitle">
             <h1>Quick Overview</h1>
-            <p id="name"></p>
+            
         </div>
 
         <!-- Calendar Display -->
         <div class="studentPage">
             <!-- Calendar Header -->
                 <div class="studentPageHeader">
+                <p id="name"></p>
                 <p id="student-Email"></p>
 
             </div>
             <div>
                 <div class="red-box-left">
                     <div class="red-text-left">You have:</div>
-                    <div id="total-hours">
-                        #
-                    </div>
+                    <div id="total-hours">#</div>
                     <div id="red-text-left-description">
                        total community service hours
                     </div>
