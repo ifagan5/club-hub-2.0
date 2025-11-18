@@ -36,7 +36,6 @@ export const getEmailFromAuth = async function(){
 export const getHours = async function(){
     const user = await getCurrentUser()
     const uid = user.uid;
-    console.log(uid);
     const docRef = doc(db, "students", uid);
     const docFetched= await getDoc(docRef);
     const numFields= Object.keys(docFetched.data()).length;
@@ -44,12 +43,12 @@ export const getHours = async function(){
     let hours;
 
   for (let i = 1; i<=numLogs, i++;){
-    
     let mapName = [`log${i}`];
     let myMap = docFetched.data()[mapName];
-    let h = myMap.totalHours;
+    let h = myMap[totalHours];
     hours+= h;
   }
+
   console.log("working " + hours);
   return hours;
 };
