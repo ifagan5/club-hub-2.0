@@ -43,13 +43,18 @@ export const getHours = async function(){
     const docFetched= await getDoc(docRef);
     const numFields= Object.keys(docFetched.data()).length;
     const numLogs = numFields - 5;
+    console.log("NumLogs = " + numLogs);
     let hours;
 
-  for (let i = 1; i<=numLogs, i++;){
+  for (let i = 1; i<=numLogs; i++){
+    console.log("start loop " + i);
     let mapName = [`log${i}`];
-    let myMap = docFetched.data()[mapName];
-    let h = myMap[totalHours];
+    console.log("Map name = " + mapName);
+    let h = docFetched.data()[mapName][totalHours];
+    console.log("h = " +h);
+   // let h = myMap[totalHours];
     hours+= h;
+    console.log("hours = " +hours);
   }
 
   console.log("working " + hours);
