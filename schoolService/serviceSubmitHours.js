@@ -23,7 +23,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export const addLog = async function(hours, description, contact, date){
+export const addLog = async function(hours, toSchool, description, contact, date){
     const user = await getCurrentUser()
     const uid = user.uid;
     console.log(uid);
@@ -37,12 +37,12 @@ export const addLog = async function(hours, description, contact, date){
     //to get the number of previous logs.
   const docFetched= await getDoc(docRef);
   const numFields= Object.keys(docFetched.data()).length;
-  const numLogs = numFields - 4 +1;
+  const numLogs = numFields - 4;
 
   //makes a new field for the log that is an array
   //[log number, hours, description, contact person, date(s) completed]
     await updateDoc(docRef, {
-        [`log${numLogs}`]: arrayUnion("Log " + numLogs, hours, description, contact, date),
+        [`log${numLogs}`]: {logNum: numLogs, totalHours: hours, toSchoolHours: toSchool, workDescription: description, contactPerson: contact, dateCompleted: date},
     });
     
       //changes page to the student's page

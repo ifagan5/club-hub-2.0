@@ -15,10 +15,20 @@
     <h1>Service To The School Admin Page</h1>
 </header>
 
+<!-- <script type="module" src="../clubhub/script.js"></script>-->
+<script type="module" src="./serviceStudentPage.js"></script>
+<script type="module">
+    import {logout} from './serviceStudentPage.js';
+    window.logout = async () => {
+        await logout();
+    };
+</script>
+
 <!-- Creates a bar bellow header box with nav buttons -->
 <div class="nav">
     <button class="button" onClick="location.replace('index.html');">Home</button>
     <button class="button" onClick = "location.replace('serviceAccountSelection.html');">Club Directory</button>
+    <button class="button" id="logout" onclick="(async () => await logout())()">Logout</button>
 </div>
 
 <div class="adminWrap">

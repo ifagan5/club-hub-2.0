@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-import {loginUser, checkLoginStatus} from "./serviceAuth.js";
+import {loginUser, checkLoginStatus, checkAdminStatus} from "./serviceAuth.js";
 
 //haha
 const firebaseConfig = {
@@ -28,4 +28,5 @@ const auth = getAuth(app);
 
 export async function sLogin(email, password) {
     await loginUser(email, password);
+    alert(await checkAdminStatus());
   }

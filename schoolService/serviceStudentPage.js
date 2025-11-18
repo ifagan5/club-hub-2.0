@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-import {logoutUser, checkLoginStatus, getFirstName, getLastName , getEmail} from "./serviceAuth.js";
+import { getFirestore,getDoc, doc, updateDoc} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import {logoutUser, checkLoginStatus, getFirstName, getLastName , getEmail, getCurrentUser} from "./serviceAuth.js";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const firebaseConfig = {
@@ -36,6 +36,27 @@ export const getEmailFromAuth = async function(){
 export const getHoursFromSubmitHours = async function(){
     return await getTotalHours();
 }
+export const getHours = async function(){
+    const user = await getCurrentUser()
+    const uid = user.uid;
+    console.log(uid);
+    const docRef = doc(db, "students", uid);
+    const docFetched= await getDoc(docRef);
+    const numFields= Object.keys(docFetched.data()).length;
+    const numLogs = numFields - 5;
+    let hours;
+
+  for (let i = 1; i<=numLogs, i++;){
+    
+    let mapName = [`log${i}`];
+    let myMap = docFetched.data()[mapName];
+    let h = myMap.totalHours;
+    hours+= h;
+  }
+  console.log("working " + hours);
+  return hours;
+};
+
 // Semicolon added to prevent ASI issues
 ;(async () => {
     const loggedIn = await checkLoginStatus();
