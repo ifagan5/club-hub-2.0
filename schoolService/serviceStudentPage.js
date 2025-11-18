@@ -33,6 +33,9 @@ export const getEmailFromAuth = async function(){
     return await getEmail();
 };
 
+export const getHoursFromSubmitHours = async function(){
+    return await getTotalHours();
+}
 export const getHours = async function(){
     const user = await getCurrentUser()
     const uid = user.uid;
