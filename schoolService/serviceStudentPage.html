@@ -14,9 +14,10 @@
 <!-- <script type="module" src="../clubhub/script.js"></script>-->
  <script type="module" src="./serviceStudentPage.js"></script>
  <script type="module">
-    import {logout, getFirstNameFromAuth, getLastNameFromAuth} from './serviceStudentPage.js';
+    import {logout, getFirstNameFromAuth, getLastNameFromAuth, getHours} from './serviceStudentPage.js';
     window.getFirstNameFromAuth = getFirstNameFromAuth;
     window.getLastNameFromAuth = getLastNameFromAuth;
+    window.getHours = getHours;
     window.logout = async () => {
         await logout();
     };
@@ -25,7 +26,9 @@
     window.addEventListener('DOMContentLoaded', async (event) => {
         const firstName = await getFirstNameFromAuth();
         const lastName = await getLastNameFromAuth();
+        const totalHours = await getHours();
         document.getElementById("name").innerText = `${firstName} ${lastName}`;
+        document.getElementById("totalHours").innerText = `${totalHours}`;
     });
  </script>
 
@@ -51,6 +54,7 @@
         <div class="studentPageTitle">
             <h1>Quick Overview</h1>
             <p id="name"></p>
+            <br>
         </div>
 
         <!-- Calendar Display -->
@@ -64,7 +68,7 @@
                 <div class="red-box-left">
                     <div class="red-text-left">You have:</div>
                     <div id="total-hours">
-                        #
+                        <p id="totalHours"></p>
                     </div>
                     <div id="red-text-left-description">
                        total community service hours

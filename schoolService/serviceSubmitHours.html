@@ -43,6 +43,7 @@
     <div class="loginBox">
         <header class="subheading">Log Service Hours</header>
         <label>Number of Hours:</label><input type="double" id="hoursLog" placeholder = "Type Here">
+        <label>Number of Hours that were Service to the School:</label><input type="double" id="toSchool" placeholder = "Type Here">
         <label>Brief Description of Work Completed:</label><input type="text" id="description" placeholder = "Type Here">
         <label>Name and Role of Person who can Confirm your Service:</label><input type="text" id="varifier" placeholder = "Type Here">
         <label>Date(s) Work was Completed:</label><input type="text" id="dates" placeholder = "Type Here">
@@ -51,7 +52,7 @@
     <!-- <button onclick = "sessionStorage.setItem('club', document.getElementById('username').value); localStorage.setItem('password', document.getElementById('password').value); cLogin()" class="loginButton clubLB">Login</button> -->   
   
 <!--    <button onclick = "addLog(document.getElementById('hourslog').value, document.getElementById('description').value, document.getElementById('varifier').value, document.getElementById('dates').value)" class="loginButton clubLB">Log</button>-->
-        <button onclick="addLog(document.getElementById('hoursLog').value, document.getElementById('description').value, document.getElementById('varifier').value, document.getElementById('dates').value)" class="loginButton clubLB">Log</button>
+        <button onclick="addLog(document.getElementById('hoursLog').value, document.getElementById('toSchool').value, document.getElementById('description').value, document.getElementById('varifier').value, document.getElementById('dates').value)" class="loginButton clubLB">Log</button>
   </div>
 </body>
 </html>
