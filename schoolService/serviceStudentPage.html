@@ -17,11 +17,10 @@
  <script type="module">
     import {logout, getFirstNameFromAuth, getLastNameFromAuth, getHours} from './serviceStudentPage.js';
     import {getTotalHours} from './serviceSubmitHours.js';
-    window.getHours = getHours;
     window.getTotalHours = getTotalHours;
     window.getFirstNameFromAuth = getFirstNameFromAuth;
     window.getLastNameFromAuth = getLastNameFromAuth;
-    window.getHours = getHours;
+    window.getHours = getHours; 
     window.logout = async () => {
         await logout();
     };
@@ -65,7 +64,6 @@
         <div class="studentPage">
             <!-- Calendar Header -->
                 <div class="studentPageHeader">
-                <p id="name"></p>
                 <p id="student-Email"></p>
 
             </div>
