@@ -96,7 +96,7 @@ export async function checkAdminStatus() {
 export async function loginUser(email, password) {
     try {
         await signInWithEmailAndPassword(auth, email, password);
-        if (checkAdminStatus()) {
+        if (await checkAdminStatus()) {
             window.location.href = "./serviceAdminPanel.html";
             return { success: true };
         } else {
@@ -126,7 +126,12 @@ export async function logoutUser() {
 
 // Check if a user is already signed in
 export async function checkLoginStatus() {
-    await checkAdminStatus() ? window.location.href = "./serviceAdminPanel.html" : null;
+    const isAdmin = await checkAdminStatus();
+    if (isAdmin) {
+        window.location.href = "./serviceAdminPanel.html";
+        return true; // User is an admin and redirected, consider them logged in
+    }
+
     const user = await getCurrentUser();
     return !!user; // make sure returning boolean
 }
