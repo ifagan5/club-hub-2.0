@@ -1,6 +1,6 @@
 // Imports
 import { initializeApp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { collection, getDoc, doc, setDoc, getFirestore, serverTimestamp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 // Firebase config
@@ -80,11 +80,31 @@ export async function createUser(email, password, firstName, lastName) {
     }
 }
 
+// check if the user had admin perms
+export async function checkAdminStatus() {
+    const user = await getCurrentUser();
+    if (!user) return false;
+    const docRef = doc(db, "students", user.uid);
+    const docSnap = await getDoc(docRef);
+    const userData = docSnap.data();
+    if (docSnap.exists()) {
+        return userData.admin === true;
+    }
+    return false;
+}
+
 export async function loginUser(email, password) {
     try {
         await signInWithEmailAndPassword(auth, email, password);
-        window.location.href = "./serviceStudentPage.html";
-        return { success: true };
+        if (checkAdminStatus()) {
+            window.location.href = "./serviceAdminPanel.html";
+            return { success: true };
+        } else {
+            window.location.href = "./serviceStudentPage.html";
+            return { success: true };
+        }
+
+
     } catch (err) {
         alert("Login failed: " + err.message);
         console.warn("loginUser error:", err);
@@ -103,8 +123,10 @@ export async function logoutUser() {
     }
 }
 
+
 // Check if a user is already signed in
 export async function checkLoginStatus() {
+    await checkAdminStatus() ? window.location.href = "./serviceAdminPanel.html" : null;
     const user = await getCurrentUser();
     return !!user; // make sure returning boolean
 }
@@ -135,17 +157,4 @@ export async function getLastName() {
 export async function getEmail() {
     const user = await getCurrentUser();
     return user ? user.email : null;
-}
-
-// check if the user had admin perms
-export async function checkAdminStatus() {
-    const user = await getCurrentUser();
-    if (!user) return false;
-    const docRef = doc(db, "students", user.uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-        const userData = docSnap.data();
-        return userData.admin === true;
-    }
-    return false;
 }
