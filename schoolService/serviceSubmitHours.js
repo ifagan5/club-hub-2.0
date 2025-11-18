@@ -28,6 +28,8 @@ export const addLog = async function(hours, toSchool, description, contact, date
     const uid = user.uid;
     console.log(uid);
     const docRef = doc(db, "students", uid);
+    const totalHours = user.hoursCompleted;
+    user.hoursCompleted = totalHours + hours;
     // Source - https://stackoverflow.com/a
     // Posted by aran
     // Retrieved 2025-11-11, License - CC BY-SA 4.0
@@ -42,7 +44,12 @@ export const addLog = async function(hours, toSchool, description, contact, date
     await updateDoc(docRef, {
         [`log${numLogs}`]: {logNum: numLogs, totalHours: hours, toSchoolHours: toSchool, workDescription: description, contactPerson: contact, dateCompleted: date},
     });
-
+    
       //changes page to the student's page
       window.location.href = "serviceStudentPage.html";
+}
+
+export async function getTotalHours(){
+    const user = await getCurrentUser();
+    return user.hoursCompleted;
 }

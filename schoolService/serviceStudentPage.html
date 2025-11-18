@@ -13,8 +13,11 @@
 
 <!-- <script type="module" src="../clubhub/script.js"></script>-->
  <script type="module" src="./serviceStudentPage.js"></script>
+ <script type="module" src="./serviceSubmitHours.js"></script>
  <script type="module">
-    import {logout, getFirstNameFromAuth, getLastNameFromAuth, getHours} from './serviceStudentPage.js';
+    import {logout, getFirstNameFromAuth, getLastNameFromAuth} from './serviceStudentPage.js';
+    import {getTotalHours} from './serviceSubmitHours.js';
+    window.getTotalHours = getTotalHours;
     window.getFirstNameFromAuth = getFirstNameFromAuth;
     window.getLastNameFromAuth = getLastNameFromAuth;
     window.getHours = getHours;
@@ -61,6 +64,7 @@
         <div class="studentPage">
             <!-- Calendar Header -->
                 <div class="studentPageHeader">
+                <p id="name"></p>
                 <p id="student-Email"></p>
 
             </div>
