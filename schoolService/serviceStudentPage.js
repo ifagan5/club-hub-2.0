@@ -41,20 +41,23 @@ export const getHours = async function(){
     const uid = user.uid;
     const docRef = doc(db, "students", uid);
     const docFetched= await getDoc(docRef);
-    const numFields= Object.keys(docFetched.data()).length;
-    const numLogs = numFields - 5;
-    console.log("NumLogs = " + numLogs);
-    let hours;
 
-  for (let i = 1; i<=numLogs; i++){
-    console.log("start loop " + i);
-    let mapName = [`log${i}`];
-    console.log("Map name = " + mapName);
-    let h = docFetched.data()[mapName][totalHours];
-    console.log("h = " +h);
-   // let h = myMap[totalHours];
-    hours+= h;
-    console.log("hours = " +hours);
+    if (!docFetched.exists()) {
+        console.log("No such document!");
+        return 0;
+    }
+
+    const data = docFetched.data();
+    const numFields= Object.keys(data).length;
+    const numLogs = numFields - 5;
+    let hours = 0;
+
+  for (let i = 1; i <= numLogs; i++){
+    let mapName = `log${i}`;
+    let myMap = data[mapName];
+    if (myMap && typeof myMap.totalHours === 'number') {
+        hours += myMap.totalHours;
+    }
   }
 
   console.log("working " + hours);
