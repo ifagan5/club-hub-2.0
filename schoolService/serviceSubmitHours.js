@@ -44,6 +44,7 @@ export const addLog = async function(hours, toSchool, description, contact, date
     await updateDoc(docRef, {
         [`log${numLogs}`]: {logNum: numLogs, totalHours: hours, toSchoolHours: toSchool, workDescription: description, contactPerson: contact, dateCompleted: date},
     });
+
     
       //changes page to the student's page
       window.location.href = "serviceStudentPage.html";

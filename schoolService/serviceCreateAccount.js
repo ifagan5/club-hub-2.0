@@ -18,7 +18,8 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 export const registerService = async function(email, pass, first, last){
-    await createUser(email, pass, first, last);
+    let hours = 0;
+    await createUser(email, pass, first, last, hours);
 }
 
 export const theFlood = async function() {
