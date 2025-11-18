@@ -1,7 +1,14 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore, arrayUnion, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import {checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 
+(async () => {
+const isLoggedIn = await checkLoginStatus();
+if (!isLoggedIn) {
+    window.location.href = "./serviceStudentLogin.html";
+}
+})();
 //haha
 const firebaseConfig = {
   apiKey: "AIzaSyDKBBs0TWerQno_u8yjNqV5qmvQImf6xA0",
@@ -17,11 +24,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const addLog = async function(hours, description, contact, date){
-    const uid = localStorage.getItem("studentUID");
-    if (!uid) {
-        alert("No student logged in. Please log in first.");
-        return;
-    }
+    const user = await getCurrentUser()
+    const uid = user.uid;
+    console.log(uid);
     const docRef = doc(db, "students", uid);
     // Source - https://stackoverflow.com/a
     // Posted by aran

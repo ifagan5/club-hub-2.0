@@ -106,7 +106,7 @@ export async function logoutUser() {
 // Check if a user is already signed in
 export async function checkLoginStatus() {
     const user = await getCurrentUser();
-    return !!user;
+    return !!user; // make sure returning boolean
 }
 
 // Get the current user's first name
