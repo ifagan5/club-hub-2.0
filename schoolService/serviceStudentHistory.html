@@ -1,12 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="../clubhub/login.css">
+    <link rel="stylesheet" type="text/css" href="../clubhub/login.css">
+    <link rel="icon" type="image/x-icon" href="images/stab_logo.webp">
+    <title>Add Service Hours</title>
 
+    <style>
+        body {
+            background-color: rgba(146, 22, 32, 0.564);
+        }
+    </style>
+
+</head>
+<body onload="makeLog()">
+    <header class="head">
+        <div class="rightHead">
+          <img class="image" src="../../clubhub/images/stab_logo.webp" alt="logo" onClick="location.replace('index.html');">
+          <p onClick="location.replace('index.html');">St. Anne's Belfield School</p>
+        </div>
+        <div class="leftHead">
+          <p class="headLink" onClick="location.replace('serviceStudentPage.html');">Back to homepage</p>
+        </div>
+      </header>
+
+    <script type="module" src="../clubhub/clubinfo.js"></script>
+  <script type="module">
+    import {login} from '../clubhub/script.js';
+    window.login = login;
+    import {cLogin,correctNavDisplayCD} from '../clubhub/clubinfo.js';
+    window.cLogin = cLogin;
+    window.correctNavDisplayCD = correctNavDisplayCD;
+  </script>
+
+    <script type="module">
+    import {makeLog} from './serviceStudentHistory.js';
+    window.makeLog = makeLog;
+    </script>
+
+    <div class="loginBox">
+        <header class="subheading">Your Log History</header>
+      <div id="log1">
+          <div id="activity"> </div>
+          <div id="logged-hours"> </div>
+          <div id="logged-hours-to-school"> </div>
+          <div id="contact"> </div>
+          <div id="date"> </div>
+
+      </div>
+        
+
+    <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
+    <!-- <button onclick = "sessionStorage.setItem('club', document.getElementById('username').value); localStorage.setItem('password', document.getElementById('password').value); cLogin()" class="loginButton clubLB">Login</button> -->   
+  
+<!--    <button onclick = "addLog(document.getElementById('hourslog').value, document.getElementById('description').value, document.getElementById('varifier').value, document.getElementById('dates').value)" class="loginButton clubLB">Log</button>-->
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Login</title>
   <link href="serviceStudentHistory.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/x-icon" href="images/stab_logo.webp">
+
+  <style>
+    body {
+        background-color: rgba(146, 22, 32, 0.564);
+    }
+  </style>
+
 </head>
 
 <body>
@@ -18,35 +94,36 @@
       <div class="leftHead">
         <p class="headLink" onClick="location.replace('serviceHome.html');">Back to homepage</p>
       </div>
-    </header>
+    </header>-->
 
 
 
     
   <!-- type must be "module": https://www.w3schools.com/js/js_modules.asp#:~:text=JavaScript%20modules%20allow%20you%20to,in%20the%20tag.-->  
 <!--  <script type="module" src="../../clubhub/clubinfo.js"></script>-->
-  <div class="loginBox">
-    <script type="module">
-      // The local file exports `sLogin` (not `studentLogin`). Import it and alias to studentLogin.
-      import { sLogin as studentLogin } from "./serviceStudentLogin.js";
-      window.studentLogin = studentLogin;
-    </script>
+<!--<script type="module" src="../clubhub/clubinfo.js"></script>
+<script type="module">
+  // The local file exports `sLogin` (not `studentLogin`). Import it and alias to studentLogin.
+  import { sLogin as studentLogin } from "./serviceStudentLogin.js";
+  window.studentLogin = studentLogin;
+</script>
 
+  <div class="loginBox">
     <header class="subheading">Service Log</header>
     <div class="red-box">
-                    <div class="activity">Activity:______________</div>
+                    <div class="activity">Activity: </div>
                     <div id="logged-hours">
-                        Hours logged: #
+                        Hours logged: 
                     </div>
                     <div id="activity">
-                       Date(s) of Activity Logged: ______________
+                       Contact: 
                     </div>
                     <div id="activity">
-                       Date Logged: ______________
+                       Date: 
                     </div>
 
                 </div>
   </div>
   
 </body>
-</html>
+</html>-->
