@@ -28,26 +28,47 @@ export const addLog = async function(hours, toSchool, description, contact, date
     const uid = user.uid;
     console.log(uid);
     const docRef = doc(db, "students", uid);
-    const totalHours = user.hoursCompleted;
-    user.hoursCompleted = totalHours + hours;
-    // Source - https://stackoverflow.com/a
-    // Posted by aran
-    // Retrieved 2025-11-11, License - CC BY-SA 4.0
-    //gets the number of fields the student doc has and subtracts 4 (email, password, fistName, lastName)
-    //to get the number of previous logs.
-  const docFetched= await getDoc(docRef);
-  const numFields= Object.keys(docFetched.data()).length;
-  const numLogs = numFields - 4;
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+    if (docSnap.exists()) {
+        const studentTotalHours = data.totalHours || 0; // Default to 0 if it doesn't exist?
+        const newHours = parseFloat(studentTotalHours) + parseFloat(hours);
+        await updateDoc(docRef, {
+            totalHours: newHours,
+        });
 
-  //makes a new field for the log that is an array
-  //[log number, hours, description, contact person, date(s) completed]
-    await updateDoc(docRef, {
-        [`log${numLogs}`]: {logNum: numLogs, totalHours: hours, toSchoolHours: toSchool, workDescription: description, contactPerson: contact, dateCompleted: date},
-    });
+        const studentSchoolHours = data.totalSchoolHours || 0 // Default to 0 if it doesn't exist?
+        const newSchoolHours = parseFloat(studentSchoolHours) + parseFloat(toSchool);
+        await updateDoc(docRef, { // Fix: Update totalSchoolHours instead of totalHours
+            totalSchoolHours: newSchoolHours,
+        });
+    }
 
-    
-      //changes page to the student's page
-      window.location.href = "serviceStudentPage.html";
+
+    const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
+    const logEntry = {
+        hours: hours,
+        schoolServiceHours: toSchool,
+        description: description,
+        contact: contact,
+        date: date,
+        timestamp: Timestamp.now(), // Add a server-side timestamp
+    };
+
+    await addDoc(serviceLogCollectionRef, logEntry);
+
+
+
+
+    // const totalHours = user.hoursCompleted;
+    // user.hoursCompleted = totalHours + hours;
+    // const docFetched= await getDoc(docRef);
+    // const numFields= Object.keys(docFetched.data()).length;
+    // const numLogs = numFields - 4;
+    // await updateDoc(docRef, {
+    //     [`log${numLogs}`]: {logNum: numLogs, totalHours: hours, toSchoolHours: toSchool, workDescription: description, contactPerson: contact, dateCompleted: date},
+    // });
+    //   window.location.href = "serviceStudentPage.html";
 }
 
 export async function getTotalHours(){
