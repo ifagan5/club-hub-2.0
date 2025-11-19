@@ -163,3 +163,29 @@ export async function getEmail() {
     const user = await getCurrentUser();
     return user ? user.email : null;
 }
+
+export async function getTotalHours(){
+    const user = await getCurrentUser()
+    const uid = user.uid;
+    console.log(uid);
+    const docRef = doc(db, "students", uid);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+    if (docSnap.exists()) {
+        return data.totalHours || 0;
+    }
+    return null;
+}
+
+export async function getTotalSchoolServiceHours(){
+    const user = await getCurrentUser()
+    const uid = user.uid;
+    console.log(uid);
+    const docRef = doc(db, "students", uid);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+    if (docSnap.exists()) {
+        return data.totalSchoolHours || 0;
+    }
+    return null;
+}

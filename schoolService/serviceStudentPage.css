@@ -171,7 +171,7 @@ body {
   border: 2px solid darkred; /* Adds a border to the box (optional) */
   padding: 10px;        /* Adds padding inside the box (optional) */
   border-radius: 10px;
-  font-size: 30px;
+  font-size: 40px;
   font-family: 'Inter', sans-serif;
   color: white;         /* Sets the text color inside the box (optional) */
   text-align: center;   /* Centers the text horizontally (optional) */
@@ -181,7 +181,7 @@ body {
   margin-top: 10%;
   margin-bottom: 15%;
   display: grid;
-  grid-template-columns: 1fr,1fr,1fr;
+  grid-template-rows: auto min-content auto;
   overflow: hidden;
   min-width: 200px;
   min-height: 200px;
@@ -207,21 +207,21 @@ font-size: 20px;
   margin-left: 2%;
   margin-top: 10%; 
   display: grid;
-  grid-template-columns: 1fr,1fr,1fr;
+  grid-template-rows: auto min-content auto;
   overflow: hidden;
   min-width: 200px;
   min-height: 200px;
 }
 #red-text-left-description{
-font-size: 20px;
+  font-size: 20px;
 }
-#total-hours{
-  font-size: 180%;
+.hours-display {
+  font-size: 5.5rem;
   text-align: center;
-}
-#last-log-hours{
-  font-size: 180%;
-  text-align: center;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .center-text-hours{
   font-family: 'Inter', sans-serif;
@@ -1103,4 +1103,3 @@ option {
     display: none;
   }
 }
-
