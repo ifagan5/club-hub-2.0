@@ -23,26 +23,42 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-
-export const getLogActivity = async function(num){
+export const getLogActivity = async function {
     const user = await getCurrentUser()
     const uid = user.uid;
     console.log(uid);
-    const docRef = await doc(db, "students", uid);
-    const docSnap= await getDoc(docRef);
+    const logsRef = collection(db, "studentServiceLog", uid, "logs");
+    const docSnap = await getDocs(logsRef);
     if (docSnap.exists()) {
-        const data = await docSnap.data();
-        const nestedMap = await data[`log${num}`]; // Assuming 'yourMapField' is the key of the map
-        if (nestedMap) {
-          const specificValue = await nestedMap.workDescription; // Assuming 'specificField' is the key within the map
-          console.log("Work Description:", specificValue);
-          return specificValue;
-        }
-      } else {
+        const data = docSnap.data();
+        const numberOfFields = Object.keys(data).length;
+    } else {
         console.log("No such document!");
-      }
+        return 0;
+    }
+
 
 }
+
+// export const getLogActivity = async function(num){
+//     const user = await getCurrentUser()
+//     const uid = user.uid;
+//     console.log(uid);
+//     const docRef = await doc(db, "students", uid);
+//     const docSnap= await getDoc(docRef);
+//     if (docSnap.exists()) {
+//         const data = await docSnap.data();
+//         const nestedMap = await data[`log${num}`]; // Assuming 'yourMapField' is the key of the map
+//         if (nestedMap) {
+//           const specificValue = await nestedMap.workDescription; // Assuming 'specificField' is the key within the map
+//           console.log("Work Description:", specificValue);
+//           return specificValue;
+//         }
+//       } else {
+//         console.log("No such document!");
+//       }
+//
+// }
 
 export const getLogHours = async function(num){
     const user = await getCurrentUser()
