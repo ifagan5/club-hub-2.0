@@ -1,6 +1,13 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, arrayUnion, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import {
+    addDoc,
+    collection,
+    doc,
+    getDoc,
+    getFirestore,
+    Timestamp,
+    updateDoc
+} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 
 (async () => {
@@ -71,7 +78,15 @@ export const addLog = async function(hours, toSchool, description, contact, date
     //   window.location.href = "serviceStudentPage.html";
 }
 
-export async function getTotalHours(){
-    const user = await getCurrentUser();
-    return user.hoursCompleted;
-}
+// export async function getTotalHours(){
+//     const user = await getCurrentUser()
+//     const uid = user.uid;
+//     console.log(uid);
+//     const docRef = doc(db, "students", uid);
+//     const docSnap = await getDoc(docRef);
+//     const data = docSnap.data();
+//     if (docSnap.exists()) {
+//         return data.totalSchoolHours || 0;
+//     }
+//     return null;
+// }
