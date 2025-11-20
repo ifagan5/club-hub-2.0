@@ -8,12 +8,10 @@
 </head>
 <body>
 
-<script type="module" src="../clubhub/script.js"></script>
- <script type="module" src="scriptC.js"></script>
+<script type="module" src="serviceHome.js"></script>
+ <script type="module" src="calender.js"></script>
  <script type="module">
-    import {login} from '../clubhub/script.js';
-    //
-    import {addMeetings, correctNavDisplay} from 'scriptC.js';
+    import {addMeetings, correctNavDisplay} from 'calender.js';
 
     window.correctNavDisplay = correctNavDisplay;
     window.addMeetings = addMeetings;
@@ -22,7 +20,6 @@
     correctNavDisplay();
     addMeetings();
     loadLeaderboard();
-    renderActiveAnnouncements();
  </script>
 <!-- creates the header box and the title, inside the box -->
 <header class="header" id="header">
@@ -50,6 +47,26 @@
     </div>
 </div>
 <!-- END OF DELETE CONF MODAL!!!! -->
+
+
+<!--<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js'></script>-->
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function() {-->
+<!--        let calendarEl = document.getElementById('calendar1');-->
+<!--        let calendar = new FullCalendar.Calendar(calendarEl, {-->
+<!--            themeSystem: 'standard',-->
+<!--        });-->
+<!--        calendar.render();-->
+<!--        calendar.addEvent({-->
+<!--            id: 'unique-id-123',-->
+<!--            title: 'test',-->
+<!--            start: '2025-12-01T10:00:00',-->
+<!--            end: '2025-12-01T13:30:00'-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+<!--<div id='calendar1' style="width: 90%; margin: 0 auto;"></div>-->
+
 
 <!-- Calendar Section -->
 <section id="calendar">  
