@@ -36,8 +36,6 @@ export const getLogActivity = async function() {
     });
     for (let i = 0; i < docIds.length; i++) {
         let documentUID = docIds[i];
-        // The previous line was trying to get a subcollection of a document, but it should be getting the document itself.
-        // To get a specific document, use `doc` instead of `collection` and then `getDoc`.
         let docRef = doc(db, "studentServiceLog", uid, "logs", documentUID);
         let docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
