@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Fixed the type attribute in the link tag -->
     <link rel="stylesheet" type="text/css" href="serviceAdminPanel.css">
+<<<<<<< Updated upstream
     <link rel="icon" type="image/x-icon" href="images/stab_logo.webp">
     <link rel="stylesheet" type="text/css" href="../clubhub/style.css">
+=======
+    <link rel="icon" type="image/x-icon" href="../clubhub/images/stab_logo.webp">
+>>>>>>> Stashed changes
 
     <title>Saints Service Sign Up</title>
 </head>
@@ -18,8 +22,10 @@
 
 <!-- <script type="module" src="../clubhub/script.js"></script>-->
 <script type="module" src="./serviceStudentPage.js"></script>
+<script type="module" src="./serviceAdminPanel.js"></script>
 <script type="module">
     import {logout} from './serviceStudentPage.js';
+    
     window.logout = async () => {
         await logout();
     };
@@ -110,6 +116,9 @@
                     <input class="searchInput" type="text" spellcheck="false" placeholder="Search For Students Here"/>
                     <img class="searchIcon" src="../../clubhub/images/search-icon.png" alt="search"/>
                 </div>
+                <!-- results generate here -->
+                </div>
+                </div>
             </div>
         </div>
 
@@ -155,7 +164,7 @@
 <!-- page footer -->
 <div class="footer">
     <div class="logos">
-        <img class="logo" src="../images/stab_logo.webp" alt="logo">
+        <img class="logo" src="../clubhub/images/stab_logo.webp" alt="logo">
     </div>
     <div class="devSplit">
         <div>Developer:</div>
