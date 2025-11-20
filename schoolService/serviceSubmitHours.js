@@ -64,18 +64,7 @@ export const addLog = async function(hours, toSchool, description, contact, date
 
     await addDoc(serviceLogCollectionRef, logEntry);
 
-
-
-
-    // const totalHours = user.hoursCompleted;
-    // user.hoursCompleted = totalHours + hours;
-    // const docFetched= await getDoc(docRef);
-    // const numFields= Object.keys(docFetched.data()).length;
-    // const numLogs = numFields - 4;
-    // await updateDoc(docRef, {
-    //     [`log${numLogs}`]: {logNum: numLogs, totalHours: hours, toSchoolHours: toSchool, workDescription: description, contactPerson: contact, dateCompleted: date},
-    // });
-    //   window.location.href = "serviceStudentPage.html";
+  window.location.href = "serviceStudentPage.html";
 }
 
 // export async function getTotalHours(){
