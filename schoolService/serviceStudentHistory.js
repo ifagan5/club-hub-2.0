@@ -56,7 +56,6 @@ export const getLogActivity = async function() {
             const originalDate = document.getElementById('date');
             const originalContact = document.getElementById('contact');
 
-            // For the first log entry, directly update the original elements
             if (i === 0) {
                 document.getElementById("activity").innerText = "Activity: " + description;
                 document.getElementById("logged-hours").innerText = "Total Hours Logged: " + hours;
