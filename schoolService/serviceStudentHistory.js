@@ -50,11 +50,14 @@ export const getLogActivity = async function() {
 
             // Get the original elements from the HTML
             const originalDiv = document.getElementById('log1'); // Assuming 'log1' is the ID of the first log entry container
-            const originalAct = document.getElementById('activity');
-            const originalHr = document.getElementById('logged-hours');
-            const originalHrSchool = document.getElementById('logged-hours-to-school');
-            const originalDate = document.getElementById('date');
-            const originalContact = document.getElementById('contact');
+            //STYLING
+            originalDiv.style.backgroundColor = "rgb(141,13,24)";
+            originalDiv.style.color = "rgb(243, 232, 234)";
+            originalDiv.style.padding = " 15px 15px";
+            originalDiv.style.borderRadius = "15px";
+            originalDiv.style.marginBottom = "15px";
+            originalDiv.style.width = "85%";
+
 
             if (i === 0) {
                 document.getElementById("activity").innerText = "Activity: " + description;
@@ -62,7 +65,6 @@ export const getLogActivity = async function() {
                 document.getElementById("logged-hours-to-school").innerText = "Service to School Hours: " + schoolServiceHours;
                 document.getElementById("date").innerText = "Date Completed: " + date;
                 document.getElementById("contact").innerText = "Contact Person: " + contact;
-                document.getElementById('log1').appendChild(document.createElement('br'));
             } else {
                 // For subsequent log entries, clone the original elements and append them
                 const clonedDiv = originalDiv.cloneNode(true);
@@ -82,7 +84,6 @@ export const getLogActivity = async function() {
 
                 // Append the cloned div to the parent of the original div
                 originalDiv.parentNode.appendChild(clonedDiv);
-                originalDiv.parentNode.appendChild(document.createElement('br'));
 
             }
         }

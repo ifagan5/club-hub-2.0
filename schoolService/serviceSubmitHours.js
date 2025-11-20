@@ -53,7 +53,10 @@ export const addLog = async function(hours, toSchool, description, contact, date
 
 
     const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
+    //const i = query(serviceLogCollectionRef, count());
+    //const snapshot = await getAggregate(i);
     const logEntry = {
+        //uid: [`log${snapshot.data().count}`],
         hours: hours,
         schoolServiceHours: toSchool,
         description: description,
