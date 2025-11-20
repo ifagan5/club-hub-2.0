@@ -26,6 +26,7 @@ const db = getFirestore(app);
 export const getLogActivity = async function() {
     const user = await getCurrentUser()
     const uid = user.uid;
+<<<<<<< Updated upstream
     console.log(uid);
     const logsRef = collection(db, "studentServiceLog", uid, "logs");
     const docSnap = await getDocs(logsRef);
@@ -88,5 +89,128 @@ export const getLogActivity = async function() {
 
             }
         }
+=======
+    const docRef = await doc(db, "students", uid);
+    const docSnap= await getDoc(docRef);
+    if (docSnap.exists()) {
+        const data = await docSnap.data();
+        const nestedMap = await data[`log${num}`]; // Assuming 'yourMapField' is the key of the map
+        if (nestedMap) {
+          const specificValue = await nestedMap.workDescription; // Assuming 'specificField' is the key within the map
+          console.log("Work Description:", specificValue);
+          return specificValue;
+        }
+      } else {
+        console.log("No such document!");
+      }
+
+}
+
+export const getLogHours = async function(num){
+    const user = await getCurrentUser()
+    const uid = user.uid;
+    const docRef = await doc(db, "students", uid);
+    const docSnap= await getDoc(docRef);
+    if (docSnap.exists()) {
+        const data = await docSnap.data();
+        const nestedMap = await data[`log${num}`]; // Assuming 'yourMapField' is the key of the map
+        if (nestedMap) {
+          const specificValue = await nestedMap.totalHours; // Assuming 'specificField' is the key within the map
+          console.log("Total Hours:", specificValue);
+          return specificValue;
+        }
+      } else {
+        console.log("No such document!");
+      }
+
+}
+
+export const getLogHoursToSchool = async function(num){
+    const user = await getCurrentUser()
+    const uid = user.uid;
+    console.log(uid);
+    const docRef = await doc(db, "students", uid);
+    const docSnap= await getDoc(docRef);
+    if (docSnap.exists()) {
+        const data = await docSnap.data();
+        const nestedMap = await data[`log${num}`]; // Assuming 'yourMapField' is the key of the map
+        if (nestedMap) {
+          const specificValue = await nestedMap.toSchoolHours; // Assuming 'specificField' is the key within the map
+          console.log("Hours to School:", specificValue);
+          return specificValue;
+        }
+      } else {
+        console.log("No such document!");
+      }
+
+      
+}
+
+export const getLogDate = async function(num){
+    const user = await getCurrentUser()
+    const uid = user.uid;
+    console.log(uid);
+    const docRef = await doc(db, "students", uid);
+    const docSnap= await getDoc(docRef);
+    if (docSnap.exists()) {
+        const data = await docSnap.data();
+        const nestedMap = await data[`log${num}`]; // Assuming 'yourMapField' is the key of the map
+        if (nestedMap) {
+          const specificValue = await nestedMap.dateCompleted; // Assuming 'specificField' is the key within the map
+          console.log("Date Completed:", specificValue);
+          return specificValue;
+        }
+      } else {
+        console.log("No such document!");
+      }
+
+}
+
+export const getLogContact = async function(num){
+    const user = await getCurrentUser()
+    const uid = user.uid;
+    console.log(uid);
+    const docRef = await doc(db, "students", uid);
+    const docSnap= await getDoc(docRef);
+    if (docSnap.exists()) {
+        const data = await docSnap.data();
+        const nestedMap = await data[`log${num}`]; // Assuming 'yourMapField' is the key of the map
+        if (nestedMap) {
+          const specificValue = await nestedMap.contactPerson; // Assuming 'specificField' is the key within the map
+          console.log("Contact Person:", specificValue);
+          return specificValue;
+        }
+      } else {
+        console.log("No such document!");
+      }
+
+}
+
+export const makeLog = async function(){
+    //getting num of logs
+    const user = await getCurrentUser()
+    const uid = user.uid;
+    console.log(uid);
+    const docRef = doc(db, "students", uid);
+    const docFetched= await getDoc(docRef);
+    const numFields= Object.keys(docFetched.data()).length;
+    const num = numFields - 4;
+
+    //getting the original divs
+   let originalDiv = document.getElementById('log1');
+   const originalAct = document.getElementById('activity');
+   const originalHr = document.getElementById('logged-hours');
+   const originalHrSchool = document.getElementById('logged-hours-to-school');
+   const originalDate = document.getElementById('date');
+   const originalContact = document.getElementById('contact');
+   for (let i = 1; i <= num; i++){
+    console.log("for loop called");
+    if(i==1){
+        document.getElementById("activity").innerText = "Activity: " + getLogActivity(i);
+        document.getElementById("logged-hours").innerText = "Total Hours Logged: " + getLogHours(i);
+        document.getElementById("logged-hours-to-school").innerText = "Service to School Hours: " + getLogHoursToSchool(i);
+        document.getElementById("date").innerText = "Date Completed: " + getLogDate(i);
+        document.getElementById("contact").innerText = "Contact Person: " + getLogContact(i);
+>>>>>>> Stashed changes
     }
 }

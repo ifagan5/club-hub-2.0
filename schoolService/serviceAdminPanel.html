@@ -6,6 +6,7 @@
     <!-- Fixed the type attribute in the link tag -->
     <link rel="stylesheet" type="text/css" href="serviceAdminPanel.css">
     <link rel="icon" type="image/x-icon" href="images/stab_logo.webp">
+    <link rel="stylesheet" type="text/css" href="../clubhub/style.css">
 
     <title>Saints Service Sign Up</title>
 </head>
@@ -26,10 +27,80 @@
 
 <!-- Creates a bar bellow header box with nav buttons -->
 <div class="nav">
-    <button class="button" onClick="location.replace('index.html');">Home</button>
+    <button class="button" onClick="location.replace('serviceHome.html');">Home</button>
     <button class="button" onClick = "location.replace('serviceAccountSelection.html');">Club Directory</button>
     <button class="button" id="logout" onclick="(async () => await logout())()">Logout</button>
 </div>
+
+
+ <!-- Create new event modal -->
+ <div id="createMeetModal" class="confModal" style="display: none;" data-club-id="">
+    <div class="confModalContent">
+        <p class="meetingAddT">New meeting information</p>
+
+        <label for="meeting-date">Meeting date:</label>
+        <input type="date" id="meeting-date">
+        <label for="meeting-time">Meeting time:</label>
+        <input type="time" id="meeting-time">
+
+        <label for="meeting-desc">Meeting description:</label>
+        <textarea id="meeting-desc"></textarea>
+
+        <label for="meeting-location">Meeting location:</label>
+        <textarea id="meeting-location"></textarea>
+
+        <label><input type="checkbox" id="leaders-only"> Leaders only</label>
+
+        <label class="eventQuestion">Is this a meeting or an event?</label><br>
+
+        <label class="radio-container">
+            <input type="radio" name="event" id="yes" value="yes">
+            <span class="custom-radio"></span> Event
+        </label>
+
+        <label class="radio-container">
+            <input type="radio" name="event" id="no" value="no">
+            <span class="custom-radio"></span> Meeting
+        </label>
+
+        <div class="loading-inline" id="recurring-loading" aria-hidden="true" style="display: none;">
+            <span class="loading-spinner smaller" role="status" aria-label="Generating recurring meetings"></span>
+        </div>
+
+        <br><br>
+
+        <label><input type="checkbox" id="recurring"> Recurring</label>
+
+        <div id="recurring-options" style="display: none;">
+            <label for="frequency">Frequency:</label>
+            <select id="frequency">
+                <option value="weekly">Weekly</option>
+                <option value="biweekly">Biweekly</option>
+                <option value="monthly">Monthly</option>
+            </select>
+
+            <label>End condition:</label>
+            <label><input type="radio" name="end-type" value="count" checked> Number of repetitions</label>
+            <input type="number" id="repetitions" min="1" value="4">
+
+            <label><input type="radio" name="end-type" value="date"> End date</label>
+            <input type="date" id="end-date">
+        </div>
+
+        <br><br>
+
+        <div class="recurring-preview" id="recurring-preview" style="display: none;">
+            <h4>Meeting Schedule Preview:</h4>
+            <div id="recurring-preview-list" style="max-height: 150px; overflow-y: auto; background: #f9f9f9; padding: 10px; border-radius: 4px; font-size: 14px;"></div>
+        </div>
+
+        <div>
+            <button class="meetingEdit" onclick="saveMeeting()" id="createMeetButton">Create</button>
+            <button class="meetingEdit" onclick="document.getElementById('createMeetModal').style.display = 'none';">Cancel</button>
+        </div>
+    </div>
+</div>
+<!-- ENDDDDD OF MODAL -->
 
 <div class="adminWrap">
     <div class="mainAdminBox">
