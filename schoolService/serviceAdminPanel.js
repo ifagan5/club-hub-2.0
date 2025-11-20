@@ -174,6 +174,23 @@ export async function renderAdminClubInfo() {
     // sets header to the student name
     clubName.innerHTML = `${studentData.firstName || ""} ${studentData.lastName || ""}`;
 
+    function studentInfoField(container, labelText, value) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "editable-field";
+
+      const label = document.createElement("strong");
+      label.textContent = labelText + ": ";
+      label.style.marginRight = "6px";
+
+      const valueSpan = document.createElement("span");
+      valueSpan.textContent = value ?? "N/A";
+
+      wrapper.appendChild(label);
+      wrapper.appendChild(valueSpan);
+      container.appendChild(wrapper);
+    }
+
+    
     function addInfoField(container, labelText, value) {
       const wrapper = document.createElement("div");
       wrapper.className = "editable-field";
@@ -190,8 +207,11 @@ export async function renderAdminClubInfo() {
       container.appendChild(wrapper);
     }
 
+
     // Display student info
-    addInfoField(clubInfo, "Email", studentData.email);
+    studentInfoField(clubInfo, "First Name", studentData.firstName);
+    studentInfoField(clubInfo, "Last Name", studentData.lastName);
+    studentInfoField(clubInfo, "Email", studentData.email);
     addInfoField(clubInfo, "Total Hours", studentData.totalHours || 0);
     addInfoField(clubInfo, "School Hours", studentData.totalSchoolHours || 0);
   }
