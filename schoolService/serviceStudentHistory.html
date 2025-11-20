@@ -15,7 +15,7 @@
     </style>
 
 </head>
-<body onload="makeLog()">
+<body onload="getLogActivity()">
     <header class="head">
         <div class="rightHead">
           <img class="image" src="../../clubhub/images/stab_logo.webp" alt="logo" onClick="location.replace('index.html');">
@@ -36,8 +36,8 @@
   </script>
 
     <script type="module">
-    import {makeLog} from './serviceStudentHistory.js';
-    window.makeLog = makeLog;
+    import {getLogActivity} from './serviceStudentHistory.js';
+    window.getLogActivity = getLogActivity;
     </script>
 
     <div class="loginBox">
