@@ -19,54 +19,12 @@ const auth = getAuth(app);
 
 // Nav bar editing function based on users status (admin, club, not logged in)
 export function correctNavDisplay() {
-  const loginBtn = document.getElementById("login");
-  const logoutBtn = document.getElementById("logout");
-  const adminBtn = document.getElementById("adminPageBtn");
-
-  const clubAuth = localStorage.getItem("clubAuth");
-  const isGod = localStorage.getItem("isGod");
-  const loggedIn = clubAuth === "true" || isGod === "true";
-
-  if (loggedIn) {
-    if (loginBtn) loginBtn.style.display = "none";
-
-    if (logoutBtn) {
-      logoutBtn.style.display = "inline-block";
-      logoutBtn.onclick = function () {
-        if (isGod === "true") {
-          signOut(auth)
-            .then(() => {
-              localStorage.clear();
-              location.reload();
-            })
-            .catch((error) => {
-              console.error("Error signing out:", error);
-            });
-        } else {
-          localStorage.clear();
-          location.reload();
-        }
-      };
-    }
-
-    if (isGod === "true" && adminBtn) adminBtn.style.display = "inline-block";
-  } else {
-    if (loginBtn) loginBtn.style.display = "inline-block";
-    if (logoutBtn) logoutBtn.style.display = "none";
-    if (adminBtn) adminBtn.style.display = "none";
-  }
-}
-
-
-
-// Calendar setup
+    // Calendar setup
 const monthYear = document.getElementById('month-year'); // Displays the current month and year.
 const daysContainer = document.getElementById('days'); // Container for the calendar days.
 const weekdaysContainer = document.querySelector('.weekdays'); // Row showing weekday labels
 const prevButton = document.getElementById('prev'); // Button to navigate to the previous month.
 const nextButton = document.getElementById('next'); // Button to navigate to the next month.
-
-
 
 const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -184,13 +142,6 @@ function initializeViewToggle() {
         mql.addListener(enforceViewportRules);
     }
 }
-
-
-
-// Call the addMeetings function to populate events before rendering the calendar
-
-
-
 
 // Renders the calendar for the given date.
 // `date`: The date for which the calendar should be rendered.
@@ -438,6 +389,7 @@ nextButton.addEventListener('click', function () {
     renderCalendar(currentDate);
 });
 
+}
 
 console.log("ran the code");
 // Initial render of the calendar.
