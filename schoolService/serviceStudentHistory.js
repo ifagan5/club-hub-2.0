@@ -40,11 +40,12 @@ export const getLogActivity = async function() {
         let docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
             let contact = docSnap.data().contact;
-            let date = docSnap.data().dateCompleted;
+            let date = docSnap.data().date;
             let description = docSnap.data().description;
-            let hours = docSnap.data().totalHours;
-            let schoolServiceHours = docSnap.data().toSchoolHours;
+            let hours = docSnap.data().hours;
+            let schoolServiceHours = docSnap.data().schoolServiceHours;
             let timestamp = docSnap.data().timestamp;
+            console.log(docSnap.data().date);
             console.log(docSnap.data());
 
             // Get the original elements from the HTML
