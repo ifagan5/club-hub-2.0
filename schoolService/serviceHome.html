@@ -15,11 +15,9 @@
 
     window.correctNavDisplay = correctNavDisplay;
     window.addMeetings = addMeetings;
-    window.loadLeaderboard = loadLeaderboard;
 
     correctNavDisplay();
     addMeetings();
-    loadLeaderboard();
  </script>
 <!-- creates the header box and the title, inside the box -->
 <header class="header" id="header">
@@ -34,18 +32,18 @@
 
  <!-- Hidden Modal for Delete Confirmation -->
  <div id="eventInfoModal" class="eventInfoModal">
-    <div class="eventInfoModalContent">
-    <p id="meetInfoPopUp">Meeting Information:</p>
-    <p id="clubPopUp">Club: </p>
-    <p id="datePopUp">Date: </p>
-    <p id="timePopUp">Time: </p>
-    <p id="locationPopUp">Location: </p>
-    <p id="descriptionPopUp">Description: </p>
-    <button id="goToClub" class="confbtn"  onclick="location.replace('clubDash.html');">Go to Club Page</button>
-    <br>
-    <button id="confCancelDelete" class="confbtn" onclick="document.getElementById('eventInfoModal').style.display = 'none';">Close</button>
+        <div class="eventInfoModalContent">
+        <p id="meetInfoPopUp">Meeting Information:</p>
+        <p id="clubPopUp">Club: </p>
+        <p id="datePopUp">Date: </p>
+        <p id="timePopUp">Time: </p>
+        <p id="locationPopUp">Location: </p>
+        <p id="descriptionPopUp">Description: </p>
+        <button id="goToClub" class="confbtn"  onclick="location.replace('clubDash.html');">Go to Club Page</button>
+        <br>
+        <button id="confCancelDelete" class="confbtn" onclick="document.getElementById('eventInfoModal').style.display = 'none';">Close</button>
+        </div>
     </div>
-</div>
 <!-- END OF DELETE CONF MODAL!!!! -->
 
 
@@ -70,48 +68,48 @@
 
 <!-- Calendar Section -->
 <section id="calendar">  
-    <div class="calendarTitle">
-        <h1>Calendar</h1>
-    </div>
+        <div class="calendarTitle">
+            <h1>Calendar</h1>
+        </div>
 
-    <!-- Calendar Display -->
-    <div class="calendar">
-        <!-- Calendar Header -->
-        <div class="Cheader">
-           <div id="prev" class="arrow left">
-                <div class="arrow-container">
-                    <i></i>
+        <!-- Calendar Display -->
+        <div class="calendar">
+            <!-- Calendar Header -->
+            <div class="Cheader">
+               <div id="prev" class="arrow left">
+                    <div class="arrow-container">
+                        <i></i>
+                    </div>
+                </div>
+                <div id="month-year"></div>
+                <div id="next" class="arrow right">
+                    <div class="arrow-container">
+                        <i></i>
+                    </div>
                 </div>
             </div>
-            <div id="month-year"></div>
-            <div id="next" class="arrow right">
-                <div class="arrow-container">
-                    <i></i>
-                </div>
+
+            <div class="view-toggle" role="group" aria-label="Calendar view">
+                <button id="weekViwToggleBtn" type="button" class="view-toggle__btn" data-view="week">Week</button>
+                <button id="monthViwToggleBtn" type="button" class="view-toggle__btn" data-view="month">Month</button>
             </div>
+
+            <!-- Days of the Week -->
+            <div class="weekdays">
+                <div class="dayName">Sun</div> <!-- Sunday -->
+                <div class="dayName">Mon</div> <!-- Monday -->
+                <div class="dayName">Tue</div> <!-- Tuesday -->
+                <div class="dayName">Wed</div> <!-- Wednesday -->
+                <div class="dayName">Thu</div> <!-- Thursday -->
+                <div class="dayName">Fri</div> <!-- Friday -->
+                <div class="dayName">Sat</div> <!-- Saturday -->
+            </div>
+
+            <!-- Calendar Days -->
+            <div class="days" id="days"></div> <!-- Populated dynamically with days -->
+
         </div>
-
-        <div class="view-toggle" role="group" aria-label="Calendar view">
-            <button id="weekViwToggleBtn" type="button" class="view-toggle__btn" data-view="week">Week</button>
-            <button id="monthViwToggleBtn" type="button" class="view-toggle__btn" data-view="month">Month</button>
-        </div>
-
-        <!-- Days of the Week -->
-        <div class="weekdays">
-            <div class="dayName">Sun</div> <!-- Sunday -->
-            <div class="dayName">Mon</div> <!-- Monday -->
-            <div class="dayName">Tue</div> <!-- Tuesday -->
-            <div class="dayName">Wed</div> <!-- Wednesday -->
-            <div class="dayName">Thu</div> <!-- Thursday -->
-            <div class="dayName">Fri</div> <!-- Friday -->
-            <div class="dayName">Sat</div> <!-- Saturday -->
-        </div>
-
-        <!-- Calendar Days -->
-        <div class="days" id="days"></div> <!-- Populated dynamically with days -->
-
-    </div>
-</section>
+    </section>
 
 <!-- Footer -->
 <div class="footer">

@@ -13,6 +13,7 @@ export const firebaseConfig = {
     measurementId: "G-P97ML6ZP15"
 };
 
+
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 const auth = getAuth(app);
@@ -43,7 +44,7 @@ let nav = 0; // Navigation state for calendar (previous or next month)
 let events = [];
 
 // Add meetings to the `events` array
-export async function addMeetings() {
+async function addMeetings() {
     events = [];
     const databaseItems = await getDocs(collection(db, "clubs"));
 
