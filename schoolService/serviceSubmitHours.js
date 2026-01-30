@@ -6,7 +6,8 @@ import {
     getDoc,
     getFirestore,
     Timestamp,
-    updateDoc
+    updateDoc,
+    getCountFromServer
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 
@@ -53,10 +54,13 @@ export const addLog = async function(hours, toSchool, description, contact, date
 
 
     const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
+    const countSnap = await getCountFromServer(serviceLogCollectionRef);
+    const i = countSnap.data().count;
     //const i = query(serviceLogCollectionRef, count());
     //const snapshot = await getAggregate(i);
     const logEntry = {
         //uid: [`log${snapshot.data().count}`],
+        logNum: i+1,
         hours: hours,
         schoolServiceHours: toSchool,
         description: description,

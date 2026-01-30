@@ -1,7 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, arrayUnion, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, arrayUnion, getCountFromServer, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import {checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
+//import{getCountFromServer} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 (async () => {
 const isLoggedIn = await checkLoginStatus();
@@ -23,6 +24,27 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+
+export const getLogActivity2 = async function() {
+    const user = await getCurrentUser()
+    const uid = user.uid;
+    console.log(uid);
+    const logsRef = collection(db, "studentServiceLog", uid, "logs");
+    //get how many logs the student has and save it as countLogs
+    const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
+    const countSnap = await getCountFromServer(serviceLogCollectionRef);
+    const countLogs = countSnap.data().count;
+
+    for(let j = 1; j <= countLogs; j++){
+            const q = query(logsRef, where("logNum", "==", j));
+           
+        }
+
+}
+
+
+
+
 export const getLogActivity = async function() {
     const user = await getCurrentUser()
     const uid = user.uid;
@@ -34,8 +56,31 @@ export const getLogActivity = async function() {
     querySnapshot.forEach((doc) => {
         docIds.push(doc.id);
     });
-    for (let i = 0; i < docIds.length; i++) {
-        let documentUID = docIds[i];
+    //get how many logs the student has and save it as countLogs
+    const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
+    const countSnap = await getCountFromServer(serviceLogCollectionRef);
+    const countLogs = countSnap.data().count;
+    //loops through as many times as logs the student has
+    for (let i = 1; i <= countLogs; i++) {
+        //loops through as many times as logs the student has until broken
+        let index;
+        innerLoop: for(let j = 1; j <= countLogs; j++){
+            //get the document id at j
+            let tempDocumentUID = docIds[j-1];
+            let tempDocRef = doc(db, "studentServiceLog", uid, "logs", tempDocumentUID);
+            let tempDocSnap = await getDoc(tempDocRef);
+            if (tempDocSnap.exists()) {
+                //get what log number this entry is
+                let possibleI = tempDocSnap.data().logNum;
+                //if it is the one we are looking for break the code
+                if(possibleI == i){
+                    index = j;
+                    break innerLoop;
+                }
+            }
+        }
+
+        let documentUID = docIds[index-1];
         let docRef = doc(db, "studentServiceLog", uid, "logs", documentUID);
         let docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
@@ -59,7 +104,7 @@ export const getLogActivity = async function() {
             originalDiv.style.width = "85%";
 
 
-            if (i === 0) {
+            if (i === 1) {
                 document.getElementById("activity").innerText = "Activity: " + description;
                 document.getElementById("logged-hours").innerText = "Total Hours Logged: " + hours;
                 document.getElementById("logged-hours-to-school").innerText = "Service to School Hours: " + schoolServiceHours;
