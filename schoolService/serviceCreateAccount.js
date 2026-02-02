@@ -20,9 +20,9 @@ const auth = getAuth(app);
 export const registerService = async function(email, pass, first, last){
     let hours = 0;
     for (let i =0; i < email.length; i++){
-        let letter = str[i];
+        let letter = email[i];
         if (letter == 1 || letter == 2 || letter == 3 || letter == 4 || letter == 5 || letter == 6 || letter == 7 || letter == 8 || letter == 9){
-            const gradYr = str[i, i+2];
+            const gradYr = email.substring(i, i+2);
             await createUser(email, pass, first, last, hours, gradYr);
             break;
         } 
