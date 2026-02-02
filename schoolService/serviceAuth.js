@@ -69,7 +69,7 @@ export async function createUser(email, password, firstName, lastName, gradYr) {
             email,
             firstName,
             lastName,
-            graduationYear: gradYr,
+            gradYr,
             createdAt: serverTimestamp()
         });
         window.location.href = "./serviceStudentPage.html";
