@@ -43,6 +43,15 @@
         <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
 <!--        <button onclick = "sessionStorage.setItem('student', document.getElementById('email').value); sessionStorage.setItem('password', document.getElementById('password').value); sLogin()" class="loginButton clubLB">Login</button>-->
             <button onclick = "sLogin(document.getElementById('email').value, document.getElementById('password').value);" class="loginButton clubLB">Login</button>
+            <br>
+          <a href="serviceCreateAccount.html">Don't have an account? Make one here!</a>
 
     </div>
 </body>
+
+<script>
+  function redirectToCreateAccount(){
+  window.location.href = "./serviceCreateAccount.html";
+}
+</script>
+

@@ -12,6 +12,10 @@ p{
     margin: 5px;
 }
 
+#makeAccount{
+    background-color: white;
+    border: none;
+}
 .head{
     display: flex;
     flex-direction: row;
