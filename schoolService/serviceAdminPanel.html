@@ -17,23 +17,22 @@
     <h1>Service To The School Admin Page</h1>
 </header>
 
-<!-- <script type="module" src="../clubhub/script.js"></script>-->
-<!--<script type="module" src="./serviceStudentPage.js"></script>-->
 <script type="module" src="./serviceAdminPanel.js"></script>
-<!--<script type="module">-->
-<!--    import {logout} from './serviceStudentPage.js';-->
+<script type="module">
+    import {logoutUser} from './serviceAuth.js';
 
-<!--    window.logout = async () => {-->
-<!--        await logout();-->
-<!--    };-->
-<!--    window.logout = logout();-->
-<!--</script>-->
+    window.logoutUser = async () => {
+        await logoutUser();
+    };
+    // maks sure this stays commented!!!
+    // window.logoutUser = logoutUser();
+</script>
 
 <!-- Creates a bar bellow header box with nav buttons -->
 <div class="nav">
     <button class="button" onClick="location.replace('serviceHome.html');">Home</button>
     <button class="button" onClick = "location.replace('serviceAccountSelection.html');">Club Directory</button>
-<!--    <button class="button" id="logout" onclick="(async () => await logout())()">Logout</button>-->
+    <button class="button" id="logoutButton" onclick="(async () => await logoutUser())()">Logout</button>
 </div>
 
 <!--Main Wrapper For Info To Display-->
@@ -59,12 +58,12 @@
             </div>
             <div class="adminClubInfo">
                 <div class="adminInfoSplit">
-                    <div class="adminaboutClub" id="adminaboutClub" data-title="Student Name">Please search search for a student to see more information.</div>
-                    <div class="adminNextMeeting" id="adminNextMeeting" data-title="Non-School Hours"></div>
+                    <div class="adminaboutClub" id="adminStudentName" data-title="Student Name">Please search search for a student to see more information.</div>
+                    <div class="adminNextMeeting" id="adminStudentNonSchoolHours" data-title="Non-School Hours"></div>
                 </div>
                 <div class="adminInfoSplit">
-                    <div class="adminInDangerDiv" id="adminInDangerDiv" data-title="Student Grade"></div>
-                    <div class="adminPastMeetings" id="adminPastMeetings" data-title="School Hours"></div>
+                    <div class="adminInDangerDiv" id="adminStudentGrade" data-title="Student Grade"></div>
+                    <div class="adminPastMeetings" id="adminStudentSchoolHours" data-title="School Hours"></div>
                 </div>
             </div>
         </div>

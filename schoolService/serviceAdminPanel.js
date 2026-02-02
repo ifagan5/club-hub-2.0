@@ -1,6 +1,14 @@
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import {checkAdminStatus} from "./serviceAuth.js";
+
+
+const isAdmin = await checkAdminStatus()
+console.log("User admin: "  + isAdmin)
+if (isAdmin === false) {
+  window.location.href = "serviceStudentLogin.html";
+}
 
 // Firebase config
 export const firebaseConfig = {
@@ -13,23 +21,80 @@ export const firebaseConfig = {
   measurementId: "G-P97ML6ZP15"
 };
 
+// Init
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const docsRef = collection(db, "students");
 
 const input = document.getElementById("searchInput");
+const studentName = document.getElementById("adminStudentName");
+const studentGrade = document.getElementById("adminStudentGrade");
+const studentNonSchoolHours = document.getElementById("adminStudentNonSchoolHours");
+const studentSchoolHours = document.getElementById("adminStudentSchoolHours");
+
+
 input.addEventListener("keydown", async function (event) {
   // Check if the pressed key is "Enter"
   if (event.key === "Enter") {
-    const inputVal = input.value;
+    let inputVal = input.value;
     console.log("This worked!")
-  }
 
-  const q = query(docsRef, where("name", "==", inputVal));
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    console.log(doc.id, " => ", doc.data());
-  });
+    // Split the input into first name and last name using spaces
+    const [firstName, ...lastNameParts] = inputVal.split(" ");
+    const lastName = lastNameParts.join(" ");
+
+    // Make the query and filter by the first and the last name
+    const q = query(docsRef, where("firstName", "==", firstName), where("lastName", "==", lastName));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      // check for students with first name
+      const q2 = query(docsRef, where("firstName", "==", inputVal));
+      const querySnapshot2 = await getDocs(q2);
+      if (!querySnapshot2.empty) {
+        querySnapshot2.forEach((doc) => {
+          const data = doc.data();
+          const studentId = doc.id;
+          const fullName = `${data.firstName} ${data.lastName}`;
+          const schoolHours = data.totalSchoolHours || 0;
+          const totalHours = data.totalHours || 0;
+          const grade = data.grade || "N/A";
+
+          console.log("Found student ID:", studentId);
+          console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
+
+          if (window.confirm("Would would like to view this students information: " + fullName)) {
+            studentName.innerHTML = fullName;
+            studentGrade.innerHTML = grade;
+            studentNonSchoolHours.innerHTML = totalHours;
+            studentSchoolHours.innerHTML = schoolHours
+          }
+        });
+      } else {
+        alert("No student found with that name.")
+      }
+    } else {
+      querySnapshot.forEach((doc) => {
+        // TODO: add a student grade element
+        const data = doc.data();
+        const studentId = doc.id;
+        const fullName = `${data.firstName} ${data.lastName}`;
+        const schoolHours = data.totalSchoolHours || 0;
+        const totalHours = data.totalHours || 0;
+        const grade = data.grade || "N/A";
+
+        console.log("Found student ID:", studentId);
+        console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
+
+        if (window.confirm("Would would like to view this students information: " + fullName)) {
+          studentName.innerHTML = fullName;
+          studentGrade.innerHTML = grade;
+          studentNonSchoolHours.innerHTML = totalHours;
+          studentSchoolHours.innerHTML = schoolHours
+        }
+      });
+    }
+  }
 });
 
 
