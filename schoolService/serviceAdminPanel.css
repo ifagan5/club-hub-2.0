@@ -39,8 +39,9 @@ body {
 #adminPageBtn{
     display: none;
 }
+
 /*#logout{*/
-/*    display: none;*/
+/*    display: flex;*/
 /*}*/
 
 /* customizes the individual buttons in the nav bar */
