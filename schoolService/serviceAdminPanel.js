@@ -39,19 +39,24 @@ input.addEventListener("keydown", async function (event) {
     let inputVal = input.value;
     console.log("This worked!")
 
+    // Helper to normalize case (e.g., "jake" -> "Jake")
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
     // Split the input into first name and last name using spaces
     const [firstName, ...lastNameParts] = inputVal.split(" ");
-    const lastName = lastNameParts.join(" ");
+    const lastName = lastNameParts.map(capitalize).join(" ");
+    const formattedFirstName = capitalize(firstName);
 
     // Make the query and filter by the first and the last name
-    const q = query(docsRef, where("firstName", "==", firstName), where("lastName", "==", lastName));
+    const q = query(docsRef, where("firstName", "==", formattedFirstName), where("lastName", "==", lastName));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
       // check for students with first name
-      const q2 = query(docsRef, where("firstName", "==", inputVal));
+      const q2 = query(docsRef, where("firstName", "==", formattedFirstName));
       const querySnapshot2 = await getDocs(q2);
       if (!querySnapshot2.empty) {
+        alert("WARNING: No exact match was found! Initializing first name fallback search. You may be prompted multiple more times. Click cancel on the alerts until you see the student you are looking for.")
         querySnapshot2.forEach((doc) => {
           const data = doc.data();
           const studentId = doc.id;
@@ -63,7 +68,7 @@ input.addEventListener("keydown", async function (event) {
           console.log("Found student ID:", studentId);
           console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
 
-          if (window.confirm("Would would like to view this students information: " + fullName)) {
+          if (window.confirm("Would would like to view this students information: " + fullName + "? (ok = yes, cancel = no)")) {
             studentName.innerHTML = fullName;
             studentGrade.innerHTML = grade;
             studentNonSchoolHours.innerHTML = totalHours;
@@ -71,7 +76,7 @@ input.addEventListener("keydown", async function (event) {
           }
         });
       } else {
-        alert("No student found with that name.")
+        alert("No student found with that exact name or first name. Try again!")
       }
     } else {
       querySnapshot.forEach((doc) => {
