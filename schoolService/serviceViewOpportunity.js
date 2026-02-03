@@ -31,26 +31,24 @@ const opportunityDate = document.getElementById("opportunityDate");
 const opportunityTime = document.getElementById("opportunityTime");
 const opportunityLocation = document.getElementById("opportunityLocation");
 
+// testing...
+// localStorage.setItem("serviceName", "setme")
 
 const docsRef = collection(db, "serviceOpportunities");
 const serviceName = localStorage.getItem('serviceName');
-const query = query(docsRef, where("opportunityName", "==", serviceName));
-const querySnapshot = await getDocs(query);
+const q = query(docsRef, where("opportunityName", "==", serviceName));
+const querySnapshot = await getDocs(q);
 if (!querySnapshot.empty) {
     querySnapshot.forEach((doc) => {
         const data = doc.data();
-        const opportunityName = doc.opportunityName;
-        const opportunityDescription = doc.opportunityDescription;
-        const opportunityLength = doc.opportunityLength;
-        const opportunityDate = doc.opportunityDate;
-        const opportunityTime = doc.opportunityTime;
-        const opportunityLocation = doc.opportunityLocation;
 
-        opportunityName.innerHTML = opportunityName;
-        opportunityDescription.innerHTML = opportunityDescription;
-        opportunityLength.innerHTML = opportunityLength;
-        opportunityDate.innerHTML = opportunityDate;
-        opportunityTime.innerHTML = opportunityTime;
-        opportunityLocation.innerHTML = opportunityLocation;
+        opportunityName.innerHTML = data.opportunityName;
+        opportunityDescription.innerHTML = data.opportunityDescription;
+        opportunityLength.innerHTML = data.opportunityLength;
+        opportunityDate.innerHTML = data.opportunityDate;
+        opportunityTime.innerHTML = data.opportunityTime;
+        opportunityLocation.innerHTML = data.opportunityLocation;
     });
+} else {
+    opportunityName.innerHTML = "Error: No Opportunity Found";
 }
