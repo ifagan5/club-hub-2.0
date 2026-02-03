@@ -1,0 +1,56 @@
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import {checkAdminStatus, checkLoginStatus} from "./serviceAuth.js";
+
+
+const isLoggedIn = await checkLoginStatus()
+if (isLoggedIn === false) {
+    window.location.href = "serviceStudentLogin.html";
+}
+
+// Firebase config
+export const firebaseConfig = {
+    apiKey: "AIzaSyDKBBs0TWerQno_u8yjNqV5qmvQImf6xA0",
+    authDomain: "club-hub-2.firebaseapp.com",
+    projectId: "club-hub-2",
+    storageBucket: "club-hub-2.firebasestorage.app",
+    messagingSenderId: "339870020143",
+    appId: "1:339870020143:web:cc698c287ed642e3798cda",
+    measurementId: "G-P97ML6ZP15"
+};
+
+// Init
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const opportunityName = document.getElementById("opportunityName");
+const opportunityDescription = document.getElementById("opportunityDescription");
+const opportunityLength = document.getElementById("opportunityLength");
+const opportunityDate = document.getElementById("opportunityDate");
+const opportunityTime = document.getElementById("opportunityTime");
+const opportunityLocation = document.getElementById("opportunityLocation");
+
+
+const docsRef = collection(db, "serviceOpportunities");
+const serviceName = localStorage.getItem('serviceName');
+const query = query(docsRef, where("opportunityName", "==", serviceName));
+const querySnapshot = await getDocs(query);
+if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const opportunityName = doc.opportunityName;
+        const opportunityDescription = doc.opportunityDescription;
+        const opportunityLength = doc.opportunityLength;
+        const opportunityDate = doc.opportunityDate;
+        const opportunityTime = doc.opportunityTime;
+        const opportunityLocation = doc.opportunityLocation;
+
+        opportunityName.innerHTML = opportunityName;
+        opportunityDescription.innerHTML = opportunityDescription;
+        opportunityLength.innerHTML = opportunityLength;
+        opportunityDate.innerHTML = opportunityDate;
+        opportunityTime.innerHTML = opportunityTime;
+        opportunityLocation.innerHTML = opportunityLocation;
+    });
+}

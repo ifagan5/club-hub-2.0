@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images/stab_logo.webp">
+    <link rel="stylesheet" type="text/css" href="../clubhub/style.css">
+    <link rel="icon" type="image/x-icon" href="../clubhub/images/stab_logo.webp">
+    <title>Service Opportunity Viewer</title>
+</head>
+<body>
+
+<header class="header" id="header">
+    <h1>Service Opportunity Viewer</h1>
+</header>
+
+<script type="module" src="./serviceViewOpportunity.js"></script>
+
+<!-- Creates a bar bellow header box with nav buttons -->
+<div class="nav">
+    <button class="button" onClick="location.replace('serviceHome.html');">Home</button>
+    <button class="button" onClick = "location.replace('serviceAccountSelection.html');">Club Directory</button>
+    <button class="button" id="logoutButton" onclick="(async () => await logoutUser())()">Logout</button>
+</div>
+
+
+
+<div class="adminStudentNameWrapper" id="adminClubInfoWrapper">
+    <div class="adminClubInfo">
+        <div class="adminInfoSplit">
+            <div class="adminaboutClub" id="opportunityName" data-title="Name"></div>
+            <div class="adminNextMeeting" id="opportunityDescription" data-title="Description"></div>
+        </div>
+        <div class="adminInfoSplit">
+            <div class="adminInDangerDiv" id="opportunityDate" data-title="Date"></div>
+            <div class="adminPastMeetings" id="opportunityTime" data-title="Time"></div>
+        </div>
+        <div class="adminInfoSplit">
+            <div class="adminInDangerDiv" id="opportunityLength" data-title="Length"></div>
+            <div class="adminPastMeetings" id="opportunityLocation" data-title="Location"></div>
+        </div>
+    </div>
+</div>
+<div class="DCB-GCB-Wrapper">
+    <span class="spark spark1"></span>
+    <span class="spark spark2"></span>
+    <span class="spark spark3"></span>
+    <span class="spark spark4"></span>
+    <span class="spark spark5"></span>
+    <span class="spark spark6"></span>
+    <span class="spark spark7"></span>
+    <span class="spark spark8"></span>
+    <span class="spark spark9"></span>
+    <span class="spark spark10"></span>
+    <span class="spark spark11"></span>
+    <span class="spark spark12"></span>
+    <span class="spark spark13"></span>
+    <span class="spark spark14"></span>
+    <span class="spark spark15"></span>
+</div>
+</div>
+</div>
+
+<div class="adminLineThree"></div>
+<br>
+<!-- page footer -->
+<div class="footer">
+    <div class="logos">
+        <img class="logo" src="../clubhub/images/stab_logo.webp" alt="logo">
+    </div>
+    <div class="devSplit">
+        <div>Developer:</div>
+        <div>Kate R. '26</div>
+    </div>
+    <button class="button ContactButton" onClick = "location.replace('../../clubhub/contactPage.html');">Feedback & Requests</button>
+</div>
+</body>
