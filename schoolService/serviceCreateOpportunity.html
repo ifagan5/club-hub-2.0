@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="../clubhub/login.css">
+  <link rel="stylesheet" type="text/css" href="../clubhub/login.css">
+  <link rel="icon" type="image/x-icon" href="images/stab_logo.webp">
+  <title>Create Service Opportunity</title>
+
+  <style>
+    body {
+      background-color: rgba(146, 22, 32, 0.564);
+    }
+  </style>
+
+</head>
+<body>
+<header class="head">
+  <div class="rightHead">
+    <img class="image" src="../../clubhub/images/stab_logo.webp" alt="logo" onClick="location.replace('index.html');">
+    <p onClick="location.replace('index.html');">St. Anne's Belfield School</p>
+  </div>
+  <div class="leftHead">
+    <p class="headLink" onClick="location.replace('serviceStudentPage.html');">Back to homepage</p>
+  </div>
+</header>
+
+<!--<script type="module">-->
+<!--  import {addLog} from './serviceSubmitHours.js';-->
+<!--  window.addLog = addLog;-->
+<!--</script>-->
+
+<div class="loginBox">
+  <header class="subheading">Create Service Opportunity</header>
+  <label>Name Of Opportunity:</label><input type="double" id="opportunityName" placeholder = "Type Here">
+  <label>Description Of Opportunity:</label><input type="double" id="opportunityDescription" placeholder = "Type Here">
+  <label>Length Of Opportunity:</label><input type="text" id="opportunityLength" placeholder = "Type Here">
+  <label>Date of Opportunity:</label><input type="text" id="opportunityDate" placeholder = "Type Here">
+  <label>Time of Opportunity:</label><input type="text" id="opportunityTime" placeholder = "Type Here">
+  <label>Location of Opportunity:</label><input type="text" id="opportunityLocation" placeholder = "Type Here">
+
+
+
+  <button onclick="addLog(document.getElementById('hoursLog').value, document.getElementById('toSchool').value, document.getElementById('description').value, document.getElementById('varifier').value, document.getElementById('dates').value);" class="loginButton clubLB">Log</button>
+</div>
+</body>
+</html>

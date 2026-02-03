@@ -39,17 +39,21 @@ input.addEventListener("keydown", async function (event) {
     let inputVal = input.value;
     console.log("This worked!")
 
+    // Helper to normalize case (e.g., "jake" -> "Jake")
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
     // Split the input into first name and last name using spaces
     const [firstName, ...lastNameParts] = inputVal.split(" ");
-    const lastName = lastNameParts.join(" ");
+    const lastName = lastNameParts.map(capitalize).join(" ");
+    const formattedFirstName = capitalize(firstName);
 
     // Make the query and filter by the first and the last name
-    const q = query(docsRef, where("firstName", "==", firstName), where("lastName", "==", lastName));
+    const q = query(docsRef, where("firstName", "==", formattedFirstName), where("lastName", "==", lastName));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
       // check for students with first name
-      const q2 = query(docsRef, where("firstName", "==", inputVal));
+      const q2 = query(docsRef, where("firstName", "==", formattedFirstName));
       const querySnapshot2 = await getDocs(q2);
       if (!querySnapshot2.empty) {
         alert("WARNING: No exact match was found! Initializing first name fallback search. You may be prompted multiple more times. Click cancel on the alerts until you see the student you are looking for.")
