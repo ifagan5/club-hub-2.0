@@ -16,7 +16,7 @@
  <script type="module" src="./serviceSubmitHours.js"></script>
  <script type="module">
     import {getTotalHours, getTotalSchoolServiceHours} from './serviceAuth.js';
-    import {logout, getFirstNameFromAuth, getLastNameFromAuth, getHours} from './serviceStudentPage.js';
+    import {logout, getFirstNameFromAuth, getLastNameFromAuth, getHours, getSchoolGradRequirement, getCommunityGradRequirement} from './serviceStudentPage.js';
     window.getHours = getHours;
     window.getTotalHours = getTotalHours;
     window.getFirstNameFromAuth = getFirstNameFromAuth;
@@ -32,9 +32,13 @@
         const lastName = await getLastNameFromAuth();
         const totalHours = await getTotalHours();
         const totalSchoolHours = await getTotalSchoolServiceHours();
+        const neededSchoolHours = await getSchoolGradRequirement();
+        const neededCommunityHours = await getCommunityGradRequirement();
         document.getElementById("name").innerText = `${firstName} ${lastName}`;
         document.getElementById("totalHours").textContent = `${totalHours}`;
         document.getElementById("school-hours").textContent = `${totalSchoolHours}`;
+        document.getElementById("neededCommunityHrs").textContent = `${neededCommunityHours}`;
+        document.getElementById("neededSchoolHrs").textContent = `${neededSchoolHours}`;
     });
  </script>
 
@@ -89,11 +93,9 @@
 
                 </div>
                 <div class = "center-text-hours">
-                   you need # total community service hours to graduate
+                    <div class="neededCommunityHrs" id = "neededCommunityHrs"></div>
                    <br>
-                   <br>
-                   <br>
-                   # must be service to the school
+                   <div class="neededSchoolHrs" id = "neededSchoolHrs"></div>
                 </div>
             </div>
 

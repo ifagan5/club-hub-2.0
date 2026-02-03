@@ -190,3 +190,16 @@ export async function getTotalSchoolServiceHours(){
     }
     return null;
 }
+
+export async function getGradYr(){
+    const user = await getCurrentUser()
+    const uid = user.uid;
+    console.log(uid);
+    const docRef = doc(db, "students", uid);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+    if (docSnap.exists()) {
+        return data.gradYr || "0";
+    }
+    return null;
+}

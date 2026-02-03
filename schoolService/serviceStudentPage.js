@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore,getDoc, doc, updateDoc} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-import {logoutUser, checkLoginStatus, getFirstName, getLastName , getEmail, getCurrentUser} from "./serviceAuth.js";
+import {logoutUser, checkLoginStatus, getFirstName, getLastName , getEmail, getCurrentUser, getGradYr} from "./serviceAuth.js";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const firebaseConfig = {
@@ -29,6 +29,10 @@ export const getLastNameFromAuth = async function(){
     return await getLastName();
 };
 
+export const getGradYrFromAuth = async function(){
+    return await getGradYr();
+};
+
 export const getEmailFromAuth = async function(){
     return await getEmail();
 };
@@ -36,6 +40,36 @@ export const getEmailFromAuth = async function(){
 export const getHoursFromSubmitHours = async function(){
     return await getTotalHours();
 }
+
+export const getCommunityGradRequirement = async function(){
+    const grade = await getGradYr();
+    if (grade === "2027"){
+        return "You need 30 general community service hours before your senior year to graduate"
+    }
+    else if (grade === "2028"){
+        return "You need 30 general community service hours before your senior year to graduate"
+    }
+    else{
+        return "You do not have a general community service graduation requirement"
+
+    }
+}
+
+export const getSchoolGradRequirement = async function(){
+    const grade = await getTotalHours();
+    if (grade === "2027"){
+        return "You need 10 general community service hours before your senior year to graduate"
+    }
+    else if (grade === "2028"){
+        return "You need 20 general community service hours before your senior year to graduate"
+    }
+    else{
+        return "You need 20 general community service hours before your senior year to graduate"
+
+    }
+}
+
+
 export const getHours = async function(){
     const user = await getCurrentUser()
     const uid = user.uid;
