@@ -58,6 +58,8 @@ export const getCurrentUser = () => {
 // Create a new user (Firebase Auth + Firestore profile)
 export async function createUser(email, password, firstName, lastName, gradYr) {
     try {
+        const isAdmin = false;
+
         // Create the auth record
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const uid = userCredential.user.uid;
@@ -70,9 +72,11 @@ export async function createUser(email, password, firstName, lastName, gradYr) {
             firstName,
             lastName,
             gradYr,
+            admin: isAdmin,
             createdAt: serverTimestamp(),
         });
         window.location.href = "./serviceStudentPage.html";
+
         return true;
     } catch (err) {
         alert("Account creation failed: " + err.message);
