@@ -22,7 +22,7 @@ export const registerService = async function(email, pass, first, last){
     for (let i =0; i < email.length; i++){
         let letter = email.substring(i, i+1);
         if (letter === "1" || letter === "2" || letter === "3" || letter === "4" || letter === "5" || letter === "6" || letter === "7" || letter === "8" || letter === "9"){
-            let gradYr = email.substring(i, i+2);;
+            let gradYr = "20" + email.substring(i, i+2);;
             console.log("gradYr:" + gradYr);
             await createUser(email, pass, first, last, gradYr);     
             break;
