@@ -19,7 +19,6 @@ export const db = getFirestore(app);
 const auth = getAuth(app);
 
 // Nav bar editing function based on users status (admin, club, not logged in)
-export function correctNavDisplay() {
     // Calendar setup
 const monthYear = document.getElementById('month-year'); // Displays the current month and year.
 const daysContainer = document.getElementById('days'); // Container for the calendar days.
@@ -44,7 +43,7 @@ let nav = 0; // Navigation state for calendar (previous or next month)
 let events = [];
 
 // Add meetings to the `events` array
-async function addMeetings() {
+export async function addMeetings() {
     events = [];
     const databaseItems = await getDocs(collection(db, "clubs"));
 
@@ -389,8 +388,6 @@ nextButton.addEventListener('click', function () {
     }
     renderCalendar(currentDate);
 });
-
-}
 
 console.log("ran the code");
 // Initial render of the calendar.

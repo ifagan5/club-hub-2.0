@@ -9,14 +9,10 @@
 <body>
 
 <script type="module" src="serviceHome.js"></script>
- <script type="module" src="calender.js"></script>
  <script type="module">
-    import {addMeetings, correctNavDisplay} from 'calender.js';
+    import { addMeetings } from './serviceHome.js';
 
-    window.correctNavDisplay = correctNavDisplay;
     window.addMeetings = addMeetings;
-
-    correctNavDisplay();
     addMeetings();
  </script>
 <!-- creates the header box and the title, inside the box -->
