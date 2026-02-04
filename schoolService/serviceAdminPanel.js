@@ -31,7 +31,6 @@ const studentName = document.getElementById("adminStudentName");
 const studentGrade = document.getElementById("adminStudentGrade");
 const studentNonSchoolHours = document.getElementById("adminStudentNonSchoolHours");
 const studentSchoolHours = document.getElementById("adminStudentSchoolHours");
-const bigStudentName = document.getElementById("adminBigStudentName");
 
 
 input.addEventListener("keydown", async function (event) {
@@ -62,7 +61,6 @@ input.addEventListener("keydown", async function (event) {
           const data = doc.data();
           const studentId = doc.id;
           const fullName = `${data.firstName} ${data.lastName}`;
-          const bigFullName = `${data.firstName} ${data.lastName}`;
           const schoolHours = data.totalSchoolHours || 0;
           const totalHours = data.totalHours || 0;
           const grade = data.gradYr || "N/A";
@@ -74,8 +72,7 @@ input.addEventListener("keydown", async function (event) {
             studentName.innerHTML = fullName;
             studentGrade.innerHTML = grade;
             studentNonSchoolHours.innerHTML = totalHours;
-            studentSchoolHours.innerHTML = schoolHours;
-            bigStudentName.innerHTML = bigFullName;
+            studentSchoolHours.innerHTML = schoolHours
           }
         });
       } else {
@@ -83,6 +80,7 @@ input.addEventListener("keydown", async function (event) {
       }
     } else {
       querySnapshot.forEach((doc) => {
+        // TODO: add a student grade element
         const data = doc.data();
         const studentId = doc.id;
         const fullName = `${data.firstName} ${data.lastName}`;
@@ -97,8 +95,7 @@ input.addEventListener("keydown", async function (event) {
           studentName.innerHTML = fullName;
           studentGrade.innerHTML = grade;
           studentNonSchoolHours.innerHTML = totalHours;
-          studentSchoolHours.innerHTML = schoolHours;
-          bigStudentName.innerHTML = fullName;
+          studentSchoolHours.innerHTML = schoolHours
         }
       });
     }

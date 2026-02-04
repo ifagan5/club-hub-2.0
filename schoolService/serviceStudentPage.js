@@ -56,15 +56,15 @@ export const getCommunityGradRequirement = async function(){
 }
 
 export const getSchoolGradRequirement = async function(){
-    const grade = await getTotalHours();
+    const grade = await getGradYr();
     if (grade === "2027"){
-        return "You need 10 general community service hours before your senior year to graduate"
+        return "You need 10 service to the school hours before your senior year to graduate"
     }
     else if (grade === "2028"){
-        return "You need 20 general community service hours before your senior year to graduate"
+        return "You need 20 service to the school hours before your senior year to graduate"
     }
     else{
-        return "You need 20 general community service hours before your senior year to graduate"
+        return "You need 30 service to the school hours before your senior year to graduate"
 
     }
 }
