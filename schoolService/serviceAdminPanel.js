@@ -63,7 +63,7 @@ input.addEventListener("keydown", async function (event) {
           const fullName = `${data.firstName} ${data.lastName}`;
           const schoolHours = data.totalSchoolHours || 0;
           const totalHours = data.totalHours || 0;
-          const grade = data.grade || "N/A";
+          const grade = data.gradYr || "N/A";
 
           console.log("Found student ID:", studentId);
           console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
@@ -86,7 +86,7 @@ input.addEventListener("keydown", async function (event) {
         const fullName = `${data.firstName} ${data.lastName}`;
         const schoolHours = data.totalSchoolHours || 0;
         const totalHours = data.totalHours || 0;
-        const grade = data.grade || "N/A";
+        const grade = data.gradYr || "N/A";
 
         console.log("Found student ID:", studentId);
         console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
