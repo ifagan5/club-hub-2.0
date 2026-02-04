@@ -63,16 +63,36 @@ input.addEventListener("keydown", async function (event) {
           const fullName = `${data.firstName} ${data.lastName}`;
           const schoolHours = data.totalSchoolHours || 0;
           const totalHours = data.totalHours || 0;
-          const grade = data.grade || "N/A";
+          const grade = data.gradYr || "N/A";
+          let schoolRequirement = null;
+          if (grade === "2027"){
+              schoolRequirement = "(10 service to the school hours before senior year to graduate)"
+          }
+          else if (grade === "2028"){
+              schoolRequirement = "(20 service to the school hours before senior year to graduate)"
+          }
+          else{
+              schoolRequirement = "(30 service to the school hours before senior year to graduate)"
+          }
 
-          console.log("Found student ID:", studentId);
+          let communityRequirement = null;
+          if (grade === "2027"){
+              communityRequirement =  "(30 general community service hours before senior year to graduate)"
+          }
+          else if (grade === "2028"){
+              communityRequirement = "(30 general community service hours before senior year to graduate)"
+          }
+          else{
+              communityRequirement = "(No general community service graduation requirement)"
+          }
+                    console.log("Found student ID:", studentId);
           console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
 
           if (window.confirm("Would would like to view this students information: " + fullName + "? (ok = yes, cancel = no)")) {
             studentName.innerHTML = fullName;
             studentGrade.innerHTML = grade;
-            studentNonSchoolHours.innerHTML = totalHours;
-            studentSchoolHours.innerHTML = schoolHours
+            studentNonSchoolHours.innerHTML = totalHours + " " + communityRequirement;
+            studentSchoolHours.innerHTML = schoolHours + " " + schoolRequirement;
           }
         });
       } else {
@@ -86,7 +106,7 @@ input.addEventListener("keydown", async function (event) {
         const fullName = `${data.firstName} ${data.lastName}`;
         const schoolHours = data.totalSchoolHours || 0;
         const totalHours = data.totalHours || 0;
-        const grade = data.grade || "N/A";
+        const grade = data.gradYr || "N/A";
 
         console.log("Found student ID:", studentId);
         console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
@@ -94,8 +114,8 @@ input.addEventListener("keydown", async function (event) {
         if (window.confirm("Would would like to view this students information: " + fullName)) {
           studentName.innerHTML = fullName;
           studentGrade.innerHTML = grade;
-          studentNonSchoolHours.innerHTML = totalHours;
-          studentSchoolHours.innerHTML = schoolHours
+          studentNonSchoolHours.innerHTML = totalHours + " " + communityRequirement;
+            studentSchoolHours.innerHTML = schoolHours + " " + schoolRequirement;
         }
       });
     }

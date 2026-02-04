@@ -1,7 +1,19 @@
 // Imports
-import { initializeApp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-import { collection, getDoc, doc, setDoc, getFirestore, serverTimestamp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import {
+    createUserWithEmailAndPassword,
+    getAuth,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    signOut,
+} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import {
+    doc,
+    getDoc,
+    getFirestore,
+    serverTimestamp,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 // Firebase config
 export const firebaseConfig = {
@@ -177,7 +189,7 @@ export async function getTotalHours(){
     const docSnap = await getDoc(docRef);
     const data = docSnap.data();
     if (docSnap.exists()) {
-        return data.totalHours || 0;
+        return data.totalNonSchoolHours || 0;
     }
     return null;
 }
@@ -206,4 +218,57 @@ export async function getGradYr(){
         return data.gradYr || "0";
     }
     return null;
+}
+
+export async function calculateSchoolServiceHoursPercentage() {
+    const user = await getCurrentUser();
+    if (!user) return 0;
+
+    const docRef = doc(db, "students", user.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        const totalSchoolHours = docSnap.data().totalSchoolHours || 0;
+        const gradYear = docSnap.data().gradYr || 2030;
+        if (gradYear === 2027) {
+            const preliminaryResult = (totalSchoolHours / 10) * 100
+            return Math.min(preliminaryResult, 100);
+        } else if (gradYear === 2028) {
+            const preliminaryResult = (totalSchoolHours / 20) * 100
+            return Math.min(preliminaryResult, 100);
+        } else if (gradYear >= 2029) {
+            const preliminaryResult = (totalSchoolHours / 30) * 100
+            return Math.min(preliminaryResult, 100);
+        } else {
+            return 0;
+        }
+
+    }
+    return 0;
+}
+
+export async function calculateNonSchoolServiceHoursPercentage() {
+    const user = await getCurrentUser();
+    if (!user) return 0;
+
+    const docRef = doc(db, "students", user.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        const totalNonSchoolHours = docSnap.data().totalNonSchoolHours || 0;
+        console.log(totalNonSchoolHours);
+        const gradYear = docSnap.data().gradYr || 2030;
+        if (gradYear === 2027) {
+            const preliminaryResult = (totalNonSchoolHours / 10) * 100
+            return Math.min(preliminaryResult, 100);
+        } else if (gradYear === 2028) {
+            const preliminaryResult = (totalNonSchoolHours / 20) * 100
+            return Math.min(preliminaryResult, 100);
+        } else if (gradYear >= 2029) {
+            const preliminaryResult = (totalNonSchoolHours / 30) * 100
+            return Math.min(preliminaryResult, 100);
+        } else {
+            return 0;
+        }
+
+    }
+    return 0;
 }

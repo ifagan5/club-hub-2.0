@@ -15,9 +15,11 @@
  <script type="module" src="./serviceStudentPage.js"></script>
  <script type="module" src="./serviceSubmitHours.js"></script>
  <script type="module">
-    import {getTotalHours, getTotalSchoolServiceHours} from './serviceAuth.js';
+    import {getTotalHours, getTotalSchoolServiceHours, calculateSchoolServiceHoursPercentage, calculateNonSchoolServiceHoursPercentage} from './serviceAuth.js';
     import {logout, getFirstNameFromAuth, getLastNameFromAuth, getHours, getSchoolGradRequirement, getCommunityGradRequirement} from './serviceStudentPage.js';
     window.getHours = getHours;
+    window.calculateNonSchoolServiceHoursPercentage = calculateNonSchoolServiceHoursPercentage;
+    window.calculateSchoolServiceHoursPercentage = calculateSchoolServiceHoursPercentage;
     window.getTotalHours = getTotalHours;
     window.getFirstNameFromAuth = getFirstNameFromAuth;
     window.getLastNameFromAuth = getLastNameFromAuth;
@@ -79,7 +81,7 @@
                     <div class="red-text-left">You have:</div>
                     <div id="totalHours" class="hours-display"></div>
                     <div id="red-text-left-description">
-                       total service hours
+                       total non-school service hours
                     </div>
 
                 </div>
