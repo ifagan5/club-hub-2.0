@@ -1,7 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-import { serviceOpportunities }  from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const firebaseConfig = {
@@ -19,6 +18,8 @@ export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 const auth = getAuth(app);
 
+
+
 // Nav bar editing function based on users status (admin, club, not logged in)
     // Calendar setup
 const monthYear = document.getElementById('month-year'); // Displays the current month and year.
@@ -26,6 +27,8 @@ const daysContainer = document.getElementById('days'); // Container for the cale
 const weekdaysContainer = document.querySelector('.weekdays'); // Row showing weekday labels
 const prevButton = document.getElementById('prev'); // Button to navigate to the previous month.
 const nextButton = document.getElementById('next'); // Button to navigate to the next month.
+
+const serviceOpportunities = document.getElementById('serviceOpportunities'); // Container for service opportunities list.
 
 const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -46,7 +49,7 @@ let events = [];
 // Add meetings to the `events` array
 export async function addMeetings() {
     events = [];
-    const databaseItems = await getDocs(collection(db, "clubs"));
+    const databaseItems = await getDocs(collection(db, "serviceOpportunities"));
 
     for (const item of databaseItems.docs) {
         // Get a reference to the subcollection "all-meetings"
