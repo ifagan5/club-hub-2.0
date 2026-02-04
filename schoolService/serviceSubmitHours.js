@@ -39,10 +39,10 @@ export const addLog = async function(hours, toSchool, description, contact, date
     const docSnap = await getDoc(docRef);
     const data = docSnap.data();
     if (docSnap.exists()) {
-        const studentTotalHours = data.totalHours || 0; // Default to 0 if it doesn't exist?
+        const studentTotalHours = data.totalNonSchoolHours || 0; // Default to 0 if it doesn't exist?
         const newHours = parseFloat(studentTotalHours) + parseFloat(hours);
         await updateDoc(docRef, {
-            totalHours: newHours,
+            totalNonSchoolHours: newHours,
         });
 
         const studentSchoolHours = data.totalSchoolHours || 0 // Default to 0 if it doesn't exist?

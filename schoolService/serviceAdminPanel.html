@@ -19,7 +19,8 @@
 
 <script type="module" src="./serviceAdminPanel.js"></script>
 <script type="module">
-    import {logoutUser} from './serviceAuth.js';
+    import {logoutUser, calculateSchoolServiceHoursPercentage} from './serviceAuth.js';
+    window.calculateSchoolServiceHoursPercentage = calculateSchoolServiceHoursPercentage;
 
     window.logoutUser = async () => {
         await logoutUser();
