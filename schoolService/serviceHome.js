@@ -38,7 +38,7 @@ const months = [
 let currentDate = new Date(); // The date being displayed on the calendar.
 currentDate.setHours(0, 0, 0, 0);
 
-let today = new Date(); // The current date.
+let today = new Date(); // The current date.  
 today.setHours(0, 0, 0, 0);
 
 let viewMode = sessionStorage.getItem("calendarView") || "week"; // Store selected view mode
@@ -52,7 +52,7 @@ export async function addMeetings() {
     const databaseItems = await getDocs(collection(db, "serviceOpportunities"));
 
     for (const item of databaseItems.docs) {
-        // Get a reference to the subcollection "all-meetings"
+        // Get a reference to the subcol    lection "all-meetings"
         const meetingsCollectionRef = collection(item.ref, "all-meetings");
         const meetingDocs = await getDocs(meetingsCollectionRef);
         // Loop through meetings and extract meeting data using a for loop
