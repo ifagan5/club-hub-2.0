@@ -239,7 +239,7 @@ export async function calculateSchoolServiceHoursPercentage() {
             const preliminaryResult = (totalSchoolHours / 30) * 100
             return Math.min(preliminaryResult, 100);
         } else {
-            return 0;
+            return "ERROR";
         }
 
     }
@@ -257,16 +257,17 @@ export async function calculateNonSchoolServiceHoursPercentage() {
         console.log(totalNonSchoolHours);
         const gradYear = docSnap.data().gradYr || 2030;
         if (gradYear === 2027) {
-            const preliminaryResult = (totalNonSchoolHours / 10) * 100
-            return Math.min(preliminaryResult, 100);
-        } else if (gradYear === 2028) {
-            const preliminaryResult = (totalNonSchoolHours / 20) * 100
-            return Math.min(preliminaryResult, 100);
-        } else if (gradYear >= 2029) {
             const preliminaryResult = (totalNonSchoolHours / 30) * 100
             return Math.min(preliminaryResult, 100);
+        } else if (gradYear === 2028) {
+            const preliminaryResult = (totalNonSchoolHours / 15) * 100
+            return Math.min(preliminaryResult, 100);
+        } else if (gradYear >= 2029) {
+            // const preliminaryResult = (totalNonSchoolHours / 0) * 100
+            // return Math.min(preliminaryResult, 100);
+            return "N/A";
         } else {
-            return 0;
+            return "ERROR";
         }
 
     }
