@@ -31,6 +31,7 @@ const studentName = document.getElementById("adminStudentName");
 const studentGrade = document.getElementById("adminStudentGrade");
 const studentNonSchoolHours = document.getElementById("adminStudentNonSchoolHours");
 const studentSchoolHours = document.getElementById("adminStudentSchoolHours");
+const bigName = document.getElementById("adminBigStudentName");
 
 
 input.addEventListener("keydown", async function (event) {
@@ -90,6 +91,7 @@ input.addEventListener("keydown", async function (event) {
 
           if (window.confirm("Would would like to view this students information: " + fullName + "? (ok = yes, cancel = no)")) {
             studentName.innerHTML = fullName;
+            bigName.innerHTML = fullName;
             studentGrade.innerHTML = grade;
             studentNonSchoolHours.innerHTML = totalHours + " " + communityRequirement;
             studentSchoolHours.innerHTML = schoolHours + " " + schoolRequirement;
@@ -113,9 +115,11 @@ input.addEventListener("keydown", async function (event) {
 
         if (window.confirm("Would would like to view this students information: " + fullName)) {
           studentName.innerHTML = fullName;
+          bigName.innerHTML = fullName;
           studentGrade.innerHTML = grade;
           studentNonSchoolHours.innerHTML = totalHours + " " + communityRequirement;
-            studentSchoolHours.innerHTML = schoolHours + " " + schoolRequirement;
+          studentSchoolHours.innerHTML = schoolHours + " " + schoolRequirement;
+
         }
       });
     }
