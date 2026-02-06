@@ -1715,7 +1715,7 @@ option {
 }
 
 .adminStudentNameWrapper{
-    height: auto; margin: 10px; padding-top: 15px;
+    height: auto; margin: 10px; padding-top: 15px; padding-bottom: 25px;
     text-align: center; align-items: center; justify-content: center;
     background-color: rgb(255, 255, 255,.75); border-radius: 1px;
 }
