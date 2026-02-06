@@ -138,7 +138,7 @@ body {
 #name {
     font-weight: 700;
     text-align:center;
-    font-size: 26px;
+    font-size: 30px;
     color: rgb(141, 13, 24);
     user-select: none;
     font-family: 'Inter', sans-serif;
@@ -165,25 +165,21 @@ body {
 }
 .right-side{
   float: right;
-  color: rgb(141, 13, 24); 
-  text-align: center;   /* Centers the text horizontally (optional) */
-  /* line-height: 100px;   Vertically centers text for a single line (optional) */
+  width: 35%;
+  margin-left: auto;
   margin-right: 10%;
-  margin-top: 10%; 
-  display: grid;
-  grid-template-rows: auto min-content auto;
-  overflow: hidden;
-  min-width: 300px;
-  min-height: 300px;
-  width: 25%;         /* Sets the width of the box */
-  height: 70%;        /* Sets the height of the box */
-  padding: 10px;        /* Adds padding inside the box (optional) */
+}
+#writtenReqSchool{
+  font-size: 20px;
+}
+#writtenReqNonSchool{
+  font-size: 20px;
 }
 .red-box-right {
   float: right;
   background-color: rgb(141, 13, 24); /* Sets the background color of the box to red */
-  width: 35%;         /* Sets the width of the box */
-  height: 50%;        /* Sets the height of the box */
+  width: 45%;         /* Sets the width of the box */
+  height: 60%;        /* Sets the height of the box */
   border: 2px solid darkred; /* Adds a border to the box (optional) */
   padding: 10px;        /* Adds padding inside the box (optional) */
   border-radius: 10px;
@@ -193,43 +189,35 @@ body {
   text-align: center;   /* Centers the text horizontally (optional) */
   /* line-height: 100px;   Vertically centers text for a single line (optional) */
   margin-left: auto;
-  margin-right: 10%;
+  margin-right: 5%;
   margin-bottom: 15%;
+  margin-top: 10%;
   display: grid;
   grid-template-rows: auto min-content auto;
   overflow: hidden;
-  min-width: 250px;
-  min-height: 250px;
+  min-width: 300px;
+  min-height: 400px;
 }
 
 #red-text-right-description{
 font-size: 20px;
 }
-.left-side{
-  float: left;
-  color: rgb(141, 13, 24); 
-  text-align: center;   /* Centers the text horizontally (optional) */
-  /* line-height: 100px;   Vertically centers text for a single line (optional) */
-  margin-left: 10%;
-  margin-top: 10%; 
-  display: grid;
-  grid-template-rows: auto min-content auto;
-  overflow: hidden;
-  min-width: 300px;
-  min-height: 300px;
-  width: 25%;         /* Sets the width of the box */
-  height: 70%;        /* Sets the height of the box */
-  padding: 10px;        /* Adds padding inside the box (optional) */
 
-}
 .neededHours{
   color: rgb(141, 13, 24); 
+}
+.left-side{
+  float: left;
+  width: 35%;
+  margin-right: auto;
+  margin-left: 10%;
+
 }
 .red-box-left {
   float: left;
   background-color: rgb(141, 13, 24); /* Sets the background color of the box to red */
-  width: 35%;         /* Sets the width of the box */
-  height: 50%;        /* Sets the height of the box */
+  width: 45%;         /* Sets the width of the box */
+  height: 60%;        /* Sets the height of the box */
   border: 2px solid darkred; /* Adds a border to the box (optional) */
   padding: 10px;        /* Adds padding inside the box (optional) */
   border-radius: 10px;
@@ -239,13 +227,14 @@ font-size: 20px;
   text-align: center;   /* Centers the text horizontally (optional) */
   /* line-height: 100px;   Vertically centers text for a single line (optional) */
   margin-right: auto;
-  margin-left: 10%;
+  margin-left: 5%;
   margin-bottom: 15%;
+  margin-top: 10%;
   display: grid;
   grid-template-rows: auto min-content auto;
   overflow: hidden;
-  min-width: 250px;
-  min-height: 250px;
+  min-width: 300px;
+  min-height: 400px;
 }
 #red-text-left-description{
   font-size: 20px;

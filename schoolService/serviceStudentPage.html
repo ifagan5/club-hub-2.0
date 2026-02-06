@@ -35,6 +35,8 @@
         const lastName = await getLastNameFromAuth();
         const totalHours = await getTotalHours();
         const totalSchoolHours = await getTotalSchoolServiceHours();
+        const writtenRequirementNonSchool = await getCommunityGradRequirement();
+        const writtenRequirementSchool = await getSchoolGradRequirement();
         const schoolServiceHoursPercentage = await calculateSchoolServiceHoursPercentage();
         const nonSchoolServiceHoursPercentage = await calculateNonSchoolServiceHoursPercentage();
         // const neededSchoolHours = await getSchoolGradRequirement();
@@ -44,6 +46,8 @@
         document.getElementById("name").innerText = `${firstName} ${lastName}`;
         document.getElementById("totalHours").textContent = `${totalHours}`;
         document.getElementById("school-hours").textContent = `${totalSchoolHours}`;
+        document.getElementById("writtenReqNonSchool").innerText = writtenRequirementNonSchool;
+        document.getElementById("writtenReqSchool").innerText = writtenRequirementSchool;
         // document.getElementById("neededCommunityHrs").textContent = `${neededCommunityHours}`;
         // document.getElementById("neededSchoolHrs").textContent = `${neededSchoolHours}`;
     });
@@ -82,23 +86,31 @@
 
             </div>
             <div>
-                <div class="red-box-left">
+                <div class = "left-side">
+                    <div class="red-box-left">
                     <div class="red-text-left">You have:</div>
                     <div id="totalHours" class="hours-display"></div>
                     <div id="red-text-left-description">
                        total non-school service hours
                     </div>
-
+                    <br>
+                    <div id="writtenReqNonSchool"></div>
+                    </div>
                 </div>
 
-                <div class="red-box-right">
+
+                <div class = "right-side">
+                    <div class="red-box-right">
                     <div class="red-text-right">You have:</div>
                     <div id="school-hours" class="hours-display"></div>
                     <div id="red-text-right-description">
                         service to the school hours
                     </div>
-
+                    <br>
+                     <div id="writtenReqSchool"></div>
+                    </div>
                 </div>
+                
 <!--                <div class = "center-text-hours">-->
 <!--                    <div class="neededCommunityHrs" id = "neededCommunityHrs"></div>-->
 <!--                   <br>-->
