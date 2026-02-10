@@ -35,7 +35,8 @@ const opportunityLocation = document.getElementById("opportunityLocation");
 // localStorage.setItem("serviceName", "setme")
 
 const docsRef = collection(db, "serviceOpportunities");
-const serviceName = localStorage.getItem('serviceName');
+const serviceName = sessionStorage.getItem('opportunityName');
+console.log(serviceName);
 const q = query(docsRef, where("opportunityName", "==", serviceName));
 const querySnapshot = await getDocs(q);
 if (!querySnapshot.empty) {

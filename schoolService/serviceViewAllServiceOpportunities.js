@@ -61,6 +61,7 @@ export const getLogActivity = async function() {
             clonedDiv.querySelector('#opportunityDate').id = `opportunityDate${id}`;
             clonedDiv.querySelector('#opportunityTime').id = `opportunityTime${id}`;
             clonedDiv.querySelector('#opportunityLocation').id = `opportunityLocation${id}`;
+            clonedDiv.querySelector('#opportunityButton').id = `opportunityButton${id}`;
 
             // Update text content of the cloned elements
             clonedDiv.querySelector(`#opportunityName${id}`).innerText = "Name: " + data.opportunityName;
@@ -69,6 +70,11 @@ export const getLogActivity = async function() {
             clonedDiv.querySelector(`#opportunityDate${id}`).innerText = "Date: " + data.opportunityDate;
             clonedDiv.querySelector(`#opportunityTime${id}`).innerText = "Time: " + data.opportunityTime;
             clonedDiv.querySelector(`#opportunityLocation${id}`).innerText = "Location: " + data.opportunityLocation;
+            clonedDiv.querySelector(`#opportunityButton${id}`).innerText = "Sign Up For Opportunity";
+            clonedDiv.querySelector(`#opportunityButton${id}`).onclick = () => {
+                sessionStorage.setItem("opportunityName", data.opportunityName);
+                window.location.href = "./serviceViewOpportunity.html";
+            };
 
             // Append the cloned div to the parent of the original div
             originalDiv.parentNode.appendChild(clonedDiv);
