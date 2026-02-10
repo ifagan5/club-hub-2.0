@@ -1,8 +1,8 @@
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {checkAdminStatus} from "./serviceAuth.js";
-
+import { getFirestore, arrayUnion, getCountFromServer, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import {checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 
 const isAdmin = await checkAdminStatus()
 console.log("User admin: "  + isAdmin)
@@ -32,6 +32,7 @@ const studentGrade = document.getElementById("adminStudentGrade");
 const studentNonSchoolHours = document.getElementById("adminStudentNonSchoolHours");
 const studentSchoolHours = document.getElementById("adminStudentSchoolHours");
 const bigName = document.getElementById("adminBigStudentName");
+let selectedStudentUID = null;
 
 
 input.addEventListener("keydown", async function (event) {
@@ -100,6 +101,8 @@ input.addEventListener("keydown", async function (event) {
             studentGrade.innerHTML = grade;
             studentNonSchoolHours.innerHTML = totalHours + " " + communityRequirement;
             studentSchoolHours.innerHTML = schoolHours + " " + schoolRequirement;
+            selectedStudentUID = doc.id;
+            sessionStorage.setItem("studentUID", doc.id);
           }
         });
       } else {
@@ -108,6 +111,7 @@ input.addEventListener("keydown", async function (event) {
     } else {
       querySnapshot.forEach((doc) => {
         // TODO: add a student grade element
+        //const savedUID = sessionStorage.setItem("studentUID", doc.id);
         const data = doc.data();
         const studentId = doc.id;
         const fullName = `${data.firstName} ${data.lastName}`;
@@ -129,6 +133,8 @@ input.addEventListener("keydown", async function (event) {
           studentGrade.innerHTML = grade;
           studentNonSchoolHours.innerHTML = totalHours + " " + communityRequirement;
           studentSchoolHours.innerHTML = schoolHours + " " + schoolRequirement;
+          selectedStudentUID = doc.id;
+          sessionStorage.setItem("studentUID", doc.id);
 
         }
       });
@@ -136,214 +142,97 @@ input.addEventListener("keydown", async function (event) {
   }
 });
 
+export const getLogActivity = async function() {
+    const uid = sessionStorage.getItem("studentUID");
+    console.log("savedUID = " + uid);
+    const logsRef = collection(db, "studentServiceLog", uid, "logs");
+    const docSnap = await getDocs(logsRef);
+    const docIds = [];
+    const querySnapshot = await getDocs(collection(db, "studentServiceLog", uid, "logs"));
+    querySnapshot.forEach((doc) => {
+        docIds.push(doc.id);
+    });
+    //get how many logs the student has and save it as countLogs
+    const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
+    const countSnap = await getCountFromServer(serviceLogCollectionRef);
+    const countLogs = countSnap.data().count;
+    console.log("countLogs:" + countLogs);
+    //loops through as many times as logs the student has
+    for (let i = countLogs; i >= 1; i--) {
+        //loops through as many times as logs the student has until broken
+        let index = undefined;
+        innerLoop: 
+        for(let j = 0; j < countLogs; j++){
+            //get the document id at j
+            let tempDocumentUID = docIds[j];
+            let tempDocRef = doc(db, "studentServiceLog", uid, "logs", tempDocumentUID);
+            let tempDocSnap = await getDoc(tempDocRef);
+            if (tempDocSnap.exists()) {
+                //get what log number this entry is
+                let possibleI = tempDocSnap.data().logNum;
+                //if it is the one we are looking for break the code
+                if(possibleI == i){
+                    index = j;
+                    //get the document at index j
+                    let documentUID = docIds[index];
+                        let docRef = doc(db, "studentServiceLog", uid, "logs", documentUID);
+                        let docSnap = await getDoc(docRef);
+                        if (docSnap.exists()) {
+                            let contact = docSnap.data().contact;
+                            let date = docSnap.data().date;
+                            let description = docSnap.data().description;
+                            let hours = docSnap.data().hours;
+                            let schoolServiceHours = docSnap.data().schoolServiceHours;
+                            let timestamp = docSnap.data().timestamp;
+                            console.log(docSnap.data().date);
+                            console.log(docSnap.data());
 
+                            // Get the original elements from the HTML
+                            const originalDiv = document.getElementById('log1'); // Assuming 'log1' is the ID of the first log entry container
+                            //STYLING
+                            originalDiv.style.backgroundColor = "rgb(141,13,24)";
+                            originalDiv.style.color = "rgb(243, 232, 234)";
+                            originalDiv.style.padding = " 15px 15px";
+                            originalDiv.style.borderRadius = "15px";
+                            originalDiv.style.marginBottom = "15px";
+                            originalDiv.style.width = "85%";
 
+                            //for the most recent entry it prints out the information for that entry
+                            if (i === countLogs) {
+                                document.getElementById("activity").innerText = "Activity: " + description;
+                                document.getElementById("logged-hours").innerText = "Total Hours Logged: " + hours;
+                                document.getElementById("logged-hours-to-school").innerText = "Service to School Hours: " + schoolServiceHours;
+                                document.getElementById("date").innerText = "Date Completed: " + date;
+                                document.getElementById("contact").innerText = "Contact Person: " + contact;
+                               // document.getElementById("timestamp").innerText = "Date Logged: " + timestamp;
+                            } else {
+                                // For subsequent log entries, clone the original elements and append them
+                                const clonedDiv = originalDiv.cloneNode(true);
+                                clonedDiv.id = `log${i + 1}`; // Update ID for uniqueness
+                                clonedDiv.querySelector('#activity').id = `activity${i + 1}`;
+                                clonedDiv.querySelector('#logged-hours').id = `logged-hours${i + 1}`;
+                                clonedDiv.querySelector('#logged-hours-to-school').id = `logged-hours-to-school${i + 1}`;
+                                clonedDiv.querySelector('#date').id = `date${i + 1}`;
+                                clonedDiv.querySelector('#contact').id = `contact${i + 1}`;
+                                //clonedDiv.querySelector('#timestamp').id = `timestamp${i + 1}`;
 
+                                // Update text content of the cloned elements
+                                clonedDiv.querySelector(`#activity${i + 1}`).innerText = "Activity: " + description;
+                                clonedDiv.querySelector(`#logged-hours${i + 1}`).innerText = "Total Hours Logged: " + hours;
+                                clonedDiv.querySelector(`#logged-hours-to-school${i + 1}`).innerText = "Service to School Hours: " + schoolServiceHours;
+                                clonedDiv.querySelector(`#date${i + 1}`).innerText = "Date Completed: " + date;
+                                clonedDiv.querySelector(`#contact${i + 1}`).innerText = "Contact Person: " + contact;
+                                //clonedDiv.querySelector(`#timestamp${i + 1}`).innerText = "Date Logged: " + timestamp;
 
+                                // Append the cloned div to the parent of the original div
+                                originalDiv.parentNode.appendChild(clonedDiv);
 
-
-
-
-
-
-
-
-
-// export const createClubList = async function () {
-//   studentList = []; // clear old list
-//     const snapshot = await getDocs(collection(db, "students")); // Get all student docs
-//     console.log("Total students in Firebase:", snapshot.size);
-//
-//     snapshot.forEach((docSnap) => {
-//       const data = docSnap.data();
-//       const firstName = data.firstName;
-//       const lastName = data.lastName;
-//
-//       if (firstName && lastName) {
-//         studentList.push({
-//           uid: docSnap.id,
-//           firstName: firstName,
-//           lastName: lastName,
-//         });
-//       }
-//     });
-//
-//     console.log("Loaded students into search:", studentList.length); // debug
-// };
-//
-//
-// // This class handles the instant search functionality (like a search bar that shows results as you type)
-// class InstantSearch {
-//   constructor(instantSearch, options) {
-//     this.options = options;
-//     this.elements = {
-//       main: instantSearch, // Main container for the search
-//       input: instantSearch.querySelector(".searchInput"), // The actual search input box
-//       resultsContainer: document.createElement("div") // A div to hold the search results
-//     };
-//
-//     // Style the results container and add it under the search input
-//     this.elements.resultsContainer.classList.add("searchInput__resultsContainer");
-//     this.elements.main.appendChild(this.elements.resultsContainer);
-//     this.addListeners(); // Set up the event listeners (stuff like typing and focusing)
-//   }
-//
-//   addListeners() {
-//     let delay; // Used to create a little pause before running the search (so it’s not too fast)
-//
-//     this.elements.input.addEventListener("input", () => {
-//       clearTimeout(delay); // Stop the previous timer if you're still typing
-//       const query = this.elements.input.value; // Get what the user typed
-//
-//       // Wait 300ms before searching (like a tiny delay so we’re not searching every single keystroke)
-//       delay = setTimeout(() => {
-//         if (query.length < 1) {
-//           this.populateResults([]); // If the search box is empty, show nothing
-//           return;
-//         }
-//
-//         // Search through the clubList and show the matching results
-//         this.performSearch(query).then(results => {
-//           this.populateResults(results);
-//         });
-//       }, 300);
-//     });
-//
-//     // When the input is focused (clicked into), show the results box
-//     this.elements.input.addEventListener("focus", () => {
-//       this.elements.resultsContainer.classList.add("searchInput__results-container--visible");
-//     });
-//
-//     // When you click away from the input, hide the results after a short delay
-//     this.elements.input.addEventListener("blur", () => {
-//       setTimeout(() => {
-//         this.elements.resultsContainer.classList.remove("searchInput__results-container--visible");
-//       }, 200);
-//     });
-//   }
-//
-//   // This puts the search results into the DOM
-//   populateResults(results) {
-//     this.elements.resultsContainer.innerHTML = ""; // Clear any old results
-//
-//     if (results.length === 0) {
-//       // If nothing matches the search, show a "no results" message
-//       const noResultDiv = document.createElement("div");
-//       noResultDiv.classList.add("searchInput__no-results");
-//       noResultDiv.textContent = "No students found.";
-//       this.elements.resultsContainer.appendChild(noResultDiv);
-//       return;
-//     }
-//
-//     // If there are matches, add each one to the results container
-//     for (const result of results) {
-//       this.elements.resultsContainer.appendChild(this.createResultElement(result));
-//     }
-//   }
-//
-//   createResultElement(result) {
-//     const anchor = document.createElement("a");
-//     anchor.classList.add("searchInput__result");
-//     anchor.innerHTML = this.options.templateFunction(result);
-//
-//     anchor.addEventListener("click", async (event) => {
-//       event.preventDefault(); // Prevent default link behavior
-//
-//       // Save the student UID to session storage
-//       sessionStorage.setItem('adminClub', result.uid);
-//       // Call renderAdminClubInfo to populate the page
-//       await renderAdminClubInfo();
-//     });
-//
-//     return anchor;
-//   }
-//
-//
-//   // This function actually filters the studentList to find matches based on what was typed
-//   performSearch(query) {
-//     const lowerQuery = query.toLowerCase().trim();
-//     if (!lowerQuery) {
-//       return Promise.resolve([]);
-//     }
-//     const queryWords = lowerQuery.split(/\s+/).filter(word => word.length > 0);
-//     const results = studentList.filter(student => {
-//       const fullName = `${student.firstName} ${student.lastName}`.toLowerCase();
-//       return queryWords.every(word => fullName.includes(word));
-//     }).map(student => ({ name: `${student.firstName} ${student.lastName}`, uid: student.uid }));
-//     return Promise.resolve(results);
-//   }
-// }
-//
-// // Run this after all the students are loaded from the database
-// createClubList().then(() => {
-//   const searchUsers = document.querySelector("#searchUsers"); // Find the search box in the HTML
-//   if (searchUsers) {
-//     // Start the InstantSearch on that element
-//     new InstantSearch(searchUsers, {
-//       templateFunction: result => `<div class="instant-search__title">${result.name}</div>` // Format for each result
-//     });
-//   }
-// });
-//
-// export async function renderAdminClubInfo() {
-//   var clubName = document.getElementById("adminClubName");
-//   clubName.innerHTML = "";
-//   var clubInfo = document.getElementById("adminaboutClub");
-//
-//   var adminClub = sessionStorage.getItem('adminClub');
-//   if (adminClub) {
-//     clubInfo.innerHTML = "";
-//     const studentDocRef = doc(db, "students", adminClub);
-//     const studentDoc = await getDoc(studentDocRef);
-//
-//     if (!studentDoc.exists()) {
-//       clubName.innerHTML = "Student Not Found";
-//       return;
-//     }
-//
-//     const studentData = studentDoc.data();
-//     // sets header to the student name
-//     clubName.innerHTML = `${studentData.firstName || ""} ${studentData.lastName || ""}`;
-//
-//     function studentInfoField(container, labelText, value) {
-//       const wrapper = document.createElement("div");
-//       wrapper.className = "editable-field";
-//
-//       const label = document.createElement("strong");
-//       label.textContent = labelText + ": ";
-//       label.style.marginRight = "6px";
-//
-//       const valueSpan = document.createElement("span");
-//       valueSpan.textContent = value ?? "N/A";
-//
-//       wrapper.appendChild(label);
-//       wrapper.appendChild(valueSpan);
-//       container.appendChild(wrapper);
-//     }
-//
-//
-//     function addInfoField(container, labelText, value) {
-//       const wrapper = document.createElement("div");
-//       wrapper.className = "editable-field";
-//
-//       const label = document.createElement("strong");
-//       label.textContent = labelText + ": ";
-//       label.style.marginRight = "6px";
-//
-//       const valueSpan = document.createElement("span");
-//       valueSpan.textContent = value ?? "N/A";
-//
-//       wrapper.appendChild(label);
-//       wrapper.appendChild(valueSpan);
-//       container.appendChild(wrapper);
-//     }
-//
-//
-//     // Display student info
-//     studentInfoField(clubInfo, "First Name", studentData.firstName);
-//     studentInfoField(clubInfo, "Last Name", studentData.lastName);
-//     studentInfoField(clubInfo, "Email", studentData.email);
-//     addInfoField(clubInfo, "Total Hours", studentData.totalHours || 0);
-//     addInfoField(clubInfo, "School Hours", studentData.totalSchoolHours || 0);
-//   }
-// }
+                            }
+                        }
+                    break innerLoop;
+                }
+            }
+        }
+        
+    }
+}
