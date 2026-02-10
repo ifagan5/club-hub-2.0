@@ -1,14 +1,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore, arrayUnion, getCountFromServer, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-import {checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
+import {checkLoginStatus, getCurrentUser, checkAdminStatus, checkLoginStatusNoAdmin} from "./serviceAuth.js";
 //import{getCountFromServer} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 (async () => {
-    const isLoggedIn = await checkLoginStatus();
-    if (!isLoggedIn) {
-        window.location.href = "./serviceStudentLogin.html";
-    }
+    await checkLoginStatusNoAdmin();
 })();
 //haha
 const firebaseConfig = {
@@ -71,10 +68,17 @@ export const getLogActivity = async function() {
             clonedDiv.querySelector(`#opportunityTime${id}`).innerText = "Time: " + data.opportunityTime;
             clonedDiv.querySelector(`#opportunityLocation${id}`).innerText = "Location: " + data.opportunityLocation;
             clonedDiv.querySelector(`#opportunityButton${id}`).innerText = "Sign Up For Opportunity";
-            clonedDiv.querySelector(`#opportunityButton${id}`).onclick = () => {
-                sessionStorage.setItem("opportunityName", data.opportunityName);
-                window.location.href = "./serviceViewOpportunity.html";
-            };
+
+            const isAdmin = await checkAdminStatus();
+            console.log(isAdmin)
+            if (isAdmin) {
+                clonedDiv.querySelector(`#opportunityButton${id}`).style.display = "none";
+            } else {
+                clonedDiv.querySelector(`#opportunityButton${id}`).onclick = () => {
+                    sessionStorage.setItem("opportunityName", data.opportunityName);
+                    window.location.href = "./serviceViewOpportunity.html";
+                };
+            }
 
             // Append the cloned div to the parent of the original div
             originalDiv.parentNode.appendChild(clonedDiv);
@@ -82,8 +86,7 @@ export const getLogActivity = async function() {
 
         const opportunityButton = document.getElementById("opportunityButton");
         if (opportunityButton) {
-            opportunityButton.style.backgroundColor = "white";
-            opportunityButton.style.color = "maroon";
+            opportunityButton.style.display = "none";
         }
 
     }

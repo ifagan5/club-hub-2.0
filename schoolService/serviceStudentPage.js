@@ -93,7 +93,4 @@ export const getHours = async function(){
 // Semicolon added to prevent ASI issues
 ;(async () => {
     const loggedIn = await checkLoginStatus();
-    if (!loggedIn) {
-        window.location.href = "serviceStudentLogin.html";
-    }
 })();
