@@ -81,7 +81,7 @@ input.addEventListener("keydown", async function (event) {
               schoolRequirement = "(30 service to the school hours before senior year to graduate)"
           }
 
-          let communityRequirement = null;
+          let communityRequirement;
           if (grade === "2027"){
               communityRequirement =  "(30 general community service hours before senior year to graduate)"
           }
