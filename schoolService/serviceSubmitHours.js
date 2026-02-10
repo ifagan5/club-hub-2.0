@@ -9,13 +9,17 @@ import {
     updateDoc,
     getCountFromServer
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-import {checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
+import {checkAdminStatus, checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 
 (async () => {
 const isLoggedIn = await checkLoginStatus();
 if (!isLoggedIn) {
     window.location.href = "./serviceStudentLogin.html";
 }
+const isAdmin = await checkAdminStatus()
+    if (isAdmin) {
+        window.location.href = "./serviceAdminPanel.html";
+    }
 })();
 //haha
 const firebaseConfig = {
