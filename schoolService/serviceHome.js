@@ -62,22 +62,18 @@ export async function addMeetings() {
             const month = meetingDate.getMonth() + 1; // Months are 0-indexed, so add 1
             const day = meetingDate.getDate(); // Get the day of the month
             const year = meetingDate.getFullYear(); // Get the full year
-            const formattedDate = `${month}/${day}/${year}`;
             const timestamp = meeting.data().date
-            const date = timestamp.toDate();
+            const date = timestamp.toDate();                
             const time = date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
             const type = meeting.data().type || (meeting.data().isAnEvent ? 'Event' : 'Meeting');
-
+ 
             events.push({
-                dateObj: meetingDate,
-                date: formattedDate, // Save the date.
-                title: item.data().clubName.toString(), // Save the inputted title.
-                username: item.data().username,
-                location: meeting.data().location,
-                description: meeting.data().description,
-                time: time,
-                type: type,
-                privateMeeting: meeting.data().privateMeeting || false
+                opportunityName: opportunityName,
+                opportunityDescription : meeting,
+                opportunityLength: opportunityLength,
+                opportunityDate: formattedDate,
+                opportunityTime: time,
+                opportunityLocation: opportunityLocation,
             });
         }
     }
