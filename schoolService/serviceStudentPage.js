@@ -47,7 +47,7 @@ export const getCommunityGradRequirement = async function(){
         return "You need 30 general community service hours before your senior year to graduate"
     }
     else if (grade === "2028"){
-        return "You need 30 general community service hours before your senior year to graduate"
+        return "You need 15 general community service hours before your senior year to graduate"
     }
     else{
         return "You do not have a general community service graduation requirement"

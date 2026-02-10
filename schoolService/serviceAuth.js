@@ -228,14 +228,15 @@ export async function calculateSchoolServiceHoursPercentage() {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
         const totalSchoolHours = docSnap.data().totalSchoolHours || 0;
-        const gradYear = docSnap.data().gradYr || 2030;
-        if (gradYear === "2027") {
+        const gradYearFirst = docSnap.data().gradYr || "2030";
+        const gradYear = parseInt(gradYearFirst);
+        if (gradYear === 2027) {
             const preliminaryResult = (totalSchoolHours / 10) * 100
             return Math.min(preliminaryResult, 100).toFixed(0);
-        } else if (gradYear === "2028") {
+        } else if (gradYear === 2028) {
             const preliminaryResult = (totalSchoolHours / 20) * 100
             return Math.min(preliminaryResult, 100).toFixed(0);
-        } else if (gradYear >= "2029") {
+        } else if (gradYear >= 2029) {
             const preliminaryResult = (totalSchoolHours / 30) * 100
             return Math.min(preliminaryResult, 100).toFixed(0);
         } else {
@@ -254,15 +255,15 @@ export async function calculateNonSchoolServiceHoursPercentage() {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
         const totalNonSchoolHours = docSnap.data().totalNonSchoolHours || 0;
-        console.log(totalNonSchoolHours);
-        const gradYear = docSnap.data().gradYr || 2030;
-        if (gradYear === "2027") {
+        const gradYearFirst = docSnap.data().gradYr || "2030";
+        const gradYear = parseInt(gradYearFirst);
+        if (gradYear === 2027) {
             const preliminaryResult = (totalNonSchoolHours / 30) * 100
             return Math.min(preliminaryResult, 100).toFixed(0);
-        } else if (gradYear === "2028") {
+        } else if (gradYear === 2028) {
             const preliminaryResult = (totalNonSchoolHours / 15) * 100
             return Math.min(preliminaryResult, 100).toFixed(0);
-        } else if (gradYear >= "2029") {
+        } else if (gradYear >= 2029) {
             // const preliminaryResult = (totalNonSchoolHours / 0) * 100
             // return Math.min(preliminaryResult, 100);
             return "N/A";
