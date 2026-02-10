@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="../clubhub/login.css">
+  <link rel="stylesheet" type="text/css" href="serviceStudentHistory.css">
+  <link rel="icon" type="image/x-icon" href="images/stab_logo.webp">
+  <title>View Service Opportunities</title>
+
+  <style>
+    body {
+      background-color: rgba(146, 22, 32, 0.564);
+    }
+  </style>
+
+</head>
+<body onload="getLogActivity()">
+<header class="head">
+  <div class="rightHead">
+    <img class="image" src="../../clubhub/images/stab_logo.webp" alt="logo" onClick="location.replace('index.html');">
+    <p onClick="location.replace('index.html');">St. Anne's Belfield School</p>
+  </div>
+  <div class="leftHead">
+    <p class="headLink" onClick="location.replace('serviceStudentPage.html');">Back to homepage</p>
+  </div>
+</header>
+
+<script type="module">
+  import {getLogActivity} from './serviceStudentHistory.js';
+  window.getLogActivity = getLogActivity;
+</script>
+
+<div class="loginBox">
+  <header class="subheading">All Service Opportunities</header>
+  <br>
+  <div id="opportunity1">
+    <div id="opportunityName"> </div>
+    <div id="opportunityDescription"> </div>
+    <div id="opportunityLength"> </div>
+    <div id="opportunityDate"> </div>
+    <div id="opportunityTime"> </div>
+    <div id="opportunityLocation"> </div>
+    <button id="opportunityButton" class="loginButton clubLB">Sign Up For Opportunity</button>
+  </div>
+
+  <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
+  <!-- <button onclick = "sessionStorage.setItem('club', document.getElementById('username').value); localStorage.setItem('password', document.getElementById('password').value); cLogin()" class="loginButton clubLB">Login</button> -->
+  <!--    <button onclick = "addLog(document.getElementById('hourslog').value, document.getElementById('description').value, document.getElementById('varifier').value, document.getElementById('dates').value)" class="loginButton clubLB">Log</button>-->
+</div>
+</body>
+</html>
