@@ -31,31 +31,6 @@ const app = initializeApp(firebaseConfig);
 export const db   = getFirestore(app);
 export const auth = getAuth(app);
 
-//Cookie helpers from https://www.w3schools.com/js/js_cookies.asp
-function generateSecureRandomString(lengthInBytes) {
-    const byteArray = new Uint8Array(lengthInBytes);
-    window.crypto.getRandomValues(byteArray);
-    return Array.from(byteArray, (byte) => byte.toString(16).padStart(2, "0")).join("");
-}
-export function setCookie(cname, cvalue, exdays) {
-    const d = new Date();
-    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
-    const expires = "expires=" + d.toUTCString();
-    document.cookie = `${cname}=${cvalue};${expires};path=/;SameSite=Strict`;
-}
-export function delete_cookie(name) {
-    document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-}
-export function getCookie(cname) {
-    const nameEQ = cname + "=";
-    const ca = document.cookie.split(";");
-    for (let c of ca) {
-        c = c.trim();
-        if (c.startsWith(nameEQ)) return decodeURIComponent(c.substring(nameEQ.length));
-    }
-    return "";
-}
-
 // was having problems with rendering the users name on club page due to improper async handeling
 export const getCurrentUser = () => {
     return new Promise((resolve, reject) => {
@@ -143,14 +118,37 @@ export async function logoutUser() {
 
 // Check if a user is already signed in
 export async function checkLoginStatus() {
+    const user = await getCurrentUser();
+    if (!user) {
+        window.location.href = "./serviceStudentLogin.html";
+        return false;
+    }
+
     const isAdmin = await checkAdminStatus();
     if (isAdmin) {
         window.location.href = "./serviceAdminPanel.html";
+    } else {
+        window.location.href = "./serviceStudentPage.html";
+    }
+    return true;
+}
+
+// Check if a user is already signed in
+export async function checkLoginStatusNoRedirect() {
+    const isAdmin = await checkAdminStatus();
+    if (isAdmin) {
         return true; // User is an admin and redirected, consider them logged in
     }
+    return !!await getCurrentUser();
+}
 
-    const user = await getCurrentUser();
-    return !!user; // make sure returning boolean
+// Check if a user is already signed in, ignore admin
+export async function checkLoginStatusNoAdmin() {
+    const user = !! await getCurrentUser();
+    if (!user) {
+        window.location.href = "./serviceStudentLogin.html";
+    }
+    return user;
 }
 
 // Get the current user's first name
