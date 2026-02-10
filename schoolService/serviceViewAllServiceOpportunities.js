@@ -24,98 +24,141 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+const opportunityButton = document.getElementById("opportunityButton");
+if (opportunityButton) {
+    opportunityButton.style.display = "none";
+}
+
 
 export const getLogActivity = async function() {
-    const user = await getCurrentUser()
-    const uid = user.uid;
-    console.log(uid);
+    // NEW LOOP
     const logsRef = collection(db, "serviceOpportunities");
     const docSnap = await getDocs(logsRef);
+    const originalDiv = document.getElementById('opportunity1');
+    originalDiv.style.backgroundColor = "rgb(141,13,24)";
+    originalDiv.style.color = "rgb(243, 232, 234)";
+    originalDiv.style.padding = " 15px 15px";
+    originalDiv.style.borderRadius = "15px";
+    originalDiv.style.marginBottom = "15px";
+    originalDiv.style.width = "85%";
+    const clonedDiv = originalDiv.cloneNode(true);
     const docIds = [];
-    const querySnapshot = await getDocs(collection(db, "serviceOpportunities"));
+    const querySnapshot = await getDocs(logsRef);
     querySnapshot.forEach((doc) => {
         docIds.push(doc.id);
     });
-    //get how many logs the student has and save it as countLogs
-    const serviceLogCollectionRef = collection(db, "serviceOpportunities");
-    const countSnap = await getCountFromServer(serviceLogCollectionRef);
-    const countLogs = countSnap.data().count;
-    console.log("countLogs:" + countLogs);
-    //loops through as many times as logs the student has
-    for (let i = countLogs; i >= 1; i--) {
-        //loops through as many times as logs the student has until broken
-        let index = undefined;
-        innerLoop:
-            for(let j = 0; j < countLogs; j++){
-                //get the document id at j
-                let tempDocumentUID = docIds[j];
-                let tempDocRef = doc(db, "serviceOpportunities", tempDocumentUID);
-                let tempDocSnap = await getDoc(tempDocRef);
-                if (tempDocSnap.exists()) {
-                    //get what log number this entry is
-                    let possibleI = tempDocSnap.data().logNum;
-                    //if it is the one we are looking for break the code
-                    if (possibleI == i){
-                        index = j;
-                        //get the document at index j
-                        let documentUID = docIds[index];
-                        let docRef = doc(db, "studentServiceLog", documentUID);
-                        let docSnap = await getDoc(docRef);
-                        if (docSnap.exists()) {
-                            let name = docSnap.data().opportunityName;
-                            let description = docSnap.data().opportunityDescription;
-                            let length = docSnap.data().opportunityLength;
-                            let date = docSnap.data().opportunityDate;
-                            let time = docSnap.data().opportunityTime;
-                            let location = docSnap.data().opportunityLocation;
+    for (const id of docIds) {
+        console.log(id);
+        const docRef = doc(db, "serviceOpportunities", id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            console.log(docSnap.data());
+            const data = docSnap.data();
+            clonedDiv.id = `opportunity${id}`;
+            clonedDiv.querySelector('#opportunityName').id = `opportunityName${id}`;
+            clonedDiv.querySelector('#opportunityDescription').id = `opportunityDescription${id}`;
+            clonedDiv.querySelector('#opportunityLength').id = `opportunityLength${id}`;
+            clonedDiv.querySelector('#opportunityDate').id = `opportunityDate${id}`;
+            clonedDiv.querySelector('#opportunityTime').id = `opportunityTime${id}`;
+            clonedDiv.querySelector('#opportunityLocation').id = `opportunityLocation${id}`;
 
-                            // Get the original elements from the HTML
-                            const originalDiv = document.getElementById('opportunity1'); // Assuming 'log1' is the ID of the first log entry container
-                            //STYLING
-                            originalDiv.style.backgroundColor = "rgb(141,13,24)";
-                            originalDiv.style.color = "rgb(243, 232, 234)";
-                            originalDiv.style.padding = " 15px 15px";
-                            originalDiv.style.borderRadius = "15px";
-                            originalDiv.style.marginBottom = "15px";
-                            originalDiv.style.width = "85%";
+            // Update text content of the cloned elements
+            clonedDiv.querySelector(`#opportunityName${id}`).innerText = "Name: " + data.opportunityName;
+            clonedDiv.querySelector(`#opportunityDescription${id}`).innerText = "Description: " + data.opportunityDescription;
+            clonedDiv.querySelector(`#opportunityLength${id}`).innerText = "Length: " + data.opportunityLength;
+            clonedDiv.querySelector(`#opportunityDate${id}`).innerText = "Date: " + data.opportunityDate;
+            clonedDiv.querySelector(`#opportunityTime${id}`).innerText = "Time: " + data.opportunityTime;
+            clonedDiv.querySelector(`#opportunityLocation${id}`).innerText = "Location: " + data.opportunityLocation;
 
-                            //for the most recent entry it prints out the information for that entry
-                            if (i === countLogs) {
-                                document.getElementById("opportunityName").innerText = "Name: " + name;
-                                document.getElementById("opportunityDescription").innerText = "Description: " + description;
-                                document.getElementById("opportunityLength").innerText = "Length: " + length;
-                                document.getElementById("opportunityDate").innerText = "Date: " + date;
-                                document.getElementById("opportunityTime").innerText = "Time: " + time;
-                                document.getElementById("opportunityLocation").innerText = "Location: " + location;
+            // Append the cloned div to the parent of the original div
+            originalDiv.parentNode.appendChild(clonedDiv);
 
-                            } else {
-                                // For subsequent log entries, clone the original elements and append them
-                                const clonedDiv = originalDiv.cloneNode(true);
-                                clonedDiv.id = `opportunity${i}`; // Update ID for uniqueness
-                                clonedDiv.querySelector('#opportunityName').id = `opportunityName${i}`;
-                                clonedDiv.querySelector('#opportunityDescription').id = `opportunityDescription${i}`;
-                                clonedDiv.querySelector('#opportunityLength').id = `opportunityLength${i}`;
-                                clonedDiv.querySelector('#opportunityDate').id = `opportunityDate${i}`;
-                                clonedDiv.querySelector('#opportunityTime').id = `opportunityTime${i}`;
-                                clonedDiv.querySelector('#opportunityLocation').id = `opportunityLocation${i}`;
-
-                                // Update text content of the cloned elements
-                                clonedDiv.querySelector(`#opportunityName${i}`).innerText = "Name: " + name;
-                                clonedDiv.querySelector(`#opportunityDescription${i}`).innerText = "Description: " + description;
-                                clonedDiv.querySelector(`#opportunityLength${i}`).innerText = "Length: " + length;
-                                clonedDiv.querySelector(`#opportunityDate${i}`).innerText = "Date: " + date;
-                                clonedDiv.querySelector(`#opportunityTime${i}`).innerText = "Time: " + time;
-                                clonedDiv.querySelector(`#opportunityLocation${i}`).innerText = "Location: " + location;
-
-                                // Append the cloned div to the parent of the original div
-                                originalDiv.parentNode.appendChild(clonedDiv);
-
-                            }
-                        }
-                        break innerLoop;
-                    }
-                }
-            }
+        }
 
     }
+
+    // OLD LOOP
+
+    // //get how many logs the student has and save it as countLogs
+    // const serviceLogCollectionRef = collection(db, "serviceOpportunities");
+    // const countSnap = await getCountFromServer(serviceLogCollectionRef);
+    // const countLogs = countSnap.data().count;
+    // console.log("countLogs:" + countLogs);
+    // //loops through as many times as logs the student has
+    // for (let i = countLogs; i >= 1; i--) {
+    //     //loops through as many times as logs the student has until broken
+    //     let index = undefined;
+    //     innerLoop:
+    //         for(let j = 0; j < countLogs; j++){
+    //             //get the document id at j
+    //             let tempDocumentUID = docIds[j];
+    //             let tempDocRef = doc(db, "serviceOpportunities", tempDocumentUID);
+    //             let tempDocSnap = await getDoc(tempDocRef);
+    //             if (tempDocSnap.exists()) {
+    //                 //get what log number this entry is
+    //                 let possibleI = tempDocSnap.data().logNum;
+    //                 //if it is the one we are looking for break the code
+    //                 if (possibleI === i){
+    //                     index = j;
+    //                     //get the document at index j
+    //                     let documentUID = docIds[index];
+    //                     let docRef = doc(db, "serviceOpportunities", documentUID);
+    //                     let docSnap = await getDoc(docRef);
+    //                     if (docSnap.exists()) {
+    //                         let name = docSnap.data().opportunityName;
+    //                         let description = docSnap.data().opportunityDescription;
+    //                         let length = docSnap.data().opportunityLength;
+    //                         let date = docSnap.data().opportunityDate;
+    //                         let time = docSnap.data().opportunityTime;
+    //                         let location = docSnap.data().opportunityLocation;
+    //
+    //                         // Get the original elements from the HTML
+    //                         const originalDiv = document.getElementById('opportunity1'); // Assuming 'log1' is the ID of the first log entry container
+    //                         //STYLING
+    //                         originalDiv.style.backgroundColor = "rgb(141,13,24)";
+    //                         originalDiv.style.color = "rgb(243, 232, 234)";
+    //                         originalDiv.style.padding = " 15px 15px";
+    //                         originalDiv.style.borderRadius = "15px";
+    //                         originalDiv.style.marginBottom = "15px";
+    //                         originalDiv.style.width = "85%";
+    //
+    //                         //for the most recent entry it prints out the information for that entry
+    //                         if (i === countLogs) {
+    //                             document.getElementById("opportunityName").innerText = "Name: " + name;
+    //                             document.getElementById("opportunityDescription").innerText = "Description: " + description;
+    //                             document.getElementById("opportunityLength").innerText = "Length: " + length;
+    //                             document.getElementById("opportunityDate").innerText = "Date: " + date;
+    //                             document.getElementById("opportunityTime").innerText = "Time: " + time;
+    //                             document.getElementById("opportunityLocation").innerText = "Location: " + location;
+    //
+    //                         } else {
+    //                             // For subsequent log entries, clone the original elements and append them
+    //                             const clonedDiv = originalDiv.cloneNode(true);
+    //                             clonedDiv.id = `opportunity${i}`; // Update ID for uniqueness
+    //                             clonedDiv.querySelector('#opportunityName').id = `opportunityName${i}`;
+    //                             clonedDiv.querySelector('#opportunityDescription').id = `opportunityDescription${i}`;
+    //                             clonedDiv.querySelector('#opportunityLength').id = `opportunityLength${i}`;
+    //                             clonedDiv.querySelector('#opportunityDate').id = `opportunityDate${i}`;
+    //                             clonedDiv.querySelector('#opportunityTime').id = `opportunityTime${i}`;
+    //                             clonedDiv.querySelector('#opportunityLocation').id = `opportunityLocation${i}`;
+    //
+    //                             // Update text content of the cloned elements
+    //                             clonedDiv.querySelector(`#opportunityName${i}`).innerText = "Name: " + name;
+    //                             clonedDiv.querySelector(`#opportunityDescription${i}`).innerText = "Description: " + description;
+    //                             clonedDiv.querySelector(`#opportunityLength${i}`).innerText = "Length: " + length;
+    //                             clonedDiv.querySelector(`#opportunityDate${i}`).innerText = "Date: " + date;
+    //                             clonedDiv.querySelector(`#opportunityTime${i}`).innerText = "Time: " + time;
+    //                             clonedDiv.querySelector(`#opportunityLocation${i}`).innerText = "Location: " + location;
+    //
+    //                             // Append the cloned div to the parent of the original div
+    //                             originalDiv.parentNode.appendChild(clonedDiv);
+    //
+    //                         }
+    //                     }
+    //                     break innerLoop;
+    //                 }
+    //             }
+    //         }
+    //
+    // }
 }
