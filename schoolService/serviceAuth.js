@@ -120,15 +120,15 @@ export async function logoutUser() {
 export async function checkLoginStatus() {
     const user = await getCurrentUser();
     if (!user) {
-        window.location.href = "./serviceStudentLogin.html";
+        // window.location.href = "./serviceStudentLogin.html";
         return false;
     }
 
     const isAdmin = await checkAdminStatus();
     if (isAdmin) {
-        window.location.href = "./serviceAdminPanel.html";
+        // window.location.href = "./serviceAdminPanel.html";
     } else {
-        window.location.href = "./serviceStudentPage.html";
+        // window.location.href = "./serviceStudentPage.html";
     }
     return true;
 }
