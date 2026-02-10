@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="../clubhub/login.css">
+    <link rel="stylesheet" type="text/css" href="serviceStudentHistory.css">
+    <link rel="icon" type="image/x-icon" href="images/stab_logo.webp">
+    <title>Add Service Hours</title>
+
+    <style>
+        body {
+            background-color: rgba(146, 22, 32, 0.564);
+        }
+    </style>
+
+    <script type="module">
+    import {login} from '../clubhub/script.js';
+    window.login = login;
+    import {cLogin,correctNavDisplayCD} from '../clubhub/clubinfo.js';
+    window.cLogin = cLogin;
+    window.correctNavDisplayCD = correctNavDisplayCD;
+  </script>
+
+    <script type="module">
+    import {getLogActivity} from './serviceAdminPanel.js';
+    window.getLogActivity = getLogActivity;
+    </script>
+
+</head>
+<body onload="getLogActivity()">
+
+
+    <header class="head">
+        <div class="rightHead">
+          <img class="image" src="../../clubhub/images/stab_logo.webp" alt="logo" onClick="location.replace('index.html');">
+          <p onClick="location.replace('index.html');">St. Anne's Belfield School</p>
+        </div>
+        <div class="leftHead">
+          <p class="headLink" onClick="location.replace('serviceAdminPanel.html');">Back to homepage</p>
+        </div>
+      </header>
+
+    <script type="module" src="../clubhub/clubinfo.js"></script>
+  
+
+    <div class="loginBox">
+        <header class="subheading">Student History</header>
+        <br>
+      <div id="log1">
+          <div id="activity"> </div>
+          <div id="logged-hours"> </div>
+          <div id="logged-hours-to-school"> </div>
+          <div id="contact"> </div>
+          <div id="date"> </div>
+
+      </div>
+  
+  </div>
+</body>
+</html>

@@ -36,6 +36,24 @@ body {
     background-color: rgb(141, 13, 24);
 }
 
+.viewLogButton{
+    font-weight: bold; 
+    color: white;  
+    font-size: 25px; 
+    margin: 2px 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 10px clamp(14px, 3vw, 20px);
+    background-color: rgb(141, 13, 24);
+    border: 1px solid transparent;
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+    border-radius: 10px;
+    
+}
+
 #adminPageBtn{
     display: none;
 }

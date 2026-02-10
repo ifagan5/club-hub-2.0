@@ -66,6 +66,19 @@
                     <div class="adminPastMeetings" id="adminStudentSchoolHours" data-title="School Hours"></div>
                 </div>
             </div>
+            <br>
+            <div class="clubNameWrapper">
+                <div class="adminLine"></div>
+                <button class="viewLogButton" id="adminViewLog" onclick="if (!sessionStorage.getItem('studentUID')) {
+                        alert('Please select a student first.');
+                        } 
+                        else {
+                        location.replace('adminStudentHistory.html');
+                        }"
+                        >View Student Log</button>
+                <div class="adminLine"></div>
+            </div>
+            
         </div>
         <div class="DCB-GCB-Wrapper">
                 <span class="spark spark1"></span>
