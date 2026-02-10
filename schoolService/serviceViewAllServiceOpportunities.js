@@ -5,7 +5,11 @@ import {checkLoginStatus, getCurrentUser, checkAdminStatus, checkLoginStatusNoAd
 //import{getCountFromServer} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 (async () => {
-    await checkLoginStatusNoAdmin();
+    const loggedIn = await checkLoginStatus();
+    if (!loggedIn) {
+        window.location.href = "./serviceStudentLogin.html";
+    }
+
 })();
 //haha
 const firebaseConfig = {
