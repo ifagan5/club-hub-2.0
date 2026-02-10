@@ -63,16 +63,21 @@ input.addEventListener("keydown", async function (event) {
           const studentId = doc.id;
           const fullName = `${data.firstName} ${data.lastName}`;
           const schoolHours = data.totalSchoolHours || 0;
-          const totalHours = data.totalHours || 0;
+          const totalHours = data.totalNonSchoolHours || 0;
           const grade = data.gradYr || "N/A";
           let schoolRequirement = null;
+          const isAdmin = data.admin;
+          if (isAdmin === true) {
+            return;
+          }
+
           if (grade === "2027"){
               schoolRequirement = "(10 service to the school hours before senior year to graduate)"
           }
           else if (grade === "2028"){
               schoolRequirement = "(20 service to the school hours before senior year to graduate)"
           }
-          else{
+          else {
               schoolRequirement = "(30 service to the school hours before senior year to graduate)"
           }
 
@@ -81,9 +86,9 @@ input.addEventListener("keydown", async function (event) {
               communityRequirement =  "(30 general community service hours before senior year to graduate)"
           }
           else if (grade === "2028"){
-              communityRequirement = "(30 general community service hours before senior year to graduate)"
+              communityRequirement = "(15 general community service hours before senior year to graduate)"
           }
-          else{
+          else {
               communityRequirement = "(No general community service graduation requirement)"
           }
                     console.log("Found student ID:", studentId);
@@ -109,6 +114,11 @@ input.addEventListener("keydown", async function (event) {
         const schoolHours = data.totalSchoolHours || 0;
         const totalHours = data.totalHours || 0;
         const grade = data.gradYr || "N/A";
+        const isAdmin = data.admin;
+
+        if (isAdmin === true) {
+          return;
+        }
 
         console.log("Found student ID:", studentId);
         console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
