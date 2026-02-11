@@ -41,7 +41,12 @@
         const nonSchoolServiceHoursPercentage = await calculateNonSchoolServiceHoursPercentage();
         // const neededSchoolHours = await getSchoolGradRequirement();
         // const neededCommunityHours = await getCommunityGradRequirement();
-        document.getElementById("red-text-left-description").innerText = "total non-school service hours (" + nonSchoolServiceHoursPercentage + "%)";
+        if (nonSchoolServiceHoursPercentage == "N/A"){
+            document.getElementById("red-text-left-description").innerText = "total non-school service hours";    
+        }
+        else{
+            document.getElementById("red-text-left-description").innerText = "total non-school service hours (" + nonSchoolServiceHoursPercentage + "%)";
+        }
         document.getElementById("red-text-right-description").innerText = "service to the school hours (" + schoolServiceHoursPercentage + "%)";
         document.getElementById("name").innerText = `${firstName} ${lastName}`;
         document.getElementById("totalHours").textContent = `${totalHours}`;

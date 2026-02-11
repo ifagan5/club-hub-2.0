@@ -229,7 +229,7 @@ export async function calculateSchoolServiceHoursPercentage() {
             const preliminaryResult = (totalSchoolHours / 30) * 100
             return Math.min(preliminaryResult, 100).toFixed(0);
         } else {
-            return "ERROR";
+            return 0;
         }
 
     }
@@ -257,7 +257,7 @@ export async function calculateNonSchoolServiceHoursPercentage() {
             // return Math.min(preliminaryResult, 100);
             return "N/A";
         } else {
-            return "ERROR";
+            return 0;
         }
 
     }
