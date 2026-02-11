@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import {checkAdminStatus} from "./serviceAuth.js";
-import { getFirestore, arrayUnion, getCountFromServer, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, arrayUnion, getCountFromServer, collection, collectionGroup, addDoc, getDocs,or, getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import {checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 
@@ -48,17 +48,29 @@ input.addEventListener("keydown", async function (event) {
 
     // Split the input into first name and last name using spaces
     const [firstName, ...lastNameParts] = inputVal.split(" ");
-    const lastName = lastNameParts.map(capitalize).join(" ");
+    const formattedLastName = lastNameParts.map(capitalize).join(" ");
     const formattedFirstName = capitalize(firstName);
 
     // Make the query and filter by the first and the last name
-    const q = query(docsRef, where("firstName", "==", formattedFirstName), where("lastName", "==", lastName));
+    const q = query(docsRef, where("firstName", "==", formattedFirstName), where("lastName", "==", formattedLastName));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
       // check for students with first name
-      const q2 = query(docsRef, where("firstName", "==", formattedFirstName));
+      //const q2 = query(docsRef, where("firstName", "==", formattedFirstName));
+      const q2 = query(
+          collection(db, "students"),
+          or(
+            where("firstName", "==", formattedFirstName),
+            where("lastName", "==", formattedFirstName)
+          )
+        );
       const querySnapshot2 = await getDocs(q2);
+      
+    if (querySnapshot2.empty) {
+        alert("No student found with that exact name or first name. Try again!")
+      }
+
       if (!querySnapshot2.empty) {
         //alert("WARNING: No exact match was found! Initializing first name fallback search. You may be prompted multiple more times. Click cancel on the alerts until you see the student you are looking for.")
         querySnapshot2.forEach((doc) => {
@@ -108,9 +120,7 @@ input.addEventListener("keydown", async function (event) {
             sessionStorage.setItem("studentUID", doc.id);
           //}
         });
-      } else {
-        alert("No student found with that exact name or first name. Try again!")
-      }
+      } 
     } else {
       querySnapshot.forEach((doc) => {
         // TODO: add a student grade element
@@ -141,6 +151,11 @@ input.addEventListener("keydown", async function (event) {
           sessionStorage.setItem("studentUID", doc.id);
         }
       });
+
+
+
+
+      
     }
   }
 });
