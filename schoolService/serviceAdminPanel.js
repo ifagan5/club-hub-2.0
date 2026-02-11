@@ -60,7 +60,7 @@ input.addEventListener("keydown", async function (event) {
       const q2 = query(docsRef, where("firstName", "==", formattedFirstName));
       const querySnapshot2 = await getDocs(q2);
       if (!querySnapshot2.empty) {
-        alert("WARNING: No exact match was found! Initializing first name fallback search. You may be prompted multiple more times. Click cancel on the alerts until you see the student you are looking for.")
+        //alert("WARNING: No exact match was found! Initializing first name fallback search. You may be prompted multiple more times. Click cancel on the alerts until you see the student you are looking for.")
         querySnapshot2.forEach((doc) => {
           const data = doc.data();
           const studentId = doc.id;
@@ -97,7 +97,7 @@ input.addEventListener("keydown", async function (event) {
                     console.log("Found student ID:", studentId);
           console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
 
-          if (window.confirm("Would would like to view this students information: " + fullName + "? (ok = yes, cancel = no)")) {
+          //if (window.confirm("Would would like to view this students information: " + fullName + "? (ok = yes, cancel = no)")) {
             studentName.innerHTML = fullName;
             bigName.innerHTML = fullName;
             buttonName.innerHTML = fullName + "'s Log";
@@ -106,7 +106,7 @@ input.addEventListener("keydown", async function (event) {
             studentSchoolHours.innerHTML = schoolHours + " " + schoolRequirement;
             selectedStudentUID = doc.id;
             sessionStorage.setItem("studentUID", doc.id);
-          }
+          //}
         });
       } else {
         alert("No student found with that exact name or first name. Try again!")
