@@ -142,15 +142,6 @@ export async function checkLoginStatusNoRedirect() {
     return !!await getCurrentUser();
 }
 
-// Check if a user is already signed in, ignore admin
-export async function checkLoginStatusNoAdmin() {
-    const user = !! await getCurrentUser();
-    if (!user) {
-        window.location.href = "./serviceStudentLogin.html";
-    }
-    return user;
-}
-
 // Get the current user's first name
 export async function getFirstName() {
     const user = await getCurrentUser();
