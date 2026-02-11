@@ -1,7 +1,7 @@
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-import {checkAdminStatus, checkLoginStatus} from "./serviceAuth.js";
+import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, arrayUnion, arrayRemove, deleteDoc, setDoc, Timestamp, query, where} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import {checkAdminStatus, checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 
 
 const isLoggedIn = await checkLoginStatus()
@@ -34,22 +34,79 @@ const opportunityLocation = document.getElementById("opportunityLocation");
 // testing...
 // localStorage.setItem("serviceName", "setme")
 
+const user = await getCurrentUser();
 const docsRef = collection(db, "serviceOpportunities");
 const serviceName = sessionStorage.getItem('opportunityName');
 console.log(serviceName);
 const q = query(docsRef, where("opportunityName", "==", serviceName));
 const querySnapshot = await getDocs(q);
 if (!querySnapshot.empty) {
-    querySnapshot.forEach((doc) => {
-        const data = doc.data();
-
+    for (const docSnap of querySnapshot.docs) {
+        const data = docSnap.data();
         opportunityName.innerHTML = data.opportunityName;
         opportunityDescription.innerHTML = data.opportunityDescription;
         opportunityLength.innerHTML = data.opportunityLength;
         opportunityDate.innerHTML = data.opportunityDate;
         opportunityTime.innerHTML = data.opportunityTime;
         opportunityLocation.innerHTML = data.opportunityLocation;
-    });
-} else {
+
+        const button = document.getElementById("opportunityStatusButton");
+        const timestamp = data.timestamp.toDate();
+        const signedUpUsers = data.signedUpUsers || [];
+        const currentDate = new Date();
+        const timestampDate = new Date(timestamp);
+        const currentDateTimeInMs = currentDate.getTime();
+        const timestampDateTimeInMs = timestampDate.getTime();
+        console.log(currentDateTimeInMs)
+        console.log(timestampDateTimeInMs)
+        const isPast = currentDateTimeInMs < timestampDateTimeInMs;
+        console.log(isPast)
+
+        if (signedUpUsers.includes(user.uid)) {
+            if (isPast) {
+                button.innerText = "Claim Your Service Opportunity Hours";
+                button.addEventListener("click", async () => {
+                    await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
+                        signedUpUsers: arrayRemove(user.uid)
+                    });
+                    const uid = user.uid;
+                    console.log(uid);
+                    const docRef = doc(db, "students", uid);
+                    const docSnap = await getDoc(docRef);
+                    const data = docSnap.data();
+                    if (docSnap.exists()) {
+                        const studentTotalHours = data.totalSchoolHours || 0; // Default to 0 if it doesn't exist?
+                        const newHours = studentTotalHours + data.opportunityLength;
+                        await updateDoc(docRef, {
+                            totalNonSchoolHours: newHours,
+                        });
+                    }
+                    window.location.reload()
+                });
+            } else {
+                button.innerText = "Cancel Your Signup";
+                button.addEventListener("click", async () => {
+                    await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
+                        signedUpUsers: arrayRemove(user.uid)
+                    });
+                    window.location.reload()
+                });
+            }
+        } else {
+            if (!isPast) {
+                button.innerText = "Signup For Service Opportunity";
+                button.addEventListener("click", async () => {
+                    await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
+                        signedUpUsers: arrayUnion(user.uid)
+                    });
+                    window.location.reload()
+                });
+            } else {
+                button.innerText = "Service Opportunity Expired";
+            }
+        }
+    }
+}
+else {
     opportunityName.innerHTML = "Error: No Opportunity Found";
 }
