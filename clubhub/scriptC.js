@@ -262,7 +262,7 @@ function renderWeekView(referenceDate) {
     const weekEnd = new Date(weekStart);
     weekEnd.setDate(weekStart.getDate() + 6);
     weekEnd.setHours(0, 0, 0, 0);
-
+ 
     monthYear.innerText = formatWeekHeader(weekStart, weekEnd);
 
     weekdaysContainer.classList.add('weekdays--hidden');
