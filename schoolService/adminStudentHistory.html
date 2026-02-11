@@ -20,8 +20,9 @@
     import {cLogin,correctNavDisplayCD} from '../clubhub/clubinfo.js';
     window.cLogin = cLogin;
     window.correctNavDisplayCD = correctNavDisplayCD;
-    import {getLogActivity} from './adminStudentHistory.js';
+    import {getLogActivity, returnPage} from './adminStudentHistory.js';
     window.getLogActivity = getLogActivity;
+    window.returnPage = returnPage;
   </script>
 
 </head>
@@ -34,7 +35,7 @@
           <p onClick="location.replace('index.html');">St. Anne's Belfield School</p>
         </div>
         <div class="leftHead">
-          <p class="headLink" onClick="location.replace('serviceAdminPanel.html');">Back to homepage</p>
+          <p class="headLink" onClick="returnPage()">Back to homepage</p>
         </div>
       </header>
 
@@ -42,7 +43,7 @@
   
 
     <div class="loginBox">
-        <header class="subheading">Student History</header>
+        <header class="subheading" id="subheading">Student's Log History</header>
         <br>
       <div id="log1">
           <div id="activity"> </div>
