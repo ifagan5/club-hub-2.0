@@ -1736,7 +1736,9 @@ option {
 .adminaboutClub,
 .adminNextMeeting,
 .adminInDangerDiv,
-.adminPastMeetings {
+.adminPastMeetings,
+.oppLength,
+.oppLoc {
   position: relative;
   background: #ffffff;
   border: 1px solid #e9e9e9;
@@ -1751,7 +1753,9 @@ option {
 .adminaboutClub:hover,
 .adminNextMeeting:hover,
 .adminInDangerDiv:hover,
-.adminPastMeetings:hover {
+.adminPastMeetings:hover
+.oppLength.hover,
+.oppLoc.hover {
   box-shadow: 0 8px 22px rgba(0,0,0,0.10);
   transform: translateY(-1px);
 }
@@ -1760,7 +1764,9 @@ option {
 .adminaboutClub::before,
 .adminNextMeeting::before,
 .adminInDangerDiv::before,
-.adminPastMeetings::before {
+.adminPastMeetings::before,
+.oppLength::before,
+.oppLoc::before {
   content: attr(data-title);
   position: absolute;
   top: 0;
@@ -1782,7 +1788,9 @@ option {
 .adminaboutClub > *,
 .adminNextMeeting > *,
 .adminInDangerDiv > *,
-.adminPastMeetings > * {
+.adminPastMeetings > *,
+.oppLength > *,
+.oppLoc > * {
   font-family: 'Inter', sans-serif;
   line-height: 1.45;
 }
@@ -2437,7 +2445,9 @@ background-color: #eeeeee;
   .adminaboutClub,
   .adminNextMeeting,
   .adminInDangerDiv,
-  .adminPastMeetings {
+  .adminPastMeetings,
+  .oppLength,
+  .oppLoc {
     padding: 16px;
     padding-top: 56px; /* for header strip */
   }
@@ -2475,7 +2485,9 @@ background-color: #eeeeee;
   .adminaboutClub,
   .adminNextMeeting,
   .adminInDangerDiv,
-  .adminPastMeetings {
+  .adminPastMeetings,
+  .oppLength,
+  .oppLoc {
     padding: 14px;
     padding-top: 52px;
   }
