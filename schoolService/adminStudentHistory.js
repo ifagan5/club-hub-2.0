@@ -15,16 +15,38 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const studentName = document.getElementById("subheading");
 
+export const returnPage = async function(){
+  sessionStorage.removeItem("studentUID");
+  location.replace('serviceAdminPanel.html');
+}
 
 export const getLogActivity = async function() {
-    const uid = sessionStorage.getItem("studentUID");
+  const uid = sessionStorage.getItem("studentUID");
   console.log("savedUID =", uid);
+  let fullName = "Student";
 
   if (!uid) {
     alert("No student selected.");
     return;
   }
+
+    const studentRef = doc(db, "students", uid);
+    const studentSnap = await getDoc(studentRef);
+    if (studentSnap.exists()) {
+    const data = studentSnap.data();
+    fullName = `${data.firstName} ${data.lastName}`;
+    console.log(fullName);
+    studentName.innerHTML = fullName + "'s Log History";
+  } else {
+    // Document does not exist
+    console.log("No such document!");
+    fullName = "Student";
+  }
+
+
+
 
     const logsRef = collection(db, "studentServiceLog", uid, "logs");
     const docSnap = await getDocs(logsRef);
@@ -117,4 +139,4 @@ export const getLogActivity = async function() {
         }
         
     }
-}
+  }
