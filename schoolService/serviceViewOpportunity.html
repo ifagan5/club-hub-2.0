@@ -14,7 +14,12 @@
     <h1>Service Opportunity Viewer</h1>
 </header>
 
-<script type="module" src="./serviceViewOpportunity.js"></script>
+<script type="module" src="serviceViewOpportunity.js"></script>
+<script type="module">
+    import {logoutUser} from "./serviceAuth.js";
+    window.logoutUser = logoutUser;
+</script>
+
 
 <!-- Creates a bar bellow header box with nav buttons -->
 <div class="nav">
@@ -40,6 +45,7 @@
             <div class="adminPastMeetings" id="opportunityLocation" data-title="Location"></div>
         </div>
     </div>
+    <button class="button" id="opportunityStatusButton" style="background-color: maroon; color: white; display: block; margin: 20px auto; border-radius: 10px; padding: 10px 40px;"></button>
 </div>
 <div class="DCB-GCB-Wrapper">
     <span class="spark spark1"></span>
