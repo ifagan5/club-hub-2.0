@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore, arrayUnion, getCountFromServer, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-import {checkLoginStatus, getCurrentUser, checkAdminStatus, } from "./serviceAuth.js";
+import {checkLoginStatus, getCurrentUser, checkAdminStatus} from "./serviceAuth.js";
 //import{getCountFromServer} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 (async () => {
@@ -32,29 +32,25 @@ if (opportunityButton) {
 }
 
 export const getLogActivity = async function() {
-    // NEW LOOP
+    // NEW LOOP AURA
     const logsRef = collection(db, "serviceOpportunities");
-    const docSnap = await getDocs(logsRef);
     const originalDiv = document.getElementById('opportunity1');
-    originalDiv.style.backgroundColor = "rgb(141,13,24)";
-    originalDiv.style.color = "rgb(243, 232, 234)";
-    originalDiv.style.padding = " 15px 15px";
-    originalDiv.style.borderRadius = "15px";
-    originalDiv.style.marginBottom = "15px";
-    originalDiv.style.width = "85%";
-    const clonedDiv = originalDiv.cloneNode(true);
-    const docIds = [];
+    originalDiv.style.display = 'none';
+
     const querySnapshot = await getDocs(logsRef);
-    querySnapshot.forEach((doc) => {
-        docIds.push(doc.id);
-    });
-    for (const id of docIds) {
-        console.log(id);
-        const docRef = doc(db, "serviceOpportunities", id);
-        const docSnap = await getDoc(docRef);
+    for (const docSnap of querySnapshot.docs) {
         if (docSnap.exists()) {
-            console.log(docSnap.data());
+            const clonedDiv = originalDiv.cloneNode(true);
+            clonedDiv.style.display = 'block';
+            clonedDiv.style.backgroundColor = "rgb(141,13,24)";
+            clonedDiv.style.color = "rgb(243, 232, 234)";
+            clonedDiv.style.padding = " 15px 15px";
+            clonedDiv.style.borderRadius = "15px";
+            clonedDiv.style.marginBottom = "15px";
+            clonedDiv.style.width = "85%";
+
             const data = docSnap.data();
+            const id = docSnap.id;
             clonedDiv.id = `opportunity${id}`;
             clonedDiv.querySelector('#opportunityName').id = `opportunityName${id}`;
             clonedDiv.querySelector('#opportunityDescription').id = `opportunityDescription${id}`;
@@ -62,23 +58,23 @@ export const getLogActivity = async function() {
             clonedDiv.querySelector('#opportunityDate').id = `opportunityDate${id}`;
             clonedDiv.querySelector('#opportunityTime').id = `opportunityTime${id}`;
             clonedDiv.querySelector('#opportunityLocation').id = `opportunityLocation${id}`;
-            clonedDiv.querySelector('#opportunityButton').id = `opportunityButton${id}`;
+            const button = clonedDiv.querySelector('#opportunityButton');
+            button.id = `opportunityButton${id}`;
 
             // Update text content of the cloned elements
-            clonedDiv.querySelector(`#opportunityName${id}`).innerText = "Name: " + data.opportunityName;
-            clonedDiv.querySelector(`#opportunityDescription${id}`).innerText = "Description: " + data.opportunityDescription;
-            clonedDiv.querySelector(`#opportunityLength${id}`).innerText = "Length: " + data.opportunityLength;
-            clonedDiv.querySelector(`#opportunityDate${id}`).innerText = "Date: " + data.opportunityDate;
-            clonedDiv.querySelector(`#opportunityTime${id}`).innerText = "Time: " + data.opportunityTime;
-            clonedDiv.querySelector(`#opportunityLocation${id}`).innerText = "Location: " + data.opportunityLocation;
-            clonedDiv.querySelector(`#opportunityButton${id}`).innerText = "Sign Up For Opportunity";
+            clonedDiv.querySelector(`#opportunityName${id}`).textContent = "Name: " + data.opportunityName;
+            clonedDiv.querySelector(`#opportunityDescription${id}`).textContent = "Description: " + data.opportunityDescription;
+            clonedDiv.querySelector(`#opportunityLength${id}`).textContent = "Length: " + data.opportunityLength;
+            clonedDiv.querySelector(`#opportunityDate${id}`).textContent = "Date: " + data.opportunityDate;
+            clonedDiv.querySelector(`#opportunityTime${id}`).textContent = "Time: " + data.opportunityTime;
+            clonedDiv.querySelector(`#opportunityLocation${id}`).textContent = "Location: " + data.opportunityLocation;
+            button.textContent = "Sign Up For Opportunity";
 
             const isAdmin = await checkAdminStatus();
-            console.log(isAdmin)
             if (isAdmin) {
-                clonedDiv.querySelector(`#opportunityButton${id}`).style.display = "none";
+                button.style.display = "none";
             } else {
-                clonedDiv.querySelector(`#opportunityButton${id}`).onclick = () => {
+                button.onclick = () => {
                     sessionStorage.setItem("opportunityName", data.opportunityName);
                     window.location.href = "./serviceViewOpportunity.html";
                 };
@@ -87,11 +83,5 @@ export const getLogActivity = async function() {
             // Append the cloned div to the parent of the original div
             originalDiv.parentNode.appendChild(clonedDiv);
         }
-
-        const opportunityButton = document.getElementById("opportunityButton");
-        if (opportunityButton) {
-            opportunityButton.style.display = "none";
-        }
-
     }
 }
