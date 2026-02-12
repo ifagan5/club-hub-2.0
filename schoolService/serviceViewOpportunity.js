@@ -43,11 +43,27 @@ const querySnapshot = await getDocs(q);
 if (!querySnapshot.empty) {
     for (const docSnap of querySnapshot.docs) {
         const data = docSnap.data();
+
+        let finalTime = null;
+        const current24htime = data.opportunityTime;
+        const [hourStr, minute] = current24htime.split(':', 2);
+        const hour = parseInt(hourStr, 10); //make sure to set to base 10
+        if (hour > 12) {
+            finalTime = (hour - 12) + ':' + minute + ' PM';
+        } else if (hour === 12) {
+            finalTime = hour + ':' + minute + ' PM';
+        } else if (hour === 0) {
+            finalTime = '12:' + minute + ' AM';
+        } else {
+            finalTime = hour + ':' + minute + ' AM';
+        }
+
+
         opportunityName.innerHTML = data.opportunityName;
         opportunityDescription.innerHTML = data.opportunityDescription;
-        opportunityLength.innerHTML = data.opportunityLength;
+        opportunityLength.innerHTML = data.opportunityLength + " hours";
         opportunityDate.innerHTML = data.opportunityDate;
-        opportunityTime.innerHTML = data.opportunityTime;
+        opportunityTime.innerHTML = finalTime;
         opportunityLocation.innerHTML = data.opportunityLocation;
 
         const button = document.getElementById("opportunityStatusButton");

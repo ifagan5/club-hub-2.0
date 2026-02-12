@@ -40,6 +40,14 @@ export const getLogActivity = async function() {
     const querySnapshot = await getDocs(logsRef);
     for (const docSnap of querySnapshot.docs) {
         if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (sessionStorage.getItem("filterBySignedUp") === "true") {
+                const user = await getCurrentUser();
+                if (!data.signedUpUsers || !data.signedUpUsers.includes(user.uid)) {
+                    continue;
+                }
+            }
+
             const clonedDiv = originalDiv.cloneNode(true);
             clonedDiv.style.display = 'block';
             clonedDiv.style.backgroundColor = "rgb(141,13,24)";
@@ -49,7 +57,6 @@ export const getLogActivity = async function() {
             clonedDiv.style.marginBottom = "15px";
             clonedDiv.style.width = "85%";
 
-            const data = docSnap.data();
             const id = docSnap.id;
             clonedDiv.id = `opportunity${id}`;
             clonedDiv.querySelector('#opportunityName').id = `opportunityName${id}`;
@@ -68,7 +75,7 @@ export const getLogActivity = async function() {
             clonedDiv.querySelector(`#opportunityDate${id}`).textContent = "Date: " + data.opportunityDate;
             clonedDiv.querySelector(`#opportunityTime${id}`).textContent = "Time: " + data.opportunityTime;
             clonedDiv.querySelector(`#opportunityLocation${id}`).textContent = "Location: " + data.opportunityLocation;
-            button.textContent = "Sign Up For Opportunity";
+            button.textContent = "View Service Opportunity";
 
             const isAdmin = await checkAdminStatus();
             if (isAdmin) {
@@ -85,3 +92,15 @@ export const getLogActivity = async function() {
         }
     }
 }
+
+const checkbox = document.getElementById('myCheck');
+checkbox.checked = sessionStorage.getItem("filterBySignedUp") === "true";
+checkbox.addEventListener('change', function() {
+    if (this.checked) {
+        sessionStorage.setItem("filterBySignedUp", "true");
+        window.location.reload();
+    } else {
+        sessionStorage.removeItem("filterBySignedUp");
+        window.location.reload();
+    }
+});
