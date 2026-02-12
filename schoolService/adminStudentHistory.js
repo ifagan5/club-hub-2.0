@@ -18,16 +18,16 @@ const auth = getAuth(app);
 const studentName = document.getElementById("subheading");
 
 export const returnPage = async function(){
-  sessionStorage.removeItem("studentUID");
+  sessionStorage.removeItem("studentUIDArray");
   location.replace('serviceAdminPanel.html');
 }
 
 export const getLogActivity = async function() {
-  const uid = sessionStorage.getItem("studentUID");
-  console.log("savedUID =", uid);
+  const uidArray = sessionStorage.getItem("studentUIDArray");
+  console.log("saved uidArray =", uidArray);
   let fullName = "Student";
 
-  if (!uid) {
+  if (!uidArray) {
     alert("No student selected.");
     return;
   }

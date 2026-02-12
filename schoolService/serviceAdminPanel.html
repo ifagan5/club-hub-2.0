@@ -52,6 +52,7 @@
         </div>
 
         <div class="adminStudentNameWrapper" id="adminClubInfoWrapper">
+            <div id="studentWrapper">
             <div class="clubNameWrapper">
                 <div class="adminLine"></div>
                 <div class="adminStudentName" id="adminBigStudentName">Student Name</div>
@@ -74,12 +75,14 @@
                         alert('Please select a student first.');
                         } 
                         else {
+                        //sessionStorage.setItem('studentName', docIds);
                         location.replace('adminStudentHistory.html');
                         }"
                         >View Student Log</button>
                 <div class="adminLine"></div>
             </div>
-            
+            <br><br><br>
+        </div>
         </div>
         <div class="DCB-GCB-Wrapper">
                 <span class="spark spark1"></span>
@@ -101,7 +104,7 @@
     </div>
 </div>
 
-<div class="adminLineThree"></div>
+
 <br>
 <!-- page footer -->
 <div class="footer">

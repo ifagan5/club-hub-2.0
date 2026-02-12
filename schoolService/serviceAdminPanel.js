@@ -28,15 +28,8 @@ const db = getFirestore(app);
 const docsRef = collection(db, "students");
 
 const input = document.getElementById("searchInput");
-const studentName = document.getElementById("adminStudentName");
-const studentGrade = document.getElementById("adminStudentGrade");
-const studentNonSchoolHours = document.getElementById("adminStudentNonSchoolHours");
-const studentSchoolHours = document.getElementById("adminStudentSchoolHours");
-const bigName = document.getElementById("adminBigStudentName");
-const buttonName = document.getElementById("adminViewLog");
+
 let selectedStudentUID = null;
-
-
 input.addEventListener("keydown", async function (event) {
   // Check if the pressed key is "Enter"
   if (event.key === "Enter") {
@@ -65,28 +58,41 @@ input.addEventListener("keydown", async function (event) {
             where("lastName", "==", formattedFirstName)
           )
         );
+      let docIds = [];
       const querySnapshot2 = await getDocs(q2);
-      
     if (querySnapshot2.empty) {
-        alert("No student found with that exact name or first name. Try again!")
+        alert("No student found with that first or last name. Try again!")
       }
+  
+    if(!querySnapshot2.empty){
+      querySnapshot2.forEach((doc) => {
+      docIds.push(doc.id);
+      console.log(docIds);
+    });
 
-      if (!querySnapshot2.empty) {
-        //alert("WARNING: No exact match was found! Initializing first name fallback search. You may be prompted multiple more times. Click cancel on the alerts until you see the student you are looking for.")
-        querySnapshot2.forEach((doc) => {
-          const data = doc.data();
-          const studentId = doc.id;
-          const fullName = `${data.firstName} ${data.lastName}`;
-          const schoolHours = data.totalSchoolHours || 0;
-          const totalHours = data.totalNonSchoolHours || 0;
-          const grade = data.gradYr || "N/A";
-          let schoolRequirement = null;
-          const isAdmin = data.admin;
-          if (isAdmin === true) {
+    const countSnap = await getCountFromServer(q2);
+    const countLogs = countSnap.data().count;
+    console.log("countLogs:" + countLogs);
+    sessionStorage.setItem("studentUIDArray", docIds);
+
+    for (let i = countLogs; i >= 1; i--) {
+      let tempDocumentUID = docIds[i-1];
+      let tempDocRef = doc(db, "students", tempDocumentUID);
+      let tempDocSnap = await getDoc(tempDocRef);
+      if (tempDocSnap.exists()) {
+        //getting all the info for each student
+        //let data = doc.data();
+        const studentId = tempDocSnap.data().uid;
+        const fullName = `${tempDocSnap.data().firstName} ${tempDocSnap.data().lastName}`;
+        const schoolHours = tempDocSnap.data().totalSchoolHours || 0;
+        const totalHours = tempDocSnap.data().totalNonSchoolHours || 0;
+        const grade = tempDocSnap.data().gradYr || "N/A";
+        let schoolRequirement = null;
+        const isAdmin = tempDocSnap.data().admin;
+        if (isAdmin === true) {
             return;
           }
-
-          if (grade === "2027"){
+        if (grade === "2027"){
               schoolRequirement = "(10 service to the school hours before senior year to graduate)"
           }
           else if (grade === "2028"){
@@ -108,55 +114,53 @@ input.addEventListener("keydown", async function (event) {
           }
                     console.log("Found student ID:", studentId);
           console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
-
-          //if (window.confirm("Would would like to view this students information: " + fullName + "? (ok = yes, cancel = no)")) {
-            studentName.innerHTML = fullName;
-            bigName.innerHTML = fullName;
-            buttonName.innerHTML = fullName + "'s Log";
-            studentGrade.innerHTML = grade;
-            studentNonSchoolHours.innerHTML = totalHours + " " + communityRequirement;
-            studentSchoolHours.innerHTML = schoolHours + " " + schoolRequirement;
-            selectedStudentUID = doc.id;
-            sessionStorage.setItem("studentUID", doc.id);
-          //}
-        });
-      } 
-    } else {
-      querySnapshot.forEach((doc) => {
-        // TODO: add a student grade element
-        //const savedUID = sessionStorage.setItem("studentUID", doc.id);
-        const data = doc.data();
-        const studentId = doc.id;
-        const fullName = `${data.firstName} ${data.lastName}`;
-        const schoolHours = data.totalSchoolHours || 0;
-        const totalHours = data.totalHours || 0;
-        const grade = data.gradYr || "N/A";
-        const isAdmin = data.admin;
-
-        if (isAdmin === true) {
-          return;
-        }
-
-        console.log("Found student ID:", studentId);
-        console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
-
-        if (window.confirm("Would would like to view this students information: " + fullName)) {
-          studentName.innerHTML = fullName;
-          bigName.innerHTML = fullName;
-          buttonName.innerHTML = fullName + "'s Log";
-          studentGrade.innerHTML = grade;
-          studentNonSchoolHours.innerHTML = totalHours + " " + communityRequirement;
-          studentSchoolHours.innerHTML = schoolHours + " " + schoolRequirement;
+        
+        
+        const originalDiv = document.getElementById('studentWrapper');
+        if (i===countLogs){
+          document.getElementById("adminStudentName").innerHTML = fullName;
+          document.getElementById("adminStudentGrade").innerHTML = grade;
+          document.getElementById("adminStudentNonSchoolHours").innerHTML = totalHours + " " + communityRequirement;
+          document.getElementById("adminStudentSchoolHours").innerHTML = schoolHours + " " + schoolRequirement;
+          document.getElementById("adminBigStudentName").innerHTML = fullName;
+          document.getElementById("adminViewLog").innerHTML = fullName + "'s Log";
           selectedStudentUID = doc.id;
-          sessionStorage.setItem("studentUID", doc.id);
+          //sessionStorage.setItem("studentUID", doc.id);
         }
-      });
+        else{
+          const clonedDiv = originalDiv.cloneNode(true);
+          clonedDiv.id = `log${i + 1}`; // Update ID for uniqueness
+          clonedDiv.querySelector('#adminStudentName').id = `adminStudentName${i + 1}`;
+          clonedDiv.querySelector('#adminStudentGrade').id = `adminStudentGrade${i + 1}`;
+          clonedDiv.querySelector('#adminStudentNonSchoolHours').id = `adminStudentNonSchoolHours${i + 1}`;
+          clonedDiv.querySelector('#adminStudentSchoolHours').id = `adminStudentSchoolHours${i + 1}`;
+          clonedDiv.querySelector('#adminBigStudentName').id = `adminBigStudentName${i + 1}`;
+          clonedDiv.querySelector('#adminViewLog').id = `adminViewLog${i + 1}`;
+          // Update text content of the cloned elements
+          clonedDiv.querySelector(`#adminStudentName${i + 1}`).innerHTML = fullName;
+          clonedDiv.querySelector(`#adminStudentGrade${i + 1}`).innerHTML = grade;
+          clonedDiv.querySelector(`#adminStudentNonSchoolHours${i + 1}`).innerHTML = totalHours + " " + communityRequirement;
+          clonedDiv.querySelector(`#adminStudentSchoolHours${i + 1}`).innerHTML = schoolHours + " " + schoolRequirement;
+          clonedDiv.querySelector(`#adminBigStudentName${i + 1}`).innerHTML = fullName;
+          clonedDiv.querySelector(`#adminViewLog${i + 1}`).innerHTML = fullName + "'s Log";
+
+          // Append the cloned div to the parent of the original div
+          originalDiv.parentNode.appendChild(clonedDiv);
+          selectedStudentUID = doc.id;
+          //Storage.setItem("studentUID", doc.id);
+        }
 
 
 
-
+      }
       
     }
+    }
   }
-});
+}})
 
+
+
+export const buttonClick = async function(){
+    
+}
