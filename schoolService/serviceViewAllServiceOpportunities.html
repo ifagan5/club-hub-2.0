@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" type="text/css" href="../clubhub/login.css">
   <link rel="stylesheet" type="text/css" href="serviceStudentHistory.css">
-  <link rel="icon" type="image/x-icon" href="images/stab_logo.webp">
+  <link rel="icon" type="image/x-icon" href="../../clubhub/images/stab_logo.webp">
   <title>View Service Opportunities</title>
 
   <style>
@@ -33,7 +33,9 @@
 
 <div class="loginBox">
   <header class="subheading">All Service Opportunities</header>
-  <br>
+  <label for="myCheck"> View Signed Up For Opportunities Only</label>
+  <input type="checkbox" id="myCheck">
+<!--  <br>-->
   <div id="opportunity1">
     <div id="opportunityName"> </div>
     <div id="opportunityDescription"> </div>
@@ -41,7 +43,8 @@
     <div id="opportunityDate"> </div>
     <div id="opportunityTime"> </div>
     <div id="opportunityLocation"> </div>
-    <button id="opportunityButton" class="loginButton clubLB">Sign Up For Opportunity</button>
+    <br>
+    <button id="opportunityButton" class="loginButton clubLB">View Service Opportunity</button>
   </div>
 
   <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
