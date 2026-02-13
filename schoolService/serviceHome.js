@@ -73,7 +73,7 @@ export async function addMeetings() {
             const time = date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
 
  
-            events.push({
+            events.push({ 
                 location: opportunityLocation,
                 description: opportunityDescription,
                 opportunityName: opportunityName,
