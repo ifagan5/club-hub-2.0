@@ -74,6 +74,8 @@ input.addEventListener("keydown", async function (event) {
     const countLogs = countSnap.data().count;
     console.log("countLogs:" + countLogs);
     sessionStorage.setItem("studentUIDArray", docIds);
+    const saved = sessionStorage.getItem("studentUIDArray");
+    console.log("sessionStorage " + saved);
 
     for (let i = countLogs; i >= 1; i--) {
       let tempDocumentUID = docIds[i-1];
@@ -162,5 +164,5 @@ input.addEventListener("keydown", async function (event) {
 
 
 export const buttonClick = async function(){
-    
+
 }

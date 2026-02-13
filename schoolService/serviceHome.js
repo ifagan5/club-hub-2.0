@@ -52,29 +52,32 @@ export async function addMeetings() {
     const databaseItems = await getDocs(collection(db, "serviceOpportunities"));
 
     for (const item of databaseItems.docs) {
-        // Get a reference to the subcol    lection "all-meetings"
-        const meetingsCollectionRef = collection(item.ref,  "all-meetings");
+        // Get a reference to the subcollection "all-meetings"
+        const meetingsCollectionRef = collection(item.ref, "all-meetings");
         const meetingDocs = await getDocs(meetingsCollectionRef);
         // Loop through meetings and extract meeting data using a for loop
         for (let i = 0; i < meetingDocs.docs.length; i++) {
             const meeting = meetingDocs.docs[i];  // Access each meeting document
-            const opportunityDate = meeting.data().date.toDate();
+            const meetingData = meeting.data();
+            const opportunityDate = meetingData.date.toDate();
             const month = opportunityDate.getMonth() + 1; // Months are 0-indexed, so add 1
             const day = opportunityDate.getDate(); // Get the day of the month
             const year = opportunityDate.getFullYear(); // Get the full year
             const formattedDate = `${month}/${day}/${year}`;
             const opportunityName = item.data().opportunityName || "Service Opportunity";
-            const opportunityLocation = meeting.data().location || "TBA";
-            const opportunityDescription = meeting.data().description || "No description provided.";   
-            const opportunityLength = meeting.data().length || "N/A";
-            const timestamp = meeting.data().date
+            const opportunityLocation = meetingData.location || "TBA";
+            const opportunityDescription = meetingData.description || "No description provided.";   
+            const opportunityLength = meetingData.length || "N/A";
+            const timestamp = meetingData.date
             const date = timestamp.toDate();                
             const time = date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
-            const type = meeting.data().type || (meeting.data().isAnEvent ? 'Event' : 'Meeting');
+
  
             events.push({
+                location: opportunityLocation,
+                description: opportunityDescription,
                 opportunityName: opportunityName,
-                opportunityDescription : opportunityDescription,
+                opportunityDescription: opportunityDescription,
                 opportunityLength: opportunityLength,
                 opportunityDate: formattedDate,
                 opportunityTime: time,
