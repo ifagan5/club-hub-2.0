@@ -120,6 +120,7 @@ input.addEventListener("keydown", async function (event) {
         
         const originalDiv = document.getElementById('studentWrapper');
         if (i===countLogs){
+          console.log(i + " first iteration");
           document.getElementById("adminStudentName").innerHTML = fullName;
           document.getElementById("adminStudentGrade").innerHTML = grade;
           document.getElementById("adminStudentNonSchoolHours").innerHTML = totalHours + " " + communityRequirement;
@@ -130,21 +131,22 @@ input.addEventListener("keydown", async function (event) {
           //sessionStorage.setItem("studentUID", doc.id);
         }
         else{
+          console.log(i + " next iteration");
           const clonedDiv = originalDiv.cloneNode(true);
-          clonedDiv.id = `log${i + 1}`; // Update ID for uniqueness
-          clonedDiv.querySelector('#adminStudentName').id = `adminStudentName${i + 1}`;
-          clonedDiv.querySelector('#adminStudentGrade').id = `adminStudentGrade${i + 1}`;
-          clonedDiv.querySelector('#adminStudentNonSchoolHours').id = `adminStudentNonSchoolHours${i + 1}`;
-          clonedDiv.querySelector('#adminStudentSchoolHours').id = `adminStudentSchoolHours${i + 1}`;
-          clonedDiv.querySelector('#adminBigStudentName').id = `adminBigStudentName${i + 1}`;
-          clonedDiv.querySelector('#adminViewLog').id = `adminViewLog${i + 1}`;
+          clonedDiv.id = `log${i}`; // Update ID for uniqueness
+          clonedDiv.querySelector('#adminStudentName').id = `adminStudentName${i}`;
+          clonedDiv.querySelector('#adminStudentGrade').id = `adminStudentGrade${i}`;
+          clonedDiv.querySelector('#adminStudentNonSchoolHours').id = `adminStudentNonSchoolHours${i}`;
+          clonedDiv.querySelector('#adminStudentSchoolHours').id = `adminStudentSchoolHours${i}`;
+          clonedDiv.querySelector('#adminBigStudentName').id = `adminBigStudentName${i}`;
+          clonedDiv.querySelector('#adminViewLog').id = `adminViewLog${i}`;
           // Update text content of the cloned elements
-          clonedDiv.querySelector(`#adminStudentName${i + 1}`).innerHTML = fullName;
-          clonedDiv.querySelector(`#adminStudentGrade${i + 1}`).innerHTML = grade;
-          clonedDiv.querySelector(`#adminStudentNonSchoolHours${i + 1}`).innerHTML = totalHours + " " + communityRequirement;
-          clonedDiv.querySelector(`#adminStudentSchoolHours${i + 1}`).innerHTML = schoolHours + " " + schoolRequirement;
-          clonedDiv.querySelector(`#adminBigStudentName${i + 1}`).innerHTML = fullName;
-          clonedDiv.querySelector(`#adminViewLog${i + 1}`).innerHTML = fullName + "'s Log";
+          clonedDiv.querySelector(`#adminStudentName${i}`).innerHTML = fullName;
+          clonedDiv.querySelector(`#adminStudentGrade${i}`).innerHTML = grade;
+          clonedDiv.querySelector(`#adminStudentNonSchoolHours${i}`).innerHTML = totalHours + " " + communityRequirement;
+          clonedDiv.querySelector(`#adminStudentSchoolHours${i}`).innerHTML = schoolHours + " " + schoolRequirement;
+          clonedDiv.querySelector(`#adminBigStudentName${i}`).innerHTML = fullName;
+          clonedDiv.querySelector(`#adminViewLog${i}`).innerHTML = fullName + "'s Log";
 
           // Append the cloned div to the parent of the original div
           originalDiv.parentNode.appendChild(clonedDiv);
@@ -162,7 +164,45 @@ input.addEventListener("keydown", async function (event) {
 }})
 
 
+export const getElementId = async function(obj){
+  console.log("getElementId called");
+    //get button's ID
+    const buttonId = obj.id;
+    console.log("Button ID: " + buttonId);
+    //gets the number from the ID
+    const num = buttonId.substring(12);
+    console.log("num = " + num);
+    //gets the array of students
+    const docIDS = sessionStorage.getItem("studentUIDArray");
+    const docIds = docIDS.split(",");
+    //if the first interation there is no number at the end of the id so num does not exist
+    if (!num){
+      const count = docIds.length;
+      console.log("count = " + count);
+      let tempDocumentUID = docIds[count -1];
+      let tempDocRef = doc(db, "students", tempDocumentUID);
+      let tempDocSnap = await getDoc(tempDocRef);
+      if (tempDocSnap.exists()) {
+        //getting all the info for each student
+        //let data = doc.data();
+        const studentId = tempDocSnap.data().uid;
+        sessionStorage.setItem("studentUID", studentId);
 
-export const buttonClick = async function(){
+      }
+    }
+    else{
+      let tempDocumentUID = docIds[num -1 ];
+      console.log("tempDocumentUID = " + tempDocumentUID);
+      let tempDocRef = doc(db, "students", tempDocumentUID);
+      let tempDocSnap = await getDoc(tempDocRef);
+      if (tempDocSnap.exists()) {
+        //getting all the info for each student
+        //let data = doc.data();
+        const studentId = tempDocSnap.data().uid;
+        sessionStorage.setItem("studentUID", studentId);
+        console.log("studentId = " + studentId);
+      }
 
+    }
+    location.replace('adminStudentHistory.html');
 }

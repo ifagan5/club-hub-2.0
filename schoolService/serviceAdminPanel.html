@@ -21,6 +21,8 @@
 <script type="module">
     import {logoutUser, calculateSchoolServiceHoursPercentage} from './serviceAuth.js';
     window.calculateSchoolServiceHoursPercentage = calculateSchoolServiceHoursPercentage;
+    import {getElementId} from './serviceAdminPanel.js';
+    window.getElementId = getElementId;
 
     window.logoutUser = async () => {
         await logoutUser();
@@ -70,12 +72,13 @@
             <br>
             <div class="clubNameWrapper">
                 <div class="adminLine"></div>
-                <button class="viewLogButton" id="adminViewLog" onclick="if (!sessionStorage.getItem('studentUID')) {
+                <button class="viewLogButton" id="adminViewLog" onclick="if (!sessionStorage.getItem('studentUIDArray')) {
                         alert('Please select a student first.');
                         } 
                         else {
                         //sessionStorage.setItem('studentName', docIds);
-                        location.replace('adminStudentHistory.html');
+                        //location.replace('adminStudentHistory.html');
+                        getElementId(this)
                         }"
                         >View Student Log</button>
                 <div class="adminLine"></div>

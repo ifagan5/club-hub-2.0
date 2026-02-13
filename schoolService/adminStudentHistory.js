@@ -19,24 +19,19 @@ const studentName = document.getElementById("subheading");
 
 export const returnPage = async function(){
   sessionStorage.removeItem("studentUIDArray");
+  sessionStorage.removeItem("studentUID");
   location.replace('serviceAdminPanel.html');
 }
 
 export const getLogActivity = async function() {
-  const uidArray = sessionStorage.getItem("studentUIDArray");
-  console.log("saved uidArray =", uidArray);
-  let fullName = "Student";
-
-  if (!uidArray) {
-    alert("No student selected.");
-    return;
-  }
-
+  //const uidArray = sessionStorage.getItem("studentUIDArray");
+  const uid = sessionStorage.getItem("studentUID");
+  console.log(uid);
     const studentRef = doc(db, "students", uid);
     const studentSnap = await getDoc(studentRef);
     if (studentSnap.exists()) {
     const data = studentSnap.data();
-    fullName = `${data.firstName} ${data.lastName}`;
+    const fullName = `${data.firstName} ${data.lastName}`;
     console.log(fullName);
     studentName.innerHTML = fullName + "'s Log History";
   } else {
