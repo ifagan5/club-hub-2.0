@@ -67,7 +67,8 @@ if (!querySnapshot.empty) {
         opportunityLocation.innerHTML = data.opportunityLocation;
 
         const button = document.getElementById("opportunityStatusButton");
-        const timestamp = data.timestamp.toDate();
+        const timestamp = new Date(`${data.opportunityDate}T${data.opportunityTime}`);
+        console.log(timestamp);
         const signedUpUsers = data.signedUpUsers || [];
         const currentDate = new Date();
         const timestampDate = new Date(timestamp);
@@ -75,7 +76,7 @@ if (!querySnapshot.empty) {
         const timestampDateTimeInMs = timestampDate.getTime();
         console.log(currentDateTimeInMs)
         console.log(timestampDateTimeInMs)
-        const isPast = currentDateTimeInMs < timestampDateTimeInMs;
+        const isPast = currentDateTimeInMs > timestampDateTimeInMs;
         console.log(isPast)
 
         if (signedUpUsers.includes(user.uid)) {
@@ -87,14 +88,15 @@ if (!querySnapshot.empty) {
                     });
                     const uid = user.uid;
                     console.log(uid);
-                    const docRef = doc(db, "students", uid);
-                    const docSnap = await getDoc(docRef);
-                    const data = docSnap.data();
-                    if (docSnap.exists()) {
-                        const studentTotalHours = data.totalSchoolHours || 0; // Default to 0 if it doesn't exist?
+                    const studentDocRef = doc(db, "students", uid);
+                    const studentDocSnap = await getDoc(studentDocRef);
+                    const studentData = studentDocSnap.data();
+                    if (studentDocSnap.exists()) {
+                        const studentTotalHours = studentData.totalSchoolHours || 0; // Default to 0 if it doesn't exist?
                         const newHours = studentTotalHours + data.opportunityLength;
-                        await updateDoc(docRef, {
-                            totalNonSchoolHours: newHours,
+                        alert(newHours)
+                        await updateDoc(studentDocRef, {
+                            totalSchoolHours: newHours,
                         });
                     }
                     window.location.reload()
