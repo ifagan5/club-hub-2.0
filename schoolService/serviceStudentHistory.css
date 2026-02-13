@@ -1,3 +1,17 @@
 .log1{
     color: rgb(141,13,24);
 }
+
+.checkboxContainer {
+    width: 50%;
+    display: flex;       /* Enables flexbox layout */
+    align-items: center; 
+    white-space: nowrap;
+}
+
+.checkboxContainer input[type="checkbox"] {
+    /* Prevent the checkbox from growing or shrinking if the container size changes */
+    flex: none; 
+    vertical-align: middle;
+}
+
