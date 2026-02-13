@@ -79,7 +79,12 @@ export const getLogActivity = async function() {
 
             const isAdmin = await checkAdminStatus();
             if (isAdmin) {
-                button.style.display = "none";
+                // button.style.display = "none";
+                button.innerText = "Edit Service Opportunity.";
+                button.onclick = () => {
+                    sessionStorage.setItem("opportunityIDToEdit", id);
+                    window.location.href = "./serviceEditOpportunity.html";
+                };
             } else {
                 button.onclick = () => {
                     sessionStorage.setItem("opportunityName", data.opportunityName);
