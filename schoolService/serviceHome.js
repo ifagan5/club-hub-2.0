@@ -74,9 +74,6 @@ export async function addMeetings() {
 
  
             events.push({
-                title: opportunityDescription,
-                dateObj: opportunityDate,
-                time: time,
                 location: opportunityLocation,
                 description: opportunityDescription,
                 opportunityName: opportunityName,
