@@ -36,6 +36,12 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const addLog = async function(hours, toSchool, description, contact, date){
+    const logFormId = document.getElementById("logForm");
+    if (!logFormId.checkValidity()) {
+        logFormId.reportValidity();
+        return;
+    }
+
     const user = await getCurrentUser()
     const uid = user.uid;
     console.log(uid);

@@ -33,6 +33,12 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const updateServiceOpportunity = async function(){
+    const logFormId = document.getElementById("editForm");
+    if (!logFormId.checkValidity()) {
+        logFormId.reportValidity();
+        return;
+    }
+
     const opportunityId = sessionStorage.getItem('opportunityIDToEdit');
     const opportunityRef = doc(db, "serviceOpportunities", opportunityId);
 

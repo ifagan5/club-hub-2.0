@@ -33,6 +33,12 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const createServiceOpportunity = async function(opportunityName, opportunityDescription, opportunityLength, opportunityDate, opportunityTime, opportunityLocation){
+    const logFormId = document.getElementById("loginForm");
+    if (!logFormId.checkValidity()) {
+        logFormId.reportValidity();
+        return;
+    }
+
     const opportunityRef = collection(db, "serviceOpportunities");
 
     const serviceOpportunityEntry = {
