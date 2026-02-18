@@ -93,8 +93,8 @@ if (!querySnapshot.empty) {
                     const studentData = studentDocSnap.data();
                     if (studentDocSnap.exists()) {
                         const studentTotalHours = studentData.totalSchoolHours || 0; // Default to 0 if it doesn't exist?
-                        const newHours = studentTotalHours + data.opportunityLength;
-                        alert(newHours)
+                        const newHours = Number(studentTotalHours) + Number(data.opportunityLength);
+                        alert(newHours);
                         await updateDoc(studentDocRef, {
                             totalSchoolHours: newHours,
                         });

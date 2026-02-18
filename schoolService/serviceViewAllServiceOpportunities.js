@@ -31,6 +31,10 @@ if (opportunityButton) {
     opportunityButton.style.color = "maroon";
 }
 
+// const isAdmin = await checkAdminStatus();
+// if (isAdmin) {
+// }
+
 export const getLogActivity = async function() {
     // NEW LOOP AURA
     const logsRef = collection(db, "serviceOpportunities");
@@ -41,6 +45,25 @@ export const getLogActivity = async function() {
     for (const docSnap of querySnapshot.docs) {
         if (docSnap.exists()) {
             const data = docSnap.data();
+
+            // check if oppertunity is old
+            const timestamp = new Date(`${data.opportunityDate}T${data.opportunityTime}`);
+            const currentDate = new Date();
+            const timestampDate = new Date(timestamp);
+            const currentDateTimeInMs = currentDate.getTime();
+            const timestampDateTimeInMs = timestampDate.getTime();
+            console.log("currentDateTimeInMs: " + currentDateTimeInMs);
+            console.log("timestampDateTimeInMs: " + timestampDateTimeInMs);
+            const differenceTimeInMs = currentDateTimeInMs - timestampDateTimeInMs;
+            const isPast = differenceTimeInMs > 0 && differenceTimeInMs > 1210000000;
+
+            if (isPast) {
+                console.log("MUST DELETE: " + data.opportunityName);
+                await deleteDoc(doc(db, "serviceOpportunities", docSnap.id));
+                window.location.reload();
+                continue;
+            }
+
             if (sessionStorage.getItem("filterBySignedUp") === "true") {
                 const user = await getCurrentUser();
                 if (!data.signedUpUsers || !data.signedUpUsers.includes(user.uid)) {
@@ -79,8 +102,15 @@ export const getLogActivity = async function() {
 
             const isAdmin = await checkAdminStatus();
             if (isAdmin) {
+                const checkMarkLabel = document.getElementById("checkMarkLabel");
+                const checkMarkBox = document.getElementById("myCheck");
+                const checkMarkBreak = document.getElementById("checkMarkBreak");
+                checkMarkLabel.style.display = "none";
+                checkMarkBox.style.display = "none";
+                checkMarkBreak.style.display = "block";
+
                 // button.style.display = "none";
-                button.innerText = "Edit Service Opportunity.";
+                button.innerText = "Edit Service Opportunity";
                 button.onclick = () => {
                     sessionStorage.setItem("opportunityIDToEdit", id);
                     window.location.href = "./serviceEditOpportunity.html";
