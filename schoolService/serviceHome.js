@@ -450,6 +450,7 @@ export function correctDisplay(){
 
 }
 
+
 // Logout function
 export async function logout() {
     try {
