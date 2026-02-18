@@ -438,24 +438,14 @@ console.log("ran the code");
 export function correctDisplay(){
     const user = auth.currentUser;
     const loginBtn = document.getElementById("login");
-    const adminLoginBtn = document.getElementById("admin_login");
     const logoutBtn = document.getElementById("logout");
     const studentPageBtn = document.getElementById("servicePage");
     if (user) {
         loginBtn.style.display = "none";
-        adminLoginBtn.style.display = "none";
         logoutBtn.style.display = "inline-block";
         studentPageBtn.style.display = "inline-block";
-        if (localStorage.getItem("isGod") === "true") {
-            studentPageBtn.textContent = "Admin Page";
-            studentPageBtn.onclick = () => location.replace('serviceAdminPanel.html');
-        } else {
-            studentPageBtn.textContent = "Service Page";
-            studentPageBtn.onclick = () => location.replace('serviceStudentPage.html');
-        }
     } else {
         loginBtn.style.display = "inline-block";
-        adminLoginBtn.style.display = "inline-block";
         logoutBtn.style.display = "none";
         studentPageBtn.style.display = "none";
     }
