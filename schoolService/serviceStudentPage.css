@@ -15,7 +15,7 @@ body {
     padding: clamp(60px, 12vw, 100px) 20px; /* scales header height for smaller screens */
     color: white;
     background-color: rgb(0, 0, 0);
-    background-image: url("../../clubhub/images/Backgroud.png");
+    background-image: url("images/Backgroud.png");
     background-size: cover;
     background-position: center; /* centers the background image */
     text-align: center;
