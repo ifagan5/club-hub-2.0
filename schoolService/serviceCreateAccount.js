@@ -18,16 +18,21 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 export const registerService = async function(email, pass, first, last){
-    let hours = 0;
-    for (let i =0; i < email.length; i++){
-        let letter = email.substring(i, i+1);
-        if (letter === "1" || letter === "2" || letter === "3" || letter === "4" || letter === "5" || letter === "6" || letter === "7" || letter === "8" || letter === "9"){
-            let gradYr = "20" + email.substring(i, i+2);;
-            console.log("gradYr:" + gradYr);
-            await createUser(email, pass, first, last, gradYr);     
-            break;
-        } 
-    }
+    // stack over flow lookup for how to remove all non numebr charaacters from string
+    const newGradYear = email.replace(/\D/g, '') || "n/a";
+    alert(newGradYear);
+    await createUser(email, pass, first, last, newGradYear);
+
+    // let hours = 0;
+    // for (let i =0; i < email.length; i++){
+    //     let letter = email.substring(i, i+1);
+    //     if (letter === "1" || letter === "2" || letter === "3" || letter === "4" || letter === "5" || letter === "6" || letter === "7" || letter === "8" || letter === "9"){
+    //         let gradYr = "20" + email.substring(i, i+2);
+    //         console.log("gradYr:" + gradYr);
+    //         await createUser(email, pass, first, last, gradYr);
+    //         break;
+    //     }
+    // }
 }
 
 export const theFlood = async function() {
