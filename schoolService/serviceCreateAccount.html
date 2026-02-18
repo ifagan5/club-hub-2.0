@@ -23,15 +23,11 @@
     </div>
   </header>
 
-  <!-- type must be "module": https://www.w3schools.com/js/js_modules.asp#:~:text=JavaScript%20modules%20allow%20you%20to,in%20the%20tag.-->  
+  <!-- type must be "module": https://www.w3schools.com/js/js_modules.asp#:~:text=JavaScript%20modules%20allow%20you%20to,in%20the%20tag.-->
+  <script type="module" src="./serviceCreateAccount.js"></script>
   <script type="module">
     import {registerService} from './serviceCreateAccount.js';
-    import {createUser} from "./serviceAuth.js";
-    window.createUser = createUser;
     window.registerService = registerService;
-    import {correctNavDisplayCD} from '../clubhub/clubinfo.js';
-        window.correctNavDisplayCD = correctNavDisplayCD;
-        correctNavDisplayCD();
   </script>
 
   <div class="loginBox">
