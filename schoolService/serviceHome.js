@@ -450,7 +450,6 @@ export function correctDisplay(){
 
 }
 
-
 // Logout function
 export async function logout() {
     try {
@@ -461,8 +460,3 @@ export async function logout() {
         console.error("logout error:", err);
     }
 }
-
-// Auth state listener to update buttons automatically
-onAuthStateChanged(auth, (user) => {
-    correctDisplay();
-});
