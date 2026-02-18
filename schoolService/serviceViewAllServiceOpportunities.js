@@ -35,13 +35,14 @@ if (opportunityButton) {
 // if (isAdmin) {
 // }
 
+
 export const getLogActivity = async function() {
     // NEW LOOP AURA
     const logsRef = collection(db, "serviceOpportunities");
     const originalDiv = document.getElementById('opportunity1');
     originalDiv.style.display = 'none';
-
-    const querySnapshot = await getDocs(logsRef);
+    const q = query(collection(db, "serviceOpportunities"), orderBy("opportunityDate", "desc"));
+    const querySnapshot = await getDocs(q);
     for (const docSnap of querySnapshot.docs) {
         if (docSnap.exists()) {
             const data = docSnap.data();
