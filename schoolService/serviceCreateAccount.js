@@ -19,9 +19,10 @@ const auth = getAuth(app);
 
 export const registerService = async function(email, pass, first, last){
     // stack over flow lookup for how to remove all non numebr charaacters from string
-    const newGradYear = email.replace(/\D/g, '') || "n/a";
-    alert(newGradYear);
-    await createUser(email, pass, first, last, newGradYear);
+    const newGradYear = email.replace(/\D/g, '') || "99";
+    const newGradYearFinal = "20" + newGradYear;
+    alert(newGradYearFinal);
+    await createUser(email, pass, first, last, newGradYearFinal);
 
     // let hours = 0;
     // for (let i =0; i < email.length; i++){
