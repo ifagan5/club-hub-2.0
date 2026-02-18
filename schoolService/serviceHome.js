@@ -439,12 +439,15 @@ export function correctDisplay(){
     const user = auth.currentUser;
     const loginBtn = document.getElementById("login");
     const logoutBtn = document.getElementById("logout");
+    const studentPageBtn = document.getElementById("servicePage");
     if (user) {
         loginBtn.style.display = "none";
         logoutBtn.style.display = "inline-block";
+        studentPageBtn.style.display = "inline-block";
     } else {
         loginBtn.style.display = "inline-block";
         logoutBtn.style.display = "none";
+        studentPageBtn.style.display = "none";
     }
     
 
