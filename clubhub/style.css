@@ -2770,3 +2770,12 @@ background-color: #eeeeee;
     display: none;
   }
 }
+
+.buttonRow{
+  display: flex;       /* Enables flexbox layout */
+  align-items: center; 
+  justify-content: center;
+  /* width: 70% */
+  padding-left: 20%;
+  padding-right: 22%;
+}
