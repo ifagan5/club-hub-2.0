@@ -6,12 +6,26 @@
     width: 50%;
     display: flex;       /* Enables flexbox layout */
     align-items: center; 
+    justify-content: center;
     white-space: nowrap;
+    gap: 10px;  
+}
+
+.checkboxDiv{
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+
+    flex-direction: column;
 }
 
 .checkboxContainer input[type="checkbox"] {
     /* Prevent the checkbox from growing or shrinking if the container size changes */
-    flex: none; 
+    margin-top: 110%;
     vertical-align: middle;
+}
+
+.checkbox-label {
+  margin: 0; /* Resets default label margins if any */
 }
 

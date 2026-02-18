@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" type="text/css" href="../clubhub/login.css">
   <link rel="stylesheet" type="text/css" href="../clubhub/login.css">
+  <link rel="stylesheet" type="text/css" href="formValidation.css">
   <link rel="icon" type="image/x-icon" href="images/stab_logo.webp">
   <title>Edit Service Opportunity</title>
 
@@ -33,13 +34,14 @@
 
 <div class="loginBox">
   <header class="subheading">Edit Service Opportunity</header>
-  <label>Name Of Opportunity:</label><input type="text" id="opportunityName" placeholder = "Type Here">
-  <label>Description Of Opportunity:</label><input type="text" id="opportunityDescription" placeholder = "Type Here">
-  <label>Length Of Opportunity:</label><input type="number" id="opportunityLength" placeholder = "Type Here">
-  <label>Date of Opportunity:</label><input type="date" id="opportunityDate">
-  <label>Time of Opportunity:</label><input type="time" id="opportunityTime">
-  <label>Location of Opportunity:</label><input type="text" id="opportunityLocation" placeholder = "Type Here">
-
+  <form id="editForm">
+  <label for="opportunityName">Name Of Opportunity:</label><input required type="text" id="opportunityName" placeholder = "Type Here">
+  <label for="opportunityDescription">Description Of Opportunity:</label><input required type="text" id="opportunityDescription" placeholder = "Type Here">
+  <label for="opportunityLength">Length Of Opportunity:</label><input required type="number" id="opportunityLength" placeholder = "Type Here">
+  <label for="opportunityDate">Date of Opportunity:</label><input required type="date" id="opportunityDate">
+  <label for="opportunityTime">Time of Opportunity:</label><input required type="time" id="opportunityTime">
+  <label for="opportunityLocation">Location of Opportunity:</label><input required type="text" id="opportunityLocation" placeholder = "Type Here">
+  </form>
 
   <button onclick="updateServiceOpportunity();" type="button" class="loginButton clubLB">Update</button>
 </div>
