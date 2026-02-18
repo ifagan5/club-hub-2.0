@@ -434,3 +434,34 @@ nextButton.addEventListener('click', function () {
 
 console.log("ran the code");
 // Initial render of the calendar.
+
+export function correctDisplay(){
+    const user = auth.currentUser;
+    const loginBtn = document.getElementById("login");
+    const logoutBtn = document.getElementById("logout");
+    if (user) {
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline-block";
+    } else {
+        loginBtn.style.display = "inline-block";
+        logoutBtn.style.display = "none";
+    }
+    
+
+}
+
+// Logout function
+export async function logout() {
+    try {
+        await signOut(auth);
+        correctDisplay(); // Update buttons after logout
+    } catch (err) {
+        alert("Logout failed: " + err.message);
+        console.error("logout error:", err);
+    }
+}
+
+// Auth state listener to update buttons automatically
+onAuthStateChanged(auth, (user) => {
+    correctDisplay();
+});

@@ -11,8 +11,13 @@
 <script type="module" src="serviceHome.js"></script>
  <script type="module">
     import { addMeetings } from './serviceHome.js';
+    import { correctDisplay } from './serviceHome.js';
+    import { logout } from './serviceHome.js';
 
     window.addMeetings = addMeetings;
+    window.correctDisplay = correctDisplay;
+    window.logout = logout;
+
     addMeetings();
  </script>
 <!-- creates the header box and the title, inside the box -->
@@ -22,8 +27,10 @@
   <!-- Creates a bar below header box with nav buttons -->
 <div class="nav">
   <!-- <a class="button" href="#calendar">Calendar</a> -->
-  <button class="button" id="login" onClick = "location.replace('serviceStudentLogin.html');">Login</button>
-   <button class="button" onClick = "location.replace('../clubhub/index.html');">Go To Club Hub</button>
+    <button class="button" id="login" onClick = "window.location.href = 'serviceStudentLogin.html';">Login</button>
+    <button class="button" id="logout" onclick="logout()" >Logout</button>
+    <button class="button" id="student_page"onclick="location.replace('serviceStudentPage.html');" >Student Page</button>
+    <button class="button" onClick = "location.replace('../clubhub/index.html');">Go To Club Hub</button>
 </div>
 
  <!-- Hidden Modal for Delete Confirmation -->
