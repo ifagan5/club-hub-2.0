@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width">
   <title>Login</title>
   <link href="login.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/schoolService/formValidation.css">
 </head>
 
 <body>
@@ -31,8 +32,10 @@
   <header class="subheading">Admin login</header>
 <!-- label and then text  input, both with ids -->
  <!-- PROPER FORMAT NEEDED? (IE username and password) -->
-  <label>Username:</label><input type="text" id="Username"> 
-  <label>Password:</label><input type="password" id="Password">
+    <form id="adminLoginForm">
+  <label for="Username">Email:</label><input pattern=".*@.+\..+" required type="email" id="Username">
+  <label for="Password">Password:</label><input minlength="6" required type="password" id="Password">
+    </form>
   <button class="loginButton" onclick="login(document.getElementById('Username').value, document.getElementById('Password').value );">Log In</button>
 
 </body>

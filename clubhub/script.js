@@ -19,15 +19,30 @@ const auth = getAuth(app);
 
 // ——————LOGIN CODE TO VERIFY THE ADMIN IS LOGGED IN—————//
 export const login =  function(email, password){
+
+  const logFormId = document.getElementById("adminLoginForm");
+  if (!logFormId.checkValidity()) {
+    logFormId.reportValidity();
+    return;
+  }
+
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const expiryTime = Date.now() + 14 * 24 * 60 * 60 * 1000;
-      localStorage.setItem("loginExpiry", expiryTime.toString());
-      alert('You will remain logged in for two weeks, so please make sure you log out if this is a shared device!')
+    .then(async (userCredential) => {
       const user = userCredential.user;
-      location.replace('god.html');
+      const docRef = doc(db, "students", user.uid);
+      const docSnap = await getDoc(docRef);
+      const userData = docSnap.data();
+      if (docSnap.exists() && userData.admin) {
+        const expiryTime = Date.now() + 14 * 24 * 60 * 60 * 1000;
+        localStorage.setItem("loginExpiry", expiryTime.toString());
+        alert('You will remain logged in for two weeks, so please make sure you log out if this is a shared device!')
+        location.replace('god.html');
+      } else {
+        alert("You are not an admin!");
+      }
     })
     .catch((error) => {
+      alert("Invalid login info!");
       const errorCode = error.code;
       const errorMessage = error.message;
     });
