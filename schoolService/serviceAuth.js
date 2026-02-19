@@ -85,6 +85,7 @@ export async function checkAdminStatus() {
     return false;
 }
 
+// logs the user in
 export async function loginUser(email, password) {
     try {
         await signInWithEmailAndPassword(auth, email, password);
@@ -170,6 +171,7 @@ export async function getEmail() {
     return user ? user.email : null;
 }
 
+// Get the current user's uid
 export async function getTotalHours(){
     const user = await getCurrentUser()
     const uid = user.uid;
@@ -183,6 +185,7 @@ export async function getTotalHours(){
     return null;
 }
 
+// get the total school service hour amount
 export async function getTotalSchoolServiceHours(){
     const user = await getCurrentUser()
     const uid = user.uid;
@@ -196,6 +199,7 @@ export async function getTotalSchoolServiceHours(){
     return null;
 }
 
+// get the graduation year
 export async function getGradYr(){
     const user = await getCurrentUser()
     const uid = user.uid;
@@ -209,6 +213,7 @@ export async function getGradYr(){
     return null;
 }
 
+// calculate the school service percentage
 export async function calculateSchoolServiceHoursPercentage() {
     const user = await getCurrentUser();
     if (!user) return 0;
@@ -236,6 +241,7 @@ export async function calculateSchoolServiceHoursPercentage() {
     return 0;
 }
 
+// calculate the non-school service percentage
 export async function calculateNonSchoolServiceHoursPercentage() {
     const user = await getCurrentUser();
     if (!user) return 0;

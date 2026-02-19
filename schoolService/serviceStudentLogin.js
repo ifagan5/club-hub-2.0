@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-
+// kick the user off the page is they should not be here
 (async () => {
     const isUser = await checkLoginStatusNoRedirect();
     if (isUser === true) {
@@ -26,6 +26,7 @@ const auth = getAuth(app);
     }
 })();
 
+// log the user in by calling serviceauth function
 export async function sLogin(email, password) {
     await loginUser(email, password);
     alert(await checkAdminStatus());

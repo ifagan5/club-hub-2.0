@@ -32,6 +32,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// allows creation of a service opportunity
 export const createServiceOpportunity = async function(opportunityName, opportunityDescription, opportunityLength, opportunityDate, opportunityTime, opportunityLocation){
     const logFormId = document.getElementById("loginForm");
     if (!logFormId.checkValidity()) {

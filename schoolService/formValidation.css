@@ -1,3 +1,4 @@
+/*Written by Jake to highlight form fields which are not correctly filled out */
 input:invalid {
     border: 2px dashed red;
 }

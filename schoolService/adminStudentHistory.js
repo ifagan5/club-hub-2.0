@@ -37,7 +37,7 @@ export const getLogActivity = async function() {
   } else {
     // Document does not exist
     console.log("No such document!");
-    fullName = "Student";
+    const fullName = "Student";
   }
 
 

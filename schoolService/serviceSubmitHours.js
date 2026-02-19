@@ -35,6 +35,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// add a log to the service hours if we want to
 export const addLog = async function(hours, toSchool, description, contact, date){
     const logFormId = document.getElementById("logForm");
     if (!logFormId.checkValidity()) {
@@ -42,6 +43,7 @@ export const addLog = async function(hours, toSchool, description, contact, date
         return;
     }
 
+    // do code stuff
     const user = await getCurrentUser()
     const uid = user.uid;
     console.log(uid);
@@ -81,6 +83,7 @@ export const addLog = async function(hours, toSchool, description, contact, date
 
     await addDoc(serviceLogCollectionRef, logEntry);
 
+  //   redirect the user if necsary
   window.location.href = "serviceStudentPage.html";
 }
 

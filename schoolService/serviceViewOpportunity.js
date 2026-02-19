@@ -24,6 +24,7 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// get all the elements into variables
 const opportunityName = document.getElementById("opportunityName");
 const opportunityDescription = document.getElementById("opportunityDescription");
 const opportunityLength = document.getElementById("opportunityLength");
@@ -34,20 +35,22 @@ const opportunityLocation = document.getElementById("opportunityLocation");
 // testing...
 // localStorage.setItem("serviceName", "setme")
 
+// get user and make refrences
 const user = await getCurrentUser();
 const docsRef = collection(db, "serviceOpportunities");
 const serviceName = sessionStorage.getItem('opportunityName');
 console.log(serviceName);
+// make the request to firebase
 const q = query(docsRef, where("opportunityName", "==", serviceName));
 const querySnapshot = await getDocs(q);
 if (!querySnapshot.empty) {
     for (const docSnap of querySnapshot.docs) {
         const data = docSnap.data();
-
+        // convert time from 24 hour to 12 hour format in an inneficiant manner
         let finalTime = null;
         const current24htime = data.opportunityTime;
         const [hourStr, minute] = current24htime.split(':', 2);
-        const hour = parseInt(hourStr, 10); //make sure to set to base 10
+        const hour = parseInt(hourStr, 10); //had make sure to set to base 10 thanks stack overflow
         if (hour > 12) {
             finalTime = (hour - 12) + ':' + minute + ' PM';
         } else if (hour === 12) {
@@ -58,7 +61,7 @@ if (!querySnapshot.empty) {
             finalTime = hour + ':' + minute + ' AM';
         }
 
-
+        // set innerhtml of elements to allow cross site scripting
         opportunityName.innerHTML = data.opportunityName;
         opportunityDescription.innerHTML = data.opportunityDescription;
         opportunityLength.innerHTML = data.opportunityLength + " hours";
@@ -66,6 +69,7 @@ if (!querySnapshot.empty) {
         opportunityTime.innerHTML = finalTime;
         opportunityLocation.innerHTML = data.opportunityLocation;
 
+        // get see if it is past the oppertunity date
         const button = document.getElementById("opportunityStatusButton");
         const timestamp = new Date(`${data.opportunityDate}T${data.opportunityTime}`);
         console.log(timestamp);
@@ -79,8 +83,10 @@ if (!querySnapshot.empty) {
         const isPast = currentDateTimeInMs > timestampDateTimeInMs;
         console.log(isPast)
 
+        // allow users to signup, claim thier service hours cancel thier signup, or tell them that it is too late );
         if (signedUpUsers.includes(user.uid)) {
             if (isPast) {
+                // code to claim service hours
                 button.innerText = "Claim Your Service Opportunity Hours";
                 button.addEventListener("click", async () => {
                     await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
@@ -102,6 +108,7 @@ if (!querySnapshot.empty) {
                     window.location.reload()
                 });
             } else {
+                // code to cancel signup
                 button.innerText = "Cancel Your Signup";
                 button.addEventListener("click", async () => {
                     await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
@@ -111,6 +118,7 @@ if (!querySnapshot.empty) {
                 });
             }
         } else {
+            // code to signup for oppertuniy
             if (!isPast) {
                 button.innerText = "Signup For Service Opportunity";
                 button.addEventListener("click", async () => {
@@ -120,6 +128,7 @@ if (!querySnapshot.empty) {
                     window.location.reload()
                 });
             } else {
+                // opperuntiy expired
                 button.innerText = "Service Opportunity Expired";
             }
         }

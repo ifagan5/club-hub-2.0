@@ -77,6 +77,7 @@ input.addEventListener("keydown", async function (event) {
     const saved = sessionStorage.getItem("studentUIDArray");
     console.log("sessionStorage " + saved);
 
+    //loops through as many times as logs the student has until broken
     for (let i = countLogs; i >= 1; i--) {
       let tempDocumentUID = docIds[i-1];
       let tempDocRef = doc(db, "students", tempDocumentUID);
@@ -84,6 +85,7 @@ input.addEventListener("keydown", async function (event) {
       if (tempDocSnap.exists()) {
         //getting all the info for each student
         //let data = doc.data();
+        // create all the variables we need
         const studentId = tempDocSnap.data().uid;
         const fullName = `${tempDocSnap.data().firstName} ${tempDocSnap.data().lastName}`;
         const schoolHours = tempDocSnap.data().totalSchoolHours || 0;
@@ -94,6 +96,7 @@ input.addEventListener("keydown", async function (event) {
         if (isAdmin === true) {
             return;
           }
+        // w for loops for hours required to graduate
         if (grade === "2027"){
               schoolRequirement = "(10 service to the school hours before senior year to graduate)"
           }
@@ -117,7 +120,7 @@ input.addEventListener("keydown", async function (event) {
                     console.log("Found student ID:", studentId);
           console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
         
-        
+        // clone the divs for each document. this will end up the search results being one per search result
         const originalDiv = document.getElementById('studentWrapper');
         if (i===countLogs){
           console.log(i + " first iteration");

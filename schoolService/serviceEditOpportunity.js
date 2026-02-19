@@ -32,6 +32,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// allows us to update the service opportunity that the user is currency editing
 export const updateServiceOpportunity = async function(){
     const logFormId = document.getElementById("editForm");
     if (!logFormId.checkValidity()) {

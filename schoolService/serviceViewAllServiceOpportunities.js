@@ -4,6 +4,7 @@ import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWit
 import {checkLoginStatus, getCurrentUser, checkAdminStatus} from "./serviceAuth.js";
 //import{getCountFromServer} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
+// kicked our person if they should not be logged in
 (async () => {
     const loggedIn = await checkLoginStatus();
     if (!loggedIn) {
@@ -25,6 +26,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// find and set button css because i hate touching css in .css documents its scary
 const opportunityButton = document.getElementById("opportunityButton");
 if (opportunityButton) {
     opportunityButton.style.backgroundColor = "white";
@@ -35,7 +37,7 @@ if (opportunityButton) {
 // if (isAdmin) {
 // }
 
-
+// get all the log activity
 export const getLogActivity = async function() {
     // NEW LOOP AURA
     const logsRef = collection(db, "serviceOpportunities");
@@ -58,6 +60,7 @@ export const getLogActivity = async function() {
             const differenceTimeInMs = currentDateTimeInMs - timestampDateTimeInMs;
             const isPast = differenceTimeInMs > 0 && differenceTimeInMs > 1210000000;
 
+            // delete if past 14 days
             if (isPast) {
                 console.log("MUST DELETE: " + data.opportunityName);
                 await deleteDoc(doc(db, "serviceOpportunities", docSnap.id));
@@ -72,6 +75,7 @@ export const getLogActivity = async function() {
                 }
             }
 
+            // do some div cloning
             const clonedDiv = originalDiv.cloneNode(true);
             clonedDiv.style.display = 'block';
             clonedDiv.style.backgroundColor = "rgb(141,13,24)";
@@ -101,6 +105,7 @@ export const getLogActivity = async function() {
             clonedDiv.querySelector(`#opportunityLocation${id}`).textContent = "Location: " + data.opportunityLocation;
             button.textContent = "View Service Opportunity";
 
+            // edit some aperiodic if the user is an admin because they should not be able t osign up for service oppertunites
             const isAdmin = await checkAdminStatus();
             if (isAdmin) {
                 const checkMarkLabel = document.getElementById("checkMarkLabel");
@@ -129,6 +134,7 @@ export const getLogActivity = async function() {
     }
 }
 
+// checkbox javascirpt to filter by signed up service opportunities
 const checkbox = document.getElementById('myCheck');
 checkbox.checked = sessionStorage.getItem("filterBySignedUp") === "true";
 checkbox.addEventListener('change', function() {
