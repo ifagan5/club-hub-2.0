@@ -18,6 +18,12 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 export const registerService = async function(email, pass, first, last){
+    const logFormId = document.getElementById("createAccountForm");
+    if (!logFormId.checkValidity()) {
+        logFormId.reportValidity();
+        return;
+    }
+
     // stack over flow lookup for how to remove all non numebr charaacters from string
     const newGradYear = email.replace(/\D/g, '') || "99";
     const newGradYearFinal = "20" + newGradYear;

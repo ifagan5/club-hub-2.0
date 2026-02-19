@@ -28,6 +28,12 @@ const auth = getAuth(app);
 
 // log the user in by calling serviceauth function
 export async function sLogin(email, password) {
+    const logFormId = document.getElementById("loginForm");
+    if (!logFormId.checkValidity()) {
+        logFormId.reportValidity();
+        return;
+    }
+
     await loginUser(email, password);
     alert(await checkAdminStatus());
   }
