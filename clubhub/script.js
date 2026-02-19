@@ -19,6 +19,13 @@ const auth = getAuth(app);
 
 // ——————LOGIN CODE TO VERIFY THE ADMIN IS LOGGED IN—————//
 export const login =  function(email, password){
+
+  const logFormId = document.getElementById("adminLoginForm");
+  if (!logFormId.checkValidity()) {
+    logFormId.reportValidity();
+    return;
+  }
+
     signInWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       const user = userCredential.user;
