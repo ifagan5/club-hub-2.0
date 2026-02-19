@@ -21,7 +21,6 @@ const auth = getAuth(app);
 export const login =  function(email, password){
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // Signed in 
       const expiryTime = Date.now() + 14 * 24 * 60 * 60 * 1000;
       localStorage.setItem("loginExpiry", expiryTime.toString());
       alert('You will remain logged in for two weeks, so please make sure you log out if this is a shared device!')
