@@ -88,44 +88,6 @@ export async function addMeetings() {
     renderCalendar(currentDate);
 }
 
-// old code
-// events = [];
-// const databaseItems = await getDocs(collection(db, "serviceOpportunities"));
-//
-// for (const item of databaseItems.docs) {
-//     // Get a reference to the subcollection "all-meetings"
-//     const meetingsCollectionRef = collection(item.ref, "all-meetings");
-//     const meetingDocs = await getDocs(meetingsCollectionRef);
-//     // Loop through meetings and extract meeting data using a for loop
-//     for (let i = 0; i < meetingDocs.docs.length; i++) {
-//         const meeting = meetingDocs.docs[i];  // Access each meeting document
-//         const meetingData = meeting.data();
-//         const opportunityDate = meetingData.date.toDate();
-//         const month = opportunityDate.getMonth() + 1; // Months are 0-indexed, so add 1
-//         const day = opportunityDate.getDate(); // Get the day of the month
-//         const year = opportunityDate.getFullYear(); // Get the full year
-//         const formattedDate = `${month}/${day}/${year}`;
-//         const opportunityName = item.data().opportunityName || "Service Opportunity";
-//         const opportunityLocation = meetingData.location || "TBA";
-//         const opportunityDescription = meetingData.description || "No description provided.";
-//         const opportunityLength = meetingData.length || "N/A";
-//         const timestamp = meetingData.date
-//         const date = timestamp.toDate();
-//         const time = date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
-//
-//
-//         events.push({
-//             location: opportunityLocation,
-//             description: opportunityDescription,
-//             opportunityName: opportunityName,
-//             opportunityDescription: opportunityDescription,
-//             opportunityLength: opportunityLength,
-//             opportunityDate: formattedDate,
-//             opportunityTime: time,
-//             opportunityLocation: opportunityLocation,
-//         });
-//     }
-// }
 
 function initializeViewToggle() {
     const buttons = document.querySelectorAll('.view-toggle__btn');
@@ -202,7 +164,7 @@ function renderCalendar(date) {
         renderWeekView(date);
     }
 }
-
+// Renders a month view for the given year and month.
 function renderMonthView({ year, month }) {
     const firstDay = new Date(year, month, 1).getDay();
     const lastDay = new Date(year, month + 1, 0).getDate();
@@ -244,7 +206,7 @@ function renderMonthView({ year, month }) {
     weekdaysContainer.classList.remove('weekdays--hidden');
     weekdaysContainer.setAttribute('aria-hidden', 'false');
 }
-
+// Renders a week view starting from the given reference date (which can be any day within the week).
 function renderWeekView(referenceDate) {
     const weekStart = new Date(referenceDate);
     weekStart.setHours(0, 0, 0, 0);
@@ -275,7 +237,7 @@ function renderWeekView(referenceDate) {
         daysContainer.appendChild(dayDiv);
     }
 }
-
+// Helper function to create a day cell element for the calendar.
 function createDayCell({ label, date, fade = false, highlightToday = false, enforceWidth = false, weekdayLabel = '' }) {
     const dayDiv = document.createElement('div');
     dayDiv.classList.add('actualday');
@@ -304,7 +266,7 @@ function createDayCell({ label, date, fade = false, highlightToday = false, enfo
 
     return dayDiv;
 }
-
+// Helper function to attach event elements to a given day cell based on the events data.
 function attachEventsToDay({ container, date }) {
     const filteredEvents = events.filter((event) => {
         // Access control for leaders-only (privateMeeting)

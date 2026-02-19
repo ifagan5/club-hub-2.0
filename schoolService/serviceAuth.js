@@ -41,7 +41,12 @@ export const getCurrentUser = () => {
     });
 };
 
+/*
+createUser(email, password, firstName, lastName, gradYr)
 
+creates a student under "students" in firebase and stores their uid, email, firstName, lastName, gradYr, admin, and 
+createdAt based on their inputs. 
+*/
 // Create a new user (Firebase Auth + Firestore profile)
 export async function createUser(email, password, firstName, lastName, gradYr) {
     try {
@@ -73,6 +78,10 @@ export async function createUser(email, password, firstName, lastName, gradYr) {
 }
 
 // check if the user had admin perms
+/*
+checkAdminStatus()
+Checks in the user's "admin" field is set to true and returns true if it is a false if not
+*/
 export async function checkAdminStatus() {
     const user = await getCurrentUser();
     if (!user) return false;
@@ -86,6 +95,11 @@ export async function checkAdminStatus() {
 }
 
 // logs the user in
+/*
+loginUser(email, password)
+logs in the user and checks if they are an admin or not. Based on admin status it replaces the location
+with serviceAdminPanel.html (for admin) and serviceStudentPage.html (for other)
+*/
 export async function loginUser(email, password) {
     try {
         await signInWithEmailAndPassword(auth, email, password);
@@ -106,6 +120,10 @@ export async function loginUser(email, password) {
 }
 
 // Log out
+/*
+logoutUser()
+logs out the user and replaces the location with serviceHome.html
+*/
 export async function logoutUser() {
     try {
         await signOut(auth);
@@ -118,6 +136,10 @@ export async function logoutUser() {
 
 
 // Check if a user is already signed in
+/*
+checkLoginStatus()
+Checks if a user is logged in and returns true if one is and returns false if one is not
+*/
 export async function checkLoginStatus() {
     const user = await getCurrentUser();
     if (!user) {
@@ -135,6 +157,10 @@ export async function checkLoginStatus() {
 }
 
 // Check if a user is already signed in
+/*
+checkLoginStatusNoRedirect()
+Checks if a user is logged in and returns true if one is and returns false if one is not
+*/
 export async function checkLoginStatusNoRedirect() {
     const isAdmin = await checkAdminStatus();
     if (isAdmin) {
@@ -144,6 +170,10 @@ export async function checkLoginStatusNoRedirect() {
 }
 
 // Get the current user's first name
+/*
+getFirstName()
+uses the user's uid to get the information under firstName and returns it
+*/
 export async function getFirstName() {
     const user = await getCurrentUser();
     if (!user) return null;
@@ -155,6 +185,10 @@ export async function getFirstName() {
 }
 
 // Get the current user's last name
+/*
+getLastName()
+uses the user's uid to get the information under lastName and returns it
+*/
 export async function getLastName() {
     const user = await getCurrentUser();
     if (!user) return null;
@@ -166,12 +200,21 @@ export async function getLastName() {
 }
 
 // Get the current user's email
+/*
+getEmail()
+uses the user's uid to get the information under email and returns it
+*/
 export async function getEmail() {
     const user = await getCurrentUser();
     return user ? user.email : null;
 }
 
 // Get the current user's uid
+/*
+getTotalHours()
+uses the user's uid to get the information under totalNonSchoolHours and returns it, if empty
+it returns 0, and otherwise returns null
+*/
 export async function getTotalHours(){
     const user = await getCurrentUser()
     const uid = user.uid;
@@ -186,6 +229,11 @@ export async function getTotalHours(){
 }
 
 // get the total school service hour amount
+/*
+getTotalSchoolSeriveHours()
+uses the user's uid to get the information under totalSchoolHours and returns it, if empty
+it returns 0, and otherwise returns null
+*/
 export async function getTotalSchoolServiceHours(){
     const user = await getCurrentUser()
     const uid = user.uid;
@@ -200,6 +248,11 @@ export async function getTotalSchoolServiceHours(){
 }
 
 // get the graduation year
+/*
+getGradYr()
+uses the user's uid to get the information under gradYr and returns it, if empty
+it returns "0", and otherwise returns null
+*/
 export async function getGradYr(){
     const user = await getCurrentUser()
     const uid = user.uid;
@@ -214,6 +267,12 @@ export async function getGradYr(){
 }
 
 // calculate the school service percentage
+/*
+calculateSchoolServiceHoursPercentage()
+uses the user's uid to get the student's graduation year and totalSchoolHours. Then it
+uses the graduation requirments based on the year to calculate what percentage of the graduation 
+requirment the student has completed and returns the percentage as a number.
+*/
 export async function calculateSchoolServiceHoursPercentage() {
     const user = await getCurrentUser();
     if (!user) return 0;
@@ -242,6 +301,12 @@ export async function calculateSchoolServiceHoursPercentage() {
 }
 
 // calculate the non-school service percentage
+/*
+calculateSchoolServiceHoursPercentage()
+uses the user's uid to get the student's graduation year and totalNonSchoolHours. Then it
+uses the graduation requirments based on the year to calculate what percentage of the graduation 
+requirment the student has completed and returns the percentage as a number.
+*/
 export async function calculateNonSchoolServiceHoursPercentage() {
     const user = await getCurrentUser();
     if (!user) return 0;

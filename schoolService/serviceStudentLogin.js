@@ -26,7 +26,10 @@ const auth = getAuth(app);
     }
 })();
 
-// log the user in by calling serviceauth function
+/*
+sLogin(email, password)
+log the user in by calling serviceauth function
+*/
 export async function sLogin(email, password) {
     const logFormId = document.getElementById("loginForm");
     if (!logFormId.checkValidity()) {

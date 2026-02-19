@@ -16,31 +16,59 @@ export const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
+/*
+logout
+logs out the user by calling logoutUser() from serviceAuth.js
+*/
 export const logout = async function() {
     await logoutUser();
     return true;
 };
 
+/*
+getFirstNameFromAuth
+gets the user's first name by calling getFirstName() from serviceAuth.js
+*/
 export const getFirstNameFromAuth = async function(){
     return await getFirstName();
 };
-
+/*
+getLastNameFromAuth
+gets the user's last name by calling getLastName() from serviceAuth.js
+*/
 export const getLastNameFromAuth = async function(){
     return await getLastName();
 };
-
+/*
+getLastNamegetGradYrFromAuthFromAuth
+gets the user's graduation year by calling getGradYr() from serviceAuth.js
+*/
 export const getGradYrFromAuth = async function(){
     return await getGradYr();
 };
-
+/*
+getEmailFromAuth
+gets the user's email by calling getEmail() from serviceAuth.js
+*/
 export const getEmailFromAuth = async function(){
     return await getEmail();
 };
 
+/*
+getHoursFromSubmitHours
+gets and returns the user's totalNonSchoolHours by calling getTotalHours() from serviceAuth.js
+*/
 export const getHoursFromSubmitHours = async function(){
     return await getTotalHours();
 }
 
+/*
+getCommunityGradRequirement
+gets the user's graduation year by calling getGradYr() from serviceAuth.js and then uses it to 
+calculate the total general community service requirement.
+Returns a statement like: " you need # general community service hours before your senior year to graduate"
+or: "You do not have a general community service graduation requirement"
+*/
 export const getCommunityGradRequirement = async function(){
     const grade = await getGradYr();
     if (grade === "2027"){
@@ -54,7 +82,12 @@ export const getCommunityGradRequirement = async function(){
 
     }
 }
-
+/*
+getSchoolGradRequirement
+gets the user's graduation year by calling getGradYr() from serviceAuth.js and then uses it to 
+calculate the total school community service requirement.
+Returns a statement like: " you need # service to the school hours before your senior year to graduate"
+*/
 export const getSchoolGradRequirement = async function(){
     const grade = await getGradYr();
     if (grade === "2027"){
@@ -69,7 +102,10 @@ export const getSchoolGradRequirement = async function(){
     }
 }
 
-
+/*
+getHours()
+Loops through the student's logs to get total hours (does not exist anymore -- never called and does nothing)
+*/
 export const getHours = async function(){
     const user = await getCurrentUser()
     const uid = user.uid;

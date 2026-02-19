@@ -19,7 +19,9 @@ export const firebaseConfig = {
     appId: "1:339870020143:web:cc698c287ed642e3798cda",
     measurementId: "G-P97ML6ZP15"
 };
-
+/*
+This page prints out the selected opportunity's information
+*/
 // Init
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);

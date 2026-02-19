@@ -38,6 +38,12 @@ if (opportunityButton) {
 // }
 
 // get all the log activity
+/*
+getLogActivity()
+gets all the opportunities and prints out their information
+If an opportunity happened 14+ days ago it gets deleted.
+If the checkbox is checked only opportunities the student is signed up for print out.
+*/
 export const getLogActivity = async function() {
     // NEW LOOP AURA
     const logsRef = collection(db, "serviceOpportunities");
