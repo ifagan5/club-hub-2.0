@@ -18,11 +18,28 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 export const registerService = async function(email, pass, first, last){
+    const logFormId = document.getElementById("createAccountForm");
+    if (!logFormId.checkValidity()) {
+        logFormId.reportValidity();
+        return;
+    }
+
     // stack over flow lookup for how to remove all non numebr charaacters from string
     const newGradYear = email.replace(/\D/g, '') || "99";
     const newGradYearFinal = "20" + newGradYear;
     alert(newGradYearFinal);
-    await createUser(email, pass, first, last, newGradYearFinal);
+
+    const full_name = first + " " + last;
+    // Helper to normalize case (e.g., "jake" -> "Jake") from stack overflow
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+    // Split the input into first name and last name using spaces also from stack overflow
+    const [firstName, ...lastNameParts] = full_name.split(" ");
+    const formattedLastName = lastNameParts.map(capitalize).join(" ");
+    const formattedFirstName = capitalize(firstName);
+    alert(formattedFirstName);
+    alert(formattedLastName);
+    await createUser(email, pass, formattedFirstName, formattedLastName, newGradYearFinal);
 
     // let hours = 0;
     // for (let i =0; i < email.length; i++){

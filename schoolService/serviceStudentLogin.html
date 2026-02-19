@@ -5,7 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Login</title>
-  <link href="../clubhub/login.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="formValidation.css">
+  <link href="../clubhub/login.css" rel="stylesheet" type="text/css"/>
   <link rel="icon" type="image/x-icon" href="images/stab_logo.webp">
   <script type = "module" src="serviceStudentLogin.js"></script>
 </head>
@@ -33,13 +34,14 @@
     window.sLogin = sLogin;
   </script>
     <div class="loginBox">
-        <header class="subheading">Student Login</header>
+        <header class="subheading">Login</header>
     
         <!-- label and then text input, both with ids -->
         <!-- The "placeholder" is the grey script in the text boxes before you type anything in-->
-        <label>Email:</label><input type="text" id="email" placeholder = "Student Email">
-        <label>Password:</label><input type="password" id="password" placeholder = "Password">
-    
+        <form id="loginForm">
+        <label for="email">Email:</label><input pattern=".*@.+\..+" required type="text" id="email" placeholder = "Student Email">
+        <label for="password">Password:</label><input minlength="6" required type="password" id="password" placeholder = "Password">
+        </form>
         <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
 <!--        <button onclick = "sessionStorage.setItem('student', document.getElementById('email').value); sessionStorage.setItem('password', document.getElementById('password').value); sLogin()" class="loginButton clubLB">Login</button>-->
             <button onclick = "sLogin(document.getElementById('email').value, document.getElementById('password').value);" class="loginButton clubLB">Login</button>

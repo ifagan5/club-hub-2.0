@@ -30,76 +30,57 @@ const docsRef = collection(db, "students");
 const input = document.getElementById("searchInput");
 
 let selectedStudentUID = null;
-
-/*
-event listener
-Triggered when the user presses the "enter" button
-Searches for student(s) using the user's input.
-- If there is no input it alerts the user
-- If the input is not the same as any first or last name of a student it alerts the user
-- If the input is the same as a student(s) first or last name it displays the student's information on the screen and
-    saves an array of the student's uid(s) in session storage with the key "studentUIDArray"
-*/
-
 input.addEventListener("keydown", async function (event) {
   // Check if the pressed key is "Enter"
   if (event.key === "Enter") {
     let inputVal = input.value;
     console.log("This worked!")
 
-    // Helper to normalize case (e.g., "jake" -> "Jake")
+    // Helper to normalize case (e.g., "jake" -> "Jake") from stack overflow
     const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
-    // Split the input into first name and last name using spaces
+    // Split the input into first name and last name using spaces also from stack overflow
     const [firstName, ...lastNameParts] = inputVal.split(" ");
     const formattedLastName = lastNameParts.map(capitalize).join(" ");
     const formattedFirstName = capitalize(firstName);
+    console.log(formattedFirstName);
 
     // Make the query and filter by the first and the last name
     const q = query(docsRef, where("firstName", "==", formattedFirstName), where("lastName", "==", formattedLastName));
     const querySnapshot = await getDocs(q);
-    //if there is not student with the exact first and last name (or only entered one name...)
+
     if (querySnapshot.empty) {
-      // check for students with the searched first or last name and add each student to the query q2
-      const q2 = query(
-          collection(db, "students"),
-          or(
-            where("firstName", "==", formattedFirstName),
-            where("lastName", "==", formattedFirstName)
-          )
-        );
+      // check for students with first name
+      //const q2 = query(docsRef, where("firstName", "==", formattedFirstName));
+      const q2 = query(collection(db, "students"), or(where("firstName", "==", formattedFirstName), where("lastName", "==", formattedFirstName)));
       let docIds = [];
       const querySnapshot2 = await getDocs(q2);
-      //if there is not student with that name (snapshot is empty) make an alert for the admin
     if (querySnapshot2.empty) {
         alert("No student found with that first or last name. Try again!")
       }
-
-  //if there is at least one student with that first or last name (querySnapshot2 is not empty) push each student's id
-  //to an array called docIds
+  
     if(!querySnapshot2.empty){
       querySnapshot2.forEach((doc) => {
       docIds.push(doc.id);
       console.log(docIds);
     });
 
-//get how many students there are by getting the count of the array
     const countSnap = await getCountFromServer(q2);
     const countLogs = countSnap.data().count;
     console.log("countLogs:" + countLogs);
-    //set the array in session storage with the key studentUIDArray and set that to a const called saved in the function
     sessionStorage.setItem("studentUIDArray", docIds);
     const saved = sessionStorage.getItem("studentUIDArray");
     console.log("sessionStorage " + saved);
 
-    //making a for loop that goes through the array
+    //loops through as many times as logs the student has until broken
     for (let i = countLogs; i >= 1; i--) {
-      //get the id of the first student in the array and get the whole document of the student using their uid
       let tempDocumentUID = docIds[i-1];
       let tempDocRef = doc(db, "students", tempDocumentUID);
       let tempDocSnap = await getDoc(tempDocRef);
       if (tempDocSnap.exists()) {
-        //getting all the info for the student
+        //getting all the info for each student
+        //let data = doc.data();
+        // create all the variables we need
         const studentId = tempDocSnap.data().uid;
         const fullName = `${tempDocSnap.data().firstName} ${tempDocSnap.data().lastName}`;
         const schoolHours = tempDocSnap.data().totalSchoolHours || 0;
@@ -107,11 +88,10 @@ input.addEventListener("keydown", async function (event) {
         const grade = tempDocSnap.data().gradYr || "N/A";
         let schoolRequirement = null;
         const isAdmin = tempDocSnap.data().admin;
-        //if the student I'm looking at is an admin just return (they don't have community service requirements) and move on
         if (isAdmin === true) {
             return;
           }
-        //getting what the student's different requirments are based on their graduation year
+        // w for loops for hours required to graduate
         if (grade === "2027"){
               schoolRequirement = "(10 service to the school hours before senior year to graduate)"
           }
@@ -135,7 +115,7 @@ input.addEventListener("keydown", async function (event) {
                     console.log("Found student ID:", studentId);
           console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
         
-        //if this is the first student edit the original divs
+        // clone the divs for each document. this will end up the search results being one per search result
         const originalDiv = document.getElementById('studentWrapper');
         if (i===countLogs){
           console.log(i + " first iteration");
@@ -148,7 +128,6 @@ input.addEventListener("keydown", async function (event) {
           selectedStudentUID = doc.id;
           //sessionStorage.setItem("studentUID", doc.id);
         }
-        //if it is not the first student make a clondedDiv and edit that and append it to the original
         else{
           console.log(i + " next iteration");
           const clonedDiv = originalDiv.cloneNode(true);
@@ -182,13 +161,7 @@ input.addEventListener("keydown", async function (event) {
   }
 }})
 
-/*
-getElementId()
-Is called when the user presses on the "view student's log" button
-Gets the id of the button and uses it to figure out what uid in the session storage array it is connected to, gets
-the student's uid from studentUIDArray in session stoarge and saves it to session storage with the key "studentUID"
-before replacing the location with adminStudentHistory.html.
-*/
+
 export const getElementId = async function(obj){
   console.log("getElementId called");
     //get button's ID
@@ -197,26 +170,24 @@ export const getElementId = async function(obj){
     //gets the number from the ID
     const num = buttonId.substring(12);
     console.log("num = " + num);
-    //gets the array of students from session storage and translates it from a string into an array
+    //gets the array of students
     const docIDS = sessionStorage.getItem("studentUIDArray");
     const docIds = docIDS.split(",");
     //if the first interation there is no number at the end of the id so num does not exist
     if (!num){
-      //get the students ID based on which number button was pressed and what number the student is in the array
       const count = docIds.length;
       console.log("count = " + count);
       let tempDocumentUID = docIds[count -1];
       let tempDocRef = doc(db, "students", tempDocumentUID);
       let tempDocSnap = await getDoc(tempDocRef);
       if (tempDocSnap.exists()) {
-        //getting all the info for each student and setting the student's uid in session storage
+        //getting all the info for each student
         //let data = doc.data();
         const studentId = tempDocSnap.data().uid;
         sessionStorage.setItem("studentUID", studentId);
 
       }
     }
-    //for other iterations get the number at the end of the button and do same thing
     else{
       let tempDocumentUID = docIds[num -1 ];
       console.log("tempDocumentUID = " + tempDocumentUID);
@@ -226,12 +197,10 @@ export const getElementId = async function(obj){
         //getting all the info for each student
         //let data = doc.data();
         const studentId = tempDocSnap.data().uid;
-        //
         sessionStorage.setItem("studentUID", studentId);
         console.log("studentId = " + studentId);
       }
 
     }
-    //replace the location with adminStudentHistory.html
     location.replace('adminStudentHistory.html');
 }

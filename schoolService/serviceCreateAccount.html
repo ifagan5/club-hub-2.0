@@ -5,6 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="formValidation.css">
   <title>Create A Service Account</title>
 <!--  jake mclaughlin fixed some issues regarding file pathing between css files-->
   <link href="../clubhub/login.css" rel="stylesheet" type="text/css" />
@@ -41,11 +42,12 @@
     <header class="subheading">Create a Service Account:</header>
       <!-- label and then text input, both with ids -->
       <!-- The "placeholder" is the grey script in the text boxes before you type anything in-->
-      <label>Email:</label><input type="text" id="email" placeholder = "Email">
-      <label>Password:</label><input type="text" id="password" placeholder = "Password">
-      <label>First Name:</label><input type="text" id="firstName" placeholder = "First Name">
-      <label>Last Name:</label><input type="text" id="lastName" placeholder = "Last Name">
-
+    <form id="createAccountForm">
+      <label for="email">Email:</label><input required pattern=".*@.+\..+" type="email" id="email" placeholder = "Email">
+      <label for="password">Password:</label><input minlength="6" required type="password" id="password" placeholder = "Password">
+      <label for="firstName">First Name:</label><input required type="text" id="firstName" placeholder = "First Name">
+      <label for="lastName">Last Name:</label><input required type="text" id="lastName" placeholder = "Last Name">
+    </form>
       <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
       <!-- <button class="loginButton" onclick="register(document.getElementById('username').value, document.getElementById('password').value); ">Continue</button> -->
         <button class="loginButton" onclick="registerService(document.getElementById('email').value, document.getElementById('password').value, document.getElementById('firstName').value, document.getElementById('lastName').value); ">Continue</button>
