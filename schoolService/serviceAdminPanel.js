@@ -36,13 +36,14 @@ input.addEventListener("keydown", async function (event) {
     let inputVal = input.value;
     console.log("This worked!")
 
-    // Helper to normalize case (e.g., "jake" -> "Jake")
+    // Helper to normalize case (e.g., "jake" -> "Jake") from stack overflow
     const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
-    // Split the input into first name and last name using spaces
+    // Split the input into first name and last name using spaces also from stack overflow
     const [firstName, ...lastNameParts] = inputVal.split(" ");
     const formattedLastName = lastNameParts.map(capitalize).join(" ");
     const formattedFirstName = capitalize(firstName);
+    console.log(formattedFirstName);
 
     // Make the query and filter by the first and the last name
     const q = query(docsRef, where("firstName", "==", formattedFirstName), where("lastName", "==", formattedLastName));
@@ -51,13 +52,7 @@ input.addEventListener("keydown", async function (event) {
     if (querySnapshot.empty) {
       // check for students with first name
       //const q2 = query(docsRef, where("firstName", "==", formattedFirstName));
-      const q2 = query(
-          collection(db, "students"),
-          or(
-            where("firstName", "==", formattedFirstName),
-            where("lastName", "==", formattedFirstName)
-          )
-        );
+      const q2 = query(collection(db, "students"), or(where("firstName", "==", formattedFirstName), where("lastName", "==", formattedFirstName)));
       let docIds = [];
       const querySnapshot2 = await getDocs(q2);
     if (querySnapshot2.empty) {
