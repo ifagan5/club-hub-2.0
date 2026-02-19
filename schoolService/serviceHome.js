@@ -88,6 +88,7 @@ export async function addMeetings() {
     renderCalendar(currentDate);
 }
 
+
 function initializeViewToggle() {
     const buttons = document.querySelectorAll('.view-toggle__btn');
 
@@ -163,7 +164,7 @@ function renderCalendar(date) {
         renderWeekView(date);
     }
 }
-
+// Renders a month view for the given year and month.
 function renderMonthView({ year, month }) {
     const firstDay = new Date(year, month, 1).getDay();
     const lastDay = new Date(year, month + 1, 0).getDate();
@@ -205,7 +206,7 @@ function renderMonthView({ year, month }) {
     weekdaysContainer.classList.remove('weekdays--hidden');
     weekdaysContainer.setAttribute('aria-hidden', 'false');
 }
-
+// Renders a week view starting from the given reference date (which can be any day within the week).
 function renderWeekView(referenceDate) {
     const weekStart = new Date(referenceDate);
     weekStart.setHours(0, 0, 0, 0);
@@ -236,7 +237,7 @@ function renderWeekView(referenceDate) {
         daysContainer.appendChild(dayDiv);
     }
 }
-
+// Helper function to create a day cell element for the calendar.
 function createDayCell({ label, date, fade = false, highlightToday = false, enforceWidth = false, weekdayLabel = '' }) {
     const dayDiv = document.createElement('div');
     dayDiv.classList.add('actualday');
@@ -265,7 +266,7 @@ function createDayCell({ label, date, fade = false, highlightToday = false, enfo
 
     return dayDiv;
 }
-
+// Helper function to attach event elements to a given day cell based on the events data.
 function attachEventsToDay({ container, date }) {
     const filteredEvents = events.filter((event) => {
         // Access control for leaders-only (privateMeeting)
