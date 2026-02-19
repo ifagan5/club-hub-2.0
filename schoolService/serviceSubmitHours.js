@@ -36,6 +36,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // add a log to the service hours if we want to
+/*
+addLog(hours, toSchool, description, contact, date)
+adds a log to the student's logs with the input information and updates all hours totals
+changes the location to serviceStudentPage.html
+*/
 export const addLog = async function(hours, toSchool, description, contact, date){
     const logFormId = document.getElementById("logForm");
     if (!logFormId.checkValidity()) {

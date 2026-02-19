@@ -33,6 +33,18 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // allows creation of a service opportunity
+/*
+createServiceOpportunity(opportunityName, opportunityDescription, opportunityLength, opportunityDate, opportunityTime, opportunityLocation)
+Creates an opportunity where
+opportunityName: opportunityName,
+opportunityDescription :opportunityDescription,
+opportunityLength: opportunityLength,
+opportunityDate: opportunityDate,
+opportunityTime: opportunityTime,
+opportunityLocation: opportunityLocation,
+timestamp: Timestamp.now()
+based on the user inputs
+*/
 export const createServiceOpportunity = async function(opportunityName, opportunityDescription, opportunityLength, opportunityDate, opportunityTime, opportunityLocation){
     const logFormId = document.getElementById("loginForm");
     if (!logFormId.checkValidity()) {

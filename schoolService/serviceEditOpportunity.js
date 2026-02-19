@@ -33,6 +33,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // allows us to update the service opportunity that the user is currency editing
+/*
+updateServiceOpportunity()
+Edits the opportunity where by changing the field based on the edits the user input, then
+replaces the location with serviceAdminPanel.html
+*/
 export const updateServiceOpportunity = async function(){
     const logFormId = document.getElementById("editForm");
     if (!logFormId.checkValidity()) {

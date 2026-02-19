@@ -26,7 +26,10 @@ const auth = getAuth(app);
     }
 })();
 
-// log the user in by calling serviceauth function
+/*
+sLogin(email, password)
+log the user in by calling serviceauth function
+*/
 export async function sLogin(email, password) {
     await loginUser(email, password);
     alert(await checkAdminStatus());
