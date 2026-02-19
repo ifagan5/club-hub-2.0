@@ -17,12 +17,22 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const studentName = document.getElementById("subheading");
 
+/*
+returnPage()
+Is called when the user presses the "back to homepage" button
+Deletes both the saved studentUIDArray and studentUID from session storage
+*/
 export const returnPage = async function(){
   sessionStorage.removeItem("studentUIDArray");
   sessionStorage.removeItem("studentUID");
   location.replace('serviceAdminPanel.html');
 }
 
+/*
+getLogActivity()
+Gets the student's uid from session storage and uses it to access their logs in firebase.
+Prints out the student's logs and information from most recent to oldest.
+*/
 export const getLogActivity = async function() {
   //const uidArray = sessionStorage.getItem("studentUIDArray");
   const uid = sessionStorage.getItem("studentUID");
