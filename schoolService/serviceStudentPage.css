@@ -194,9 +194,9 @@ body {
   margin-top: 10%;
   display: grid;
   grid-template-rows: auto min-content auto;
-  overflow: hidden;
-  min-width: 300px;
-  min-height: 400px;
+  overflow: auto;
+  min-width: 15vw;
+  min-height: 40vh;
 }
 
 #red-text-right-description{
@@ -217,7 +217,7 @@ font-size: 20px;
   float: left;
   background-color: rgb(141, 13, 24); /* Sets the background color of the box to red */
   width: 45%;         /* Sets the width of the box */
-  height: 60%;        /* Sets the height of the box */
+  /* height: 60%;        Sets the height of the box */
   border: 2px solid darkred; /* Adds a border to the box (optional) */
   padding: 10px;        /* Adds padding inside the box (optional) */
   border-radius: 10px;
@@ -232,9 +232,9 @@ font-size: 20px;
   margin-top: 10%;
   display: grid;
   grid-template-rows: auto min-content auto;
-  overflow: hidden;
-  min-width: 300px;
-  min-height: 400px;
+  overflow: auto;
+  min-width: 15vw;
+  min-height: 40vh;
 }
 #red-text-left-description{
   font-size: 20px;
