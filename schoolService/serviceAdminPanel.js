@@ -40,6 +40,18 @@ Searches for student(s) using the user's input.
     saves an array of the student's uid(s) in session storage with the key "studentUIDArray"
 */
 input.addEventListener("keydown", async function (event) {
+  sessionStorage.removeItem("studentUIDArray");
+  const divs = document.querySelectorAll('.iNeedThisClass');
+  const seen = new Set();
+  divs.forEach(div => {
+    if (div.getAttribute('data-id') === "studentWrapper"){
+       seen.add(id);
+    }
+    else{
+      div.remove();
+    }
+  });
+  //sessionStorage.removeItem("studentUID");
   // Check if the pressed key is "Enter"
   if (event.key === "Enter") {
     let inputVal = input.value;
@@ -140,7 +152,7 @@ input.addEventListener("keydown", async function (event) {
         else{
           console.log(i + " next iteration");
           const clonedDiv = originalDiv.cloneNode(true);
-          clonedDiv.id = `log${i}`; // Update ID for uniqueness
+          clonedDiv.id = `log${i + 1}`; // Update ID for uniqueness (don't do it now)
           clonedDiv.querySelector('#adminStudentName').id = `adminStudentName${i}`;
           clonedDiv.querySelector('#adminStudentGrade').id = `adminStudentGrade${i}`;
           clonedDiv.querySelector('#adminStudentNonSchoolHours').id = `adminStudentNonSchoolHours${i}`;
