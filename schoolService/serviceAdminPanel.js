@@ -40,21 +40,25 @@ Searches for student(s) using the user's input.
     saves an array of the student's uid(s) in session storage with the key "studentUIDArray"
 */
 input.addEventListener("keydown", async function (event) {
-  sessionStorage.removeItem("studentUIDArray");
-  const divs = document.querySelectorAll('.iNeedThisClass');
-  const seen = new Set();
-  divs.forEach(div => {
-    if (div.getAttribute('data-id') === "studentWrapper"){
-       seen.add(id);
-    }
-    else{
-      div.remove();
-    }
-  });
-  //sessionStorage.removeItem("studentUID");
+  
+
   // Check if the pressed key is "Enter"
   if (event.key === "Enter") {
-    let inputVal = input.value;
+    let inputVal = null;
+    localStorage.setItem("autosave", event.target.value);
+   // inputVal = sessionStorage.getItem("autosave");
+     if(sessionStorage.getItem("studentUIDArray")){
+      sessionStorage.removeItem("studentUIDArray");
+      inputVal = localStorage.getItem("autosave");
+      console.log("inputVal: " + inputVal);
+      location.reload(); 
+      //inputVal = sessionStorage.getItem("autosave");
+     }
+     else{
+      inputVal = localStorage.getItem("autosave");
+     }
+    inputVal = localStorage.getItem("autosave");
+    console.log("inputVal post reload:" + inputVal);
     console.log("This worked!")
 
     // Helper to normalize case (e.g., "jake" -> "Jake") from stack overflow
@@ -66,67 +70,32 @@ input.addEventListener("keydown", async function (event) {
     const formattedFirstName = capitalize(firstName);
     console.log(formattedFirstName);
 
-    let docIds = [];
-    let countLogs = null
-
     // Make the query and filter by the first and the last name
     const q = query(docsRef, where("firstName", "==", formattedFirstName), where("lastName", "==", formattedLastName));
     const querySnapshot = await getDocs(q);
 
-    if(!querySnapshot.empty){
-      querySnapshot.forEach((doc) => {
-        docIds.push(doc.id);
-        console.log(docIds);
-      });
-      const countSnap = await getCountFromServer(q);
-      countLogs = countSnap.data().count;
-      console.log("countLogs:" + countLogs);
-      sessionStorage.setItem("studentUIDArray", docIds);
-      const saved = sessionStorage.getItem("studentUIDArray");
-      console.log("sessionStorage " + saved);
-      console.log("FUL NAME!");
-
-    } else {
+    if (querySnapshot.empty) {
+      // check for students with first name
+      //const q2 = query(docsRef, where("firstName", "==", formattedFirstName));
       const q2 = query(collection(db, "students"), or(where("firstName", "==", formattedFirstName), where("lastName", "==", formattedFirstName)));
+      let docIds = [];
       const querySnapshot2 = await getDocs(q2);
-      if(!querySnapshot2.empty){
-        querySnapshot2.forEach((doc) => {
-          docIds.push(doc.id);
-          console.log(docIds);
-        });
-        const countSnap = await getCountFromServer(q2);
-        countLogs = countSnap.data().count;
-        console.log("countLogs:" + countLogs);
-        sessionStorage.setItem("studentUIDArray", docIds);
-        const saved = sessionStorage.getItem("studentUIDArray");
-        console.log("sessionStorage " + saved);
-        console.log("not full NAME!");
-      } else {
+    if (querySnapshot2.empty) {
         alert("No student found with that first or last name. Try again!")
       }
-    }
+  
+    if(!querySnapshot2.empty){
+      querySnapshot2.forEach((doc) => {
+      docIds.push(doc.id);
+      console.log(docIds);
+    });
 
-    // if (querySnapshot.empty) {
-    //   // check for students with first name
-    //   //const q2 = query(docsRef, where("firstName", "==", formattedFirstName));
-    //   const q2 = query(collection(db, "students"), or(where("firstName", "==", formattedFirstName), where("lastName", "==", formattedFirstName)));
-    //   const querySnapshot2 = await getDocs(q2);
-    // if (querySnapshot2.empty) {
-    //     alert("No student found with that first or last name. Try again!")
-    //   }
-    //
-    // if(!querySnapshot2.empty){
-    //   querySnapshot2.forEach((doc) => {
-    //   docIds.push(doc.id);
-    //   console.log(docIds);
-    // });
-    //
-    // const countSnap = await getCountFromServer(q2);
-    // const countLogs = countSnap.data().count;
-    // console.log("countLogs:" + countLogs);
-    // sessionStorage.setItem("studentUIDArray", docIds);
-    // const saved = sessionStorage.getItem("studentUIDArray");
-    // console.log("sessionStorage " + saved);
+    const countSnap = await getCountFromServer(q2);
+    const countLogs = countSnap.data().count;
+    console.log("countLogs:" + countLogs);
+    sessionStorage.setItem("studentUIDArray", docIds);
+    const saved = sessionStorage.getItem("studentUIDArray");
+    console.log("sessionStorage " + saved);
 
     //loops through as many times as logs the student has until broken
     for (let i = countLogs; i >= 1; i--) {
@@ -213,8 +182,9 @@ input.addEventListener("keydown", async function (event) {
       }
       
     }
+    }
   }
-});
+}})
 
 /*
 getElementId()
