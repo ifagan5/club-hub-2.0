@@ -30,6 +30,15 @@ const docsRef = collection(db, "students");
 const input = document.getElementById("searchInput");
 
 let selectedStudentUID = null;
+/*
+event listener
+Triggered when the user presses the "enter" button
+Searches for student(s) using the user's input.
+- If there is no input it alerts the user
+- If the input is not the same as any first or last name of a student it alerts the user
+- If the input is the same as a student(s) first or last name it displays the student's information on the screen and
+    saves an array of the student's uid(s) in session storage with the key "studentUIDArray"
+*/
 input.addEventListener("keydown", async function (event) {
   // Check if the pressed key is "Enter"
   if (event.key === "Enter") {
@@ -161,7 +170,13 @@ input.addEventListener("keydown", async function (event) {
   }
 }})
 
-
+/*
+getElementId()
+Is called when the user presses on the "view student's log" button
+Gets the id of the button and uses it to figure out what uid in the session storage array it is connected to, gets
+the student's uid from studentUIDArray in session stoarge and saves it to session storage with the key "studentUID"
+before replacing the location with adminStudentHistory.html.
+*/
 export const getElementId = async function(obj){
   console.log("getElementId called");
     //get button's ID
@@ -188,6 +203,7 @@ export const getElementId = async function(obj){
 
       }
     }
+    //for other iterations get the number at the end of the button and do same thing
     else{
       let tempDocumentUID = docIds[num -1 ];
       console.log("tempDocumentUID = " + tempDocumentUID);
@@ -202,5 +218,6 @@ export const getElementId = async function(obj){
       }
 
     }
+    //replace the location with adminStudentHistory.html
     location.replace('adminStudentHistory.html');
 }
