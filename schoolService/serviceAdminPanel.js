@@ -66,32 +66,67 @@ input.addEventListener("keydown", async function (event) {
     const formattedFirstName = capitalize(firstName);
     console.log(formattedFirstName);
 
+    let docIds = [];
+    let countLogs = null
+
     // Make the query and filter by the first and the last name
     const q = query(docsRef, where("firstName", "==", formattedFirstName), where("lastName", "==", formattedLastName));
     const querySnapshot = await getDocs(q);
 
-    if (querySnapshot.empty) {
-      // check for students with first name
-      //const q2 = query(docsRef, where("firstName", "==", formattedFirstName));
+    if(!querySnapshot.empty){
+      querySnapshot.forEach((doc) => {
+        docIds.push(doc.id);
+        console.log(docIds);
+      });
+      const countSnap = await getCountFromServer(q);
+      countLogs = countSnap.data().count;
+      console.log("countLogs:" + countLogs);
+      sessionStorage.setItem("studentUIDArray", docIds);
+      const saved = sessionStorage.getItem("studentUIDArray");
+      console.log("sessionStorage " + saved);
+      console.log("FUL NAME!");
+
+    } else {
       const q2 = query(collection(db, "students"), or(where("firstName", "==", formattedFirstName), where("lastName", "==", formattedFirstName)));
-      let docIds = [];
       const querySnapshot2 = await getDocs(q2);
-    if (querySnapshot2.empty) {
+      if(!querySnapshot2.empty){
+        querySnapshot2.forEach((doc) => {
+          docIds.push(doc.id);
+          console.log(docIds);
+        });
+        const countSnap = await getCountFromServer(q2);
+        countLogs = countSnap.data().count;
+        console.log("countLogs:" + countLogs);
+        sessionStorage.setItem("studentUIDArray", docIds);
+        const saved = sessionStorage.getItem("studentUIDArray");
+        console.log("sessionStorage " + saved);
+        console.log("not full NAME!");
+      } else {
         alert("No student found with that first or last name. Try again!")
       }
-  
-    if(!querySnapshot2.empty){
-      querySnapshot2.forEach((doc) => {
-      docIds.push(doc.id);
-      console.log(docIds);
-    });
+    }
 
-    const countSnap = await getCountFromServer(q2);
-    const countLogs = countSnap.data().count;
-    console.log("countLogs:" + countLogs);
-    sessionStorage.setItem("studentUIDArray", docIds);
-    const saved = sessionStorage.getItem("studentUIDArray");
-    console.log("sessionStorage " + saved);
+    // if (querySnapshot.empty) {
+    //   // check for students with first name
+    //   //const q2 = query(docsRef, where("firstName", "==", formattedFirstName));
+    //   const q2 = query(collection(db, "students"), or(where("firstName", "==", formattedFirstName), where("lastName", "==", formattedFirstName)));
+    //   const querySnapshot2 = await getDocs(q2);
+    // if (querySnapshot2.empty) {
+    //     alert("No student found with that first or last name. Try again!")
+    //   }
+    //
+    // if(!querySnapshot2.empty){
+    //   querySnapshot2.forEach((doc) => {
+    //   docIds.push(doc.id);
+    //   console.log(docIds);
+    // });
+    //
+    // const countSnap = await getCountFromServer(q2);
+    // const countLogs = countSnap.data().count;
+    // console.log("countLogs:" + countLogs);
+    // sessionStorage.setItem("studentUIDArray", docIds);
+    // const saved = sessionStorage.getItem("studentUIDArray");
+    // console.log("sessionStorage " + saved);
 
     //loops through as many times as logs the student has until broken
     for (let i = countLogs; i >= 1; i--) {
@@ -178,9 +213,8 @@ input.addEventListener("keydown", async function (event) {
       }
       
     }
-    }
   }
-}})
+});
 
 /*
 getElementId()

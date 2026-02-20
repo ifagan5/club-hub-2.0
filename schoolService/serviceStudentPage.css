@@ -95,10 +95,10 @@ body {
     color: white;
     margin-left: 12.5%;
     margin-right: 12.5%;
-    margin-bottom: -29px;
+    margin-bottom: -70px;
     border-radius: 10px;
     text-align: center;
-    background-image: url("../../clubhub/images/whiteboard.png");
+    background-image: url("images/whiteboard.png");
     background-size: cover;
     font-weight: 700;
     letter-spacing: 0.5px;
