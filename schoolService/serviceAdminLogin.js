@@ -56,6 +56,8 @@ const auth = getAuth(app);
 //         alert("Student not found");
 //     }
 // }
+
+// admin login function
 console.log("loaded!")
 export const adminLogin = function () {
     console.log("Admin login function called with email: " + adminEmail);
