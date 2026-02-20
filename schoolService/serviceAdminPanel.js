@@ -55,6 +55,7 @@ input.addEventListener("keydown", async function (event) {
     console.log(formattedFirstName);
 
     let docIds = [];
+    let countLogs = null
 
     // Make the query and filter by the first and the last name
     const q = query(docsRef, where("firstName", "==", formattedFirstName), where("lastName", "==", formattedLastName));
@@ -66,7 +67,7 @@ input.addEventListener("keydown", async function (event) {
         console.log(docIds);
       });
       const countSnap = await getCountFromServer(q);
-      var countLogs = countSnap.data().count;
+      countLogs = countSnap.data().count;
       console.log("countLogs:" + countLogs);
       sessionStorage.setItem("studentUIDArray", docIds);
       const saved = sessionStorage.getItem("studentUIDArray");
@@ -82,7 +83,7 @@ input.addEventListener("keydown", async function (event) {
           console.log(docIds);
         });
         const countSnap = await getCountFromServer(q2);
-        var countLogs = countSnap.data().count;
+        countLogs = countSnap.data().count;
         console.log("countLogs:" + countLogs);
         sessionStorage.setItem("studentUIDArray", docIds);
         const saved = sessionStorage.getItem("studentUIDArray");
