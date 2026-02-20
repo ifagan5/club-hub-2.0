@@ -11,6 +11,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {checkAdminStatus, checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 
+// code to kick the users off the pages if they are not in the right section
 (async () => {
 const isLoggedIn = await checkLoginStatus();
 if (!isLoggedIn) {
@@ -21,7 +22,7 @@ const isAdmin = await checkAdminStatus()
         window.location.href = "./serviceAdminPanel.html";
     }
 })();
-//haha
+//firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyDKBBs0TWerQno_u8yjNqV5qmvQImf6xA0",
   authDomain: "club-hub-2.firebaseapp.com",

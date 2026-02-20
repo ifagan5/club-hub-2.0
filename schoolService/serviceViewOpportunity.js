@@ -63,7 +63,7 @@ if (!querySnapshot.empty) {
             finalTime = hour + ':' + minute + ' AM';
         }
 
-        // set innerhtml of elements to allow cross site scripting
+        // set innerhtml of elements to update data
         opportunityName.innerHTML = data.opportunityName;
         opportunityDescription.innerHTML = data.opportunityDescription;
         opportunityLength.innerHTML = data.opportunityLength + " hours";
@@ -85,7 +85,7 @@ if (!querySnapshot.empty) {
         const isPast = currentDateTimeInMs > timestampDateTimeInMs;
         console.log(isPast)
 
-        // allow users to signup, claim thier service hours cancel thier signup, or tell them that it is too late );
+        // allow users to signup, claim their service hours cancel their signup, or tell them that it is too late );
         if (signedUpUsers.includes(user.uid)) {
             if (isPast) {
                 // code to claim service hours
@@ -139,3 +139,4 @@ if (!querySnapshot.empty) {
 else {
     opportunityName.innerHTML = "Error: No Opportunity Found";
 }
+// error handeling
