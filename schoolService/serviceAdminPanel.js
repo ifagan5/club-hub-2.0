@@ -45,16 +45,17 @@ input.addEventListener("keydown", async function (event) {
   // Check if the pressed key is "Enter"
   if (event.key === "Enter") {
     let inputVal = null;
-    localStorage.setItem("autosave", event.target.value);
+    // localStorage.setItem("autosave", event.target.value);
    // inputVal = sessionStorage.getItem("autosave");
      if(sessionStorage.getItem("studentUIDArray")){
       sessionStorage.removeItem("studentUIDArray");
       inputVal = localStorage.getItem("autosave");
       console.log("inputVal: " + inputVal);
-      location.reload(); 
+      window.location.reload()
       //inputVal = sessionStorage.getItem("autosave");
      }
      else{
+       localStorage.setItem("autosave", event.target.value);
       inputVal = localStorage.getItem("autosave");
      }
     inputVal = localStorage.getItem("autosave");
