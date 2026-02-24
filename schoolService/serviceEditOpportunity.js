@@ -54,6 +54,7 @@ export const updateServiceOpportunity = async function(){
         opportunityLength: document.getElementById('opportunityLength').value,
         opportunityDate: document.getElementById('opportunityDate').value,
         opportunityTime: document.getElementById('opportunityTime').value,
+        opportunityContact: document.getElementById('opportunityContact').value,
         opportunityLocation: document.getElementById('opportunityLocation').value,
         lastUpdated: Timestamp.now(),
     };
@@ -73,5 +74,6 @@ if (docSnap.exists()) {
     document.getElementById('opportunityLength').value = data.opportunityLength;
     document.getElementById('opportunityDate').value = data.opportunityDate;
     document.getElementById('opportunityTime').value = data.opportunityTime;
+    document.getElementById('opportunityContact').value = data.opportunityContact;
     document.getElementById('opportunityLocation').value = data.opportunityLocation
 }

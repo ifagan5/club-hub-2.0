@@ -45,7 +45,7 @@ opportunityLocation: opportunityLocation,
 timestamp: Timestamp.now()
 based on the user inputs
 */
-export const createServiceOpportunity = async function(opportunityName, opportunityDescription, opportunityLength, opportunityDate, opportunityTime, opportunityLocation){
+export const createServiceOpportunity = async function(opportunityName, opportunityDescription, opportunityLength, opportunityDate, opportunityTime, opportunityContact, opportunityLocation){
     const logFormId = document.getElementById("loginForm");
     if (!logFormId.checkValidity()) {
         logFormId.reportValidity();
@@ -60,6 +60,7 @@ export const createServiceOpportunity = async function(opportunityName, opportun
         opportunityLength: opportunityLength,
         opportunityDate: opportunityDate,
         opportunityTime: opportunityTime,
+        opportunityContact: opportunityContact,
         opportunityLocation: opportunityLocation,
         timestamp: Timestamp.now(), // Add a server-side timestamp
     };

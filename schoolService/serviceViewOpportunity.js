@@ -1,6 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, arrayUnion, arrayRemove, deleteDoc, setDoc, Timestamp, query, where} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, addDoc, getCountFromServer, arrayUnion, arrayRemove, deleteDoc, setDoc, Timestamp, query, where} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {checkAdminStatus, checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 
 
@@ -32,6 +32,7 @@ const opportunityDescription = document.getElementById("opportunityDescription")
 const opportunityLength = document.getElementById("opportunityLength");
 const opportunityDate = document.getElementById("opportunityDate");
 const opportunityTime = document.getElementById("opportunityTime");
+const opportunityContact = document.getElementById("opportunityContact");
 const opportunityLocation = document.getElementById("opportunityLocation");
 
 // testing...
@@ -69,7 +70,14 @@ if (!querySnapshot.empty) {
         opportunityLength.innerHTML = data.opportunityLength + " hours";
         opportunityDate.innerHTML = data.opportunityDate;
         opportunityTime.innerHTML = finalTime;
+        console.log("This should be the HTML: " + data.opportunityContact);
+        opportunityContact.innerHTML = data.opportunityContact;
         opportunityLocation.innerHTML = data.opportunityLocation;
+
+        const oppDesc = data.opportunityDescription;
+        const h = data.opportunityLength;
+        const oppDate = data.opportunityDate;
+        const oppCon = data.opportunityContact;
 
         // get see if it is past the oppertunity date
         const button = document.getElementById("opportunityStatusButton");
@@ -102,10 +110,28 @@ if (!querySnapshot.empty) {
                     if (studentDocSnap.exists()) {
                         const studentTotalHours = studentData.totalSchoolHours || 0; // Default to 0 if it doesn't exist?
                         const newHours = Number(studentTotalHours) + Number(data.opportunityLength);
+
+                        const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
+                        const countSnap = await getCountFromServer(serviceLogCollectionRef);
+                        const i = countSnap.data().count;
+                        const logEntry = {
+                            //uid: [`log${snapshot.data().count}`],
+                            logNum: i+1,
+                            hours: 0,
+                            schoolServiceHours: h,
+                            description: oppDesc,
+                            contact: oppCon,
+                            date: oppDate,
+                            timestamp: Timestamp.now(), // Add a server-side timestamp
+                        };
+
+                        await addDoc(serviceLogCollectionRef, logEntry);
+
                         alert("Your new total service to the school hours: " +newHours + " hours");
                         await updateDoc(studentDocRef, {
                             totalSchoolHours: newHours,
                         });
+
                     }
                     window.location.reload()
                 });
