@@ -15,6 +15,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Fixed the type attribute in the link tag -->
     <link rel="stylesheet" type="text/css" href="serviceStudentPage.css">
+    
+    <link rel="stylesheet" type="text/css" href="serviceStudentHistory.css">
     <link rel="icon" type="image/x-icon" href="images/stab_logo.webp">
 
     <title>Saints Service Sign Up</title>
@@ -38,7 +40,7 @@
     window.logout = async () => {
         await logout();
     };
-
+    import {getLogActivity} from './serviceStudentHistory.js';
     // Populate user name after the page has loaded
     window.addEventListener('DOMContentLoaded', async (event) => {
         const firstName = await getFirstNameFromAuth();
@@ -75,13 +77,14 @@
        <!-- Creates a bar below header box with nav buttons -->
    <div class="nav">
        <!-- <a class="button" href="#calendar">Calendar</a> -->
-       <button class="button" id="home" onClick = "location.replace('serviceHome.html');">Home</button>
+        <button class="button" id="logout" onclick="(async () => await logout())()">Logout</button>
+       <button class="button" id="home" onClick = "location.replace('serviceHome.html');">Calendar</button>
+       <button class="button" onClick = "location.replace('../clubhub/index.html');">Go To Club Hub</button>
         <button class="button" id="servicelog" onClick = "location.replace('serviceStudentHistory.html');">Your Service Log</button>
         <button class="button" id="login-more-hours" onClick = "location.replace('serviceSubmitHours.html');">Log More Hours</button>
        <button class="button" id="viewServiceOpportunists" onClick = "location.replace('serviceViewAllServiceOpportunities.html');">View Service Opportunities</button>
 <!--        <button class="button" id="login" onClick = "location.replace('serviceAccountSelection.html');">Login</button>-->
 <!--        <button class="button" id="logout" onclick="logout();">Logout</button>-->
-       <button class="button" id="logout" onclick="(async () => await logout())()">Logout</button>
         <button class="button" id="adminPageBtn" onclick="location.replace('serviceAdminPanel.html');" >Admin Page</button>
    </div>
 
@@ -112,20 +115,28 @@
                     <div id="writtenReqNonSchool"></div>
                     </div>
                 </div>
-
-
                 <div class = "right-side">
                     <div class="red-box-right">
                     <div class="red-text-right">You have:</div>
                     <div id="school-hours" class="hours-display"></div>
                     <div id="red-text-right-description">
                         service to the school hours
-                    </div>
-                   
+                    </div>   
                      <div id="writtenReqSchool"></div>
                     </div>
                 </div>
-                
+    <div class="loginBox">
+        <header class="subheading">Your Log History</header>
+            <br>
+        <div id="log1">
+            <div id="activity">hi </div>
+            <div id="logged-hours">hi </div>
+            <div id="logged-hours-to-school"> hi</div>
+            <div id="contact"> hi</div>
+            <div id="date">hi </div>
+
+        </div>
+    <div>
 <!--                <div class = "center-text-hours">-->
 <!--                    <div class="neededCommunityHrs" id = "neededCommunityHrs"></div>-->
 <!--                   <br>-->

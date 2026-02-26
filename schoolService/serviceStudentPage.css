@@ -114,7 +114,7 @@ body {
     position: relative;
     margin-left: 12.5%;
     margin-right: 12.5%;
-    height: 80vh;
+    /*height: 80vh;*/
     background-color: rgb(237, 237, 237);
     color: rgb(141, 13, 24);
     max-width: 1500px;
@@ -165,9 +165,9 @@ body {
 }
 .right-side{
   float: right;
-  width: 35%;
-  margin-left: auto;
-  margin-right: 10%;
+  width: 45%;
+  /*margin-left: auto;*/
+  margin-right: 5%;
 }
 #writtenReqSchool{
   font-size: 20px;
@@ -178,7 +178,7 @@ body {
 .red-box-right {
   float: right;
   background-color: rgb(141, 13, 24); /* Sets the background color of the box to red */
-  width: 45%;         /* Sets the width of the box */
+  width: 55%;         /* Sets the width of the box */
   height: 60%;        /* Sets the height of the box */
   border: 2px solid darkred; /* Adds a border to the box (optional) */
   padding: 10px;        /* Adds padding inside the box (optional) */
@@ -208,15 +208,15 @@ font-size: 20px;
 }
 .left-side{
   float: left;
-  width: 35%;
-  margin-right: auto;
-  margin-left: 10%;
+  width: 45%;
+  /*margin-right: auto;*/
+  margin-left: 5%;
 
 }
 .red-box-left {
   float: left;
   background-color: rgb(141, 13, 24); /* Sets the background color of the box to red */
-  width: 45%;         /* Sets the width of the box */
+  width: 55%;         /* Sets the width of the box */
   /* height: 60%;        Sets the height of the box */
   border: 2px solid darkred; /* Adds a border to the box (optional) */
   padding: 10px;        /* Adds padding inside the box (optional) */
