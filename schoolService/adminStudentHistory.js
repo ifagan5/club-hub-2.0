@@ -17,6 +17,12 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const studentName = document.getElementById("subheading");
 
+export const makeAdmin = async function(){
+    const uid = sessionStorage.getItem("studentUID");
+    const ref = collection(db, "studentServiceLog", uid, "logs");
+
+}
+
 /*
 returnPage()
 Is called when the user presses the "back to homepage" button

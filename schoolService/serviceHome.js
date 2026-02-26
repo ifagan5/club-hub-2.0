@@ -1,6 +1,7 @@
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp, addDoc, arrayRemove, arrayUnion, query, where} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import {getCurrentUser} from "./serviceAuth.js";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const firebaseConfig = {
@@ -56,6 +57,7 @@ export async function addMeetings() {
         const data = docSnap.data();
 
         const dateObj = new Date(data.opportunityDate);
+        dateObj.setDate(dateObj.getDate() + 1);
         const formattedDate = dateObj.toLocaleDateString();
 
         let finalTime = null;
@@ -75,7 +77,7 @@ export async function addMeetings() {
         events.push({
             title: data.opportunityName || "Service Opportunity",
             location: data.opportunityLocation || "TBA",
-            description: data.opportunityDescription || "No description provided.",
+            description: data.opportunityDescription || "No description found!",
             date: formattedDate,
             time: finalTime,
             dateObj: dateObj,
@@ -310,11 +312,11 @@ function attachEventsToDay({ container, date }) {
 
             const locationLine = document.createElement('div');
             locationLine.className = 'event-line event-line--location';
-            locationLine.textContent = event.location || 'TBA';
+            locationLine.textContent = event.title || 'Error loading name';
 
             // Append lines in order (each will render on its own line)
             eventDiv.appendChild(timeLine);
-            eventDiv.appendChild(titleLine);
+            // eventDiv.appendChild(titleLine);
             eventDiv.appendChild(locationLine);
         } 
         else {
@@ -333,7 +335,7 @@ function attachEventsToDay({ container, date }) {
 
         eventDiv.classList.add('event');
     
-        eventDiv.addEventListener('click', function () {
+        eventDiv.addEventListener('click', async function () {
             sessionStorage.setItem("club", event.username);
 
             const infoModal = document.getElementById("eventInfoModal");
@@ -351,6 +353,106 @@ function attachEventsToDay({ container, date }) {
             document.getElementById("descriptionPopUp").innerHTML += event.description;
 
             infoModal.style.display = "flex";
+
+            // uh oh
+
+            sessionStorage.setItem("opportunityName", event.title)
+
+            const user = await getCurrentUser();
+            const docsRef = collection(db, "serviceOpportunities");
+            const serviceName = sessionStorage.getItem('opportunityName');
+            const q = query(docsRef, where("opportunityName", "==", serviceName));
+            const querySnapshot = await getDocs(q);
+            if (!querySnapshot.empty) {
+                for (const docSnap of querySnapshot.docs) {
+                    const data = docSnap.data();
+
+                    // get see if it is past the oppertunity date
+                    const button = document.getElementById("buttonPopUp");
+                    const timestamp = new Date(`${data.opportunityDate}T${data.opportunityTime}`);
+                    console.log(timestamp);
+                    const signedUpUsers = data.signedUpUsers || [];
+                    const currentDate = new Date();
+                    const timestampDate = new Date(timestamp);
+                    const currentDateTimeInMs = currentDate.getTime();
+                    const timestampDateTimeInMs = timestampDate.getTime();
+                    console.log(currentDateTimeInMs)
+                    console.log(timestampDateTimeInMs)
+                    const isPast = currentDateTimeInMs > timestampDateTimeInMs;
+                    console.log(isPast)
+
+                    // allow users to signup, claim their service hours cancel their signup, or tell them that it is too late );
+                    if (signedUpUsers.includes(user.uid)) {
+                        if (isPast) {
+                            // code to claim service hours
+                            button.innerText = "Claim Your Service Opportunity Hours";
+                            button.addEventListener("click", async () => {
+                                await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
+                                    signedUpUsers: arrayRemove(user.uid)
+                                });
+                                const uid = user.uid;
+                                console.log(uid);
+                                const studentDocRef = doc(db, "students", uid);
+                                const studentDocSnap = await getDoc(studentDocRef);
+                                const studentData = studentDocSnap.data();
+                                if (studentDocSnap.exists()) {
+                                    const studentTotalHours = studentData.totalSchoolHours || 0; // Default to 0 if it doesn't exist?
+                                    const newHours = Number(studentTotalHours) + Number(data.opportunityLength);
+
+                                    const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
+                                    const countSnap = await getCountFromServer(serviceLogCollectionRef);
+                                    const i = countSnap.data().count;
+                                    const logEntry = {
+                                        //uid: [`log${snapshot.data().count}`],
+                                        logNum: i + 1,
+                                        hours: 0,
+                                        schoolServiceHours: data.schoolServiceHours,
+                                        description: "A service to the school opportunity.",
+                                        contact: "Unknown",
+                                        date: event.date,
+                                        timestamp: Timestamp.now(), // Add a server-side timestamp
+                                    };
+
+                                    await addDoc(serviceLogCollectionRef, logEntry);
+
+                                    alert("Your new total service to the school hours: " + newHours + " hours");
+                                    await updateDoc(studentDocRef, {
+                                        totalSchoolHours: newHours,
+                                    });
+
+                                }
+                                window.location.reload()
+                            });
+                        } else {
+                            // code to cancel signup
+                            button.innerText = "Cancel Your Signup";
+                            button.addEventListener("click", async () => {
+                                await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
+                                    signedUpUsers: arrayRemove(user.uid)
+                                });
+                                window.location.reload()
+                            });
+                        }
+                    } else {
+                        // code to signup for oppertuniy
+                        if (!isPast) {
+                            button.innerText = "Signup For Service Opportunity";
+                            button.addEventListener("click", async () => {
+                                await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
+                                    signedUpUsers: arrayUnion(user.uid)
+                                });
+                                window.location.reload()
+                            });
+                        } else {
+                            // opperuntiy expired
+                            button.innerText = "Service Opportunity Expired";
+                        }
+                    }
+                }
+            } else {
+                opportunityName.innerHTML = "Error: No Opportunity Found";
+            }
+
         });
 
         const eventsWrapper = container.querySelector('.day-events') || container;

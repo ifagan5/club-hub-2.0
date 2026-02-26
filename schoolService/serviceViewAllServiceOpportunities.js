@@ -140,7 +140,7 @@ export const getLogActivity = async function() {
     }
 }
 
-// checkbox javascirpt to filter by signed up service opportunities
+// checkbox JavaScript to filter by signed up service opportunities
 const checkbox = document.getElementById('myCheck');
 checkbox.checked = sessionStorage.getItem("filterBySignedUp") === "true";
 checkbox.addEventListener('change', function() {
