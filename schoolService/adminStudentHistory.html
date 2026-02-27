@@ -30,9 +30,11 @@
     import {cLogin,correctNavDisplayCD} from '../clubhub/clubinfo.js';
     window.cLogin = cLogin;
     window.correctNavDisplayCD = correctNavDisplayCD;
-    import {getLogActivity, returnPage} from './adminStudentHistory.js';
+    import {getLogActivity, returnPage, makeAdmin, checkIsAdmin} from './adminStudentHistory.js';
+    checkIsAdmin();
     window.getLogActivity = getLogActivity;
     window.returnPage = returnPage;
+    window.makeAdmin = makeAdmin;
   </script>
 
 </head>
@@ -50,10 +52,12 @@
       </header>
 
     <script type="module" src="../clubhub/clubinfo.js"></script>
-  
+
 
     <div class="loginBox">
         <header class="subheading" id="subheading">Student's Log History</header>
+        <br>
+        <div style="display: flex; justify-content: center;"><button id="makeAdminButton" onclick="makeAdmin()" style="user-select: none; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 20px clamp(14px, 3vw, 20px); border: 1px solid transparent; font-family: 'Inter', sans-serif; color: white; text-decoration: none; transition: background-color 0.18s ease, color 0.18s ease; position: relative; border-radius: 15px; font-weight: bold; font-size: 14px; background-color: rgb(141, 13, 24);">Make Account Admin</button></div>
         <br>
       <div id="log1">
           <div id="activity"> </div>
@@ -64,6 +68,5 @@
 
       </div>
   </div>
-    <button class="viewLogButton">Make Account Admin</button>
 </body>
 </html>

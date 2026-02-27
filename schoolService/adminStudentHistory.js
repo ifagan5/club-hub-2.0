@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, getDocs, getDoc, doc, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, getDoc, doc, getCountFromServer, updateDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { checkAdminStatus } from "./serviceAuth.js";
 //haha
 const firebaseConfig = {
     apiKey: "AIzaSyDKBBs0TWerQno_u8yjNqV5qmvQImf6xA0",
@@ -17,10 +18,31 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const studentName = document.getElementById("subheading");
 
+
+export const checkIsAdmin = async function() {
+    const uid = sessionStorage.getItem("studentUID");
+    const docRef = doc(db, "students", uid);
+    const docSnap = await getDoc(docRef);
+    const isAdmin = docSnap.data().admin;
+    if (isAdmin) {
+        const target = document.getElementById("makeAdminButton");
+        target.innerText = "Remove Admin Status";
+    }
+}
+
 export const makeAdmin = async function(){
     const uid = sessionStorage.getItem("studentUID");
-    const ref = collection(db, "studentServiceLog", uid, "logs");
-
+    const docRef = doc(db, "students", uid);
+    const docSnap = await getDoc(docRef);
+    const isAdmin = docSnap.data().admin;
+    if (isAdmin) {
+        await updateDoc(docRef, { admin: false });
+        alert("Removed admin status!");
+    } else {
+        await updateDoc(docRef, { admin: true });
+        alert("Made the account an admin!");
+    }
+    window.location.reload();
 }
 
 /*
