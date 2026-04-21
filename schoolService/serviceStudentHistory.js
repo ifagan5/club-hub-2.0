@@ -34,6 +34,7 @@ Contact Person: *Entered faculty/adult contact*
 Date Completed: *Date the student completed the activity*
 */
 export const getLogActivity = async function() {
+    
     const user = await getCurrentUser()
     const uid = user.uid;
     console.log(uid);
@@ -49,6 +50,10 @@ export const getLogActivity = async function() {
     const countSnap = await getCountFromServer(serviceLogCollectionRef);
     const countLogs = countSnap.data().count;
     console.log("countLogs:" + countLogs);
+
+    
+
+
     //loops through as many times as logs the student has
     for (let i = countLogs; i >= 1; i--) {
         //loops through as many times as logs the student has until broken

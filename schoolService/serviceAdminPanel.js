@@ -45,22 +45,15 @@ input.addEventListener("keydown", async function (event) {
   // Check if the pressed key is "Enter"
   if (event.key === "Enter") {
     let inputVal = null;
-    // localStorage.setItem("autosave", event.target.value);
-   // inputVal = sessionStorage.getItem("autosave");
-     if(sessionStorage.getItem("studentUIDArray")){
+ 
+   // clears the data so that the input will be saved as the new value instead of being ignored because there is already a value in storage
       sessionStorage.removeItem("studentUIDArray");
+      localStorage.setItem("autosave", event.target.value);
       inputVal = localStorage.getItem("autosave");
       console.log("inputVal: " + inputVal);
-      window.location.reload()
-      //inputVal = sessionStorage.getItem("autosave");
-     }
-     else{
-       localStorage.setItem("autosave", event.target.value);
       inputVal = localStorage.getItem("autosave");
-     }
-    inputVal = localStorage.getItem("autosave");
-    console.log("inputVal post reload:" + inputVal);
-    console.log("This worked!")
+      console.log("inputVal post reload:" + inputVal);
+      console.log("This worked!")
 
     // Helper to normalize case (e.g., "jake" -> "Jake") from stack overflow
     const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -69,18 +62,20 @@ input.addEventListener("keydown", async function (event) {
     const [firstName, ...lastNameParts] = inputVal.split(" ");
     const formattedLastName = lastNameParts.map(capitalize).join(" ");
     const formattedFirstName = capitalize(firstName);
+    const formattedgradYr = inputVal.trim();
     console.log(formattedFirstName);
 
     // Make the query and filter by the first and the last name
-    const q = query(docsRef, where("firstName", "==", formattedFirstName), where("lastName", "==", formattedLastName));
+    const q = query(docsRef, where("firstName", "==", formattedFirstName), where("lastName", "==", formattedLastName), where("gradYr", "==", formattedgradYr));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
       // check for students with first name
       //const q2 = query(docsRef, where("firstName", "==", formattedFirstName));
-      const q2 = query(collection(db, "students"), or(where("firstName", "==", formattedFirstName), where("lastName", "==", formattedFirstName)));
+      const q2 = query(collection(db, "students"), or(where("firstName", "==", formattedFirstName), where("lastName", "==", formattedFirstName), where("gradYr", "==", formattedgradYr)));
       let docIds = [];
       const querySnapshot2 = await getDocs(q2);
+
     if (querySnapshot2.empty) {
         alert("No student found with that first or last name. Try again!")
       }
@@ -97,6 +92,12 @@ input.addEventListener("keydown", async function (event) {
     sessionStorage.setItem("studentUIDArray", docIds);
     const saved = sessionStorage.getItem("studentUIDArray");
     console.log("sessionStorage " + saved);
+
+    // Clear previous search results
+    const container = document.getElementById('adminClubInfoWrapper');
+    const original = document.getElementById('studentWrapper');
+    container.innerHTML = '';
+    container.appendChild(original);
 
     //loops through as many times as logs the student has until broken
     for (let i = countLogs; i >= 1; i--) {
