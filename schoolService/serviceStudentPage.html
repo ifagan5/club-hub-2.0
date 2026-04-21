@@ -21,12 +21,16 @@
 
     <title>Saints Service Sign Up</title>
 </head>
-<body>
+<body onload="getLogActivity()">
 
 <!-- <script type="module" src="../clubhub/script.js"></script>-->x
  <script type="module" src="./serviceStudentPage.js"></script>
  <script type="module" src="./serviceSubmitHours.js"></script>
  <script type="module" src="./serviceAuth.js"></script>
+ <script type="module">
+    import {getLogActivity} from './serviceStudentHistory.js';
+    window.getLogActivity = getLogActivity;
+    </script>
  <script type="module">
     import {getTotalHours, getTotalSchoolServiceHours, calculateSchoolServiceHoursPercentage, calculateNonSchoolServiceHoursPercentage} from './serviceAuth.js';
     import {logout, getFirstNameFromAuth, getLastNameFromAuth, getHours, getSchoolGradRequirement, getCommunityGradRequirement} from './serviceStudentPage.js';
@@ -80,8 +84,6 @@
         <button class="button" id="logout" onclick="(async () => await logout())()">Logout</button>
        <button class="button" id="home" onClick = "location.replace('serviceHome.html');">Calendar</button>
        <button class="button" onClick = "location.replace('../clubhub/index.html');">Go To Club Hub</button>
-        <button class="button" id="servicelog" onClick = "location.replace('serviceStudentHistory.html');">Your Service Log</button>
-        <button class="button" id="login-more-hours" onClick = "location.replace('serviceSubmitHours.html');">Log More Hours</button>
        <button class="button" id="viewServiceOpportunists" onClick = "location.replace('serviceViewAllServiceOpportunities.html');">View Service Opportunities</button>
 <!--        <button class="button" id="login" onClick = "location.replace('serviceAccountSelection.html');">Login</button>-->
 <!--        <button class="button" id="logout" onclick="logout();">Logout</button>-->
@@ -128,15 +130,19 @@
     <div class="loginBox">
         <header class="subheading">Your Log History</header>
             <br>
+            <button class="button2" id="logButton" onClick = "location.replace('serviceSubmitHours.html');">Log More Hours</button>
+            
+            <br>
         <div id="log1">
-            <div id="activity">hi </div>
-            <div id="logged-hours">hi </div>
-            <div id="logged-hours-to-school"> hi</div>
-            <div id="contact"> hi</div>
-            <div id="date">hi </div>
+            <div id="activity"></div>
+            <div id="logged-hours"></div>
+            <div id="logged-hours-to-school"></div>
+            <div id="contact"></div>
+            <div id="date"></div>
 
         </div>
     <div>
+
 <!--                <div class = "center-text-hours">-->
 <!--                    <div class="neededCommunityHrs" id = "neededCommunityHrs"></div>-->
 <!--                   <br>-->
@@ -145,6 +151,7 @@
 <!--            </div>-->
             </div>
         </div>
+
     </section>
 
 
@@ -155,8 +162,8 @@
             <img class="logo" src="images/stab_logo.webp" alt="logo">
         </div>
         <div class="devSplit">
-            <div>Developer:</div>
-            <div>Kate R. '26</div>
+            <div>Developers:</div>
+            <div>Imogen, Jake, and Kevin</div>
         </div>
         <button class="button ContactButton" onClick = "location.replace('../clubhub/contactPage.html');">Feedback & Requests</button>
     </div>
