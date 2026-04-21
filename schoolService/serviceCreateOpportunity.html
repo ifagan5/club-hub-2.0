@@ -48,13 +48,23 @@
   <label for="opportunityName">Name Of Opportunity:</label><input required type="text" id="opportunityName" placeholder = "Type Here">
   <label for="opportunityDescription">Description Of Opportunity:</label><input required type="text" id="opportunityDescription" placeholder = "Type Here">
   <label for="opportunityLength">Length Of Opportunity:</label><input required type="number" id="opportunityLength" step = "any" placeholder = "Type Here">
-  <label for="opportunityDate">Date of Opportunity:</label><input required type="date" id="opportunityDate">
+  <label for="opportunityDate" id="opportunityDateLabel">Date of Opportunity:</label><input required type="date" id="opportunityDate">
   <label for="opportunityTime">Time of Opportunity:</label><input required type="time" id="opportunityTime">
   <label for="opportunityContact">Person of Contact:</label><input required type="text" id="opportunityContact" placeholder = "Type Here">
   <label for="opportunityLocation">Location of Opportunity:</label><input required type="text" id="opportunityLocation" placeholder = "Type Here">
-    <label for="reoccurringEventCheckbox">Make Reoccurring Event (Not implemented yet):</label><input required type="checkbox" id="reoccurringEventCheckbox">
+    <label for="reoccurringEventCheckbox">Make Reoccurring Event (implemented):</label><input type="checkbox" id="reoccurringEventCheckbox">
   </form>
 
+  <form style="display: none;" id = "opportunityForm">
+    <label for="cb-1">Repeat On Monday:</label><input type="checkbox" id="cb-1">
+    <label for="cb-2">Repeat On Tuesday:</label><input type="checkbox" id="cb-2">
+    <label for="cb-3">Repeat On Wednesday:</label><input type="checkbox" id="cb-3">
+    <label for="cb-4">Repeat On Thursday:</label><input type="checkbox" id="cb-4">
+    <label for="cb-5">Repeat On Friday:</label><input type="checkbox" id="cb-5">
+    <label for="cb-6">Repeat On Saturday:</label><input type="checkbox" id="cb-6">
+    <label for="cb-7">Repeat On Sunday:</label><input type="checkbox" id="cb-7">
+    <label for="repeatTimes">Amount Of Times To Repeat:</label><input required type="number" id="repeatTimes">
+  </form>
   <button onclick="createServiceOpportunity(document.getElementById('opportunityName').value, document.getElementById('opportunityDescription').value, document.getElementById('opportunityLength').value, document.getElementById('opportunityDate').value, document.getElementById('opportunityTime').value, document.getElementById('opportunityContact').value, document.getElementById('opportunityLocation').value);" class="loginButton clubLB">Create</button>
 </div>
 </body>
