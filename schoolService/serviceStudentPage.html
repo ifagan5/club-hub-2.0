@@ -21,16 +21,16 @@
 
     <title>Saints Service Sign Up</title>
 </head>
-<body onload="getSerivceOpportunities(); getLogActivity()">
+<body onload="getServiceLogActivity(); getLogActivity()">
 
 <!-- <script type="module" src="../clubhub/script.js"></script>-->x
  <script type="module" src="./serviceStudentPage.js"></script>
  <script type="module" src="./serviceSubmitHours.js"></script>
  <script type="module" src="./serviceAuth.js"></script>
  <script type="module">
-    import {getLogActivity, getSerivceOpportunities} from './serviceStudentHistory.js';
+    import {getLogActivity, getServiceOpportunities} from './serviceStudentHistory.js';
     window.getLogActivity = getLogActivity;
-    window.getSerivceOpportunities = getSerivceOpportunities;
+    window.getServiceOpportunities = getServiceOpportunities;
     </script>
  <script type="module">
     import {getTotalHours, getTotalSchoolServiceHours, calculateSchoolServiceHoursPercentage, calculateNonSchoolServiceHoursPercentage} from './serviceAuth.js';
@@ -58,7 +58,7 @@
         const nonSchoolServiceHoursPercentage = await calculateNonSchoolServiceHoursPercentage();
         // const neededSchoolHours = await getSchoolGradRequirement();
         // const neededCommunityHours = await getCommunityGradRequirement();
-        if (nonSchoolServiceHoursPercentage === "N/A"){
+        if (nonSchoolServiceHoursPercentage == "N/A"){
             document.getElementById("red-text-left-description").innerText = "total general service hours";
         }
         else{

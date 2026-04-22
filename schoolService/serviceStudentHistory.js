@@ -138,7 +138,7 @@ export const getServiceOpportunities = async function() {
     // NEW LOOP AURA
      if (true) {
         sessionStorage.setItem("filterBySignedUp", "true");
-        window.location.reload();
+        
     } else {
         sessionStorage.removeItem("filterBySignedUp");
         window.location.reload();
@@ -146,6 +146,7 @@ export const getServiceOpportunities = async function() {
     const logsRef = collection(db, "studentServiceLog");
     const originalDiv = document.getElementById('opportunity1');
     originalDiv.style.display = 'none';
+    //FIREBASE ISSUE
     const q = query(collection(db, "serviceOpportunities"), orderBy("opportunityDate", "desc"));
     const querySnapshot = await getDocs(q);
     for (const docSnap of querySnapshot.docs) {
