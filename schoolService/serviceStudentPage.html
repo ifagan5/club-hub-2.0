@@ -21,15 +21,16 @@
 
     <title>Saints Service Sign Up</title>
 </head>
-<body onload="getLogActivity()">
+<body onload="getServiceLogActivity(); getLogActivity()">
 
 <!-- <script type="module" src="../clubhub/script.js"></script>-->x
  <script type="module" src="./serviceStudentPage.js"></script>
  <script type="module" src="./serviceSubmitHours.js"></script>
  <script type="module" src="./serviceAuth.js"></script>
  <script type="module">
-    import {getLogActivity} from './serviceStudentHistory.js';
+    import {getLogActivity, getServiceLogActivity} from './serviceStudentHistory.js';
     window.getLogActivity = getLogActivity;
+    window.getServiceLogActivity = getServiceLogActivity;
     </script>
  <script type="module">
     import {getTotalHours, getTotalSchoolServiceHours, calculateSchoolServiceHoursPercentage, calculateNonSchoolServiceHoursPercentage} from './serviceAuth.js';
