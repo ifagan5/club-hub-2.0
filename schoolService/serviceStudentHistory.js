@@ -143,7 +143,7 @@ export const getServiceOpportunities = async function() {
         sessionStorage.removeItem("filterBySignedUp");
         window.location.reload();
     };
-    const logsRef = collection(db, "serviceOpportunities");
+    const logsRef = collection(db, "studentServiceLog");
     const originalDiv = document.getElementById('opportunity1');
     originalDiv.style.display = 'none';
     const q = query(collection(db, "serviceOpportunities"), orderBy("opportunityDate", "desc"));
