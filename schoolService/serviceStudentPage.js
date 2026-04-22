@@ -56,7 +56,7 @@ export const getEmailFromAuth = async function(){
 
 /*
 getHoursFromSubmitHours
-gets and returns the user's totalNonSchoolHours by calling getTotalHours() from serviceAuth.js
+gets and returns the user's totalGeneralHours by calling getTotalHours() from serviceAuth.js
 */
 export const getHoursFromSubmitHours = async function(){
     return await getTotalHours();

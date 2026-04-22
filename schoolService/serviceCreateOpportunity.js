@@ -82,7 +82,7 @@ export const createServiceOpportunity = async function(opportunityName, opportun
 
         const numRepeat = document.getElementById("repeatTimes").value;
 
-        const earliestDay = Math.min(...days);
+        const earliestDay = Math.min(...days); // returns the numeric timestamps for earliest day on the list after reading list with ...
         let startDate = new Date();
         const currentDayOfWeek = startDate.getDay() === 0 ? 7 : startDate.getDay();
         startDate.setDate(startDate.getDate() + (earliestDay - currentDayOfWeek + 7) % 7);
