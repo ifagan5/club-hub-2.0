@@ -135,6 +135,53 @@ body {
     max-width: 1500px;
 }
 
+.loginBox {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 30px 100px; margin-top: 150px; border-radius: 10px;
+    background-color: white; font-family: Helvetica, sans-serif;
+    box-shadow: 0px 5px 15px rgba(120, 10, 19, 0.44);
+    width: 200px;
+    height: 150px;
+}
+
+/* card scales with viewport; tighter padding */
+  .loginBox {
+    margin-top: 10vh;
+    width: 85%;
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+
+.loginButton2 {
+    cursor: pointer;
+    width: 50%;
+    padding: 12px;
+    font-size: 18px;
+    background-color: rgb(141, 13, 24);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.loginButton2:hover {
+    background-color: rgb(120, 10, 19);
+}
+
+
+  .loginButton2 {
+    width: 90%;
+    padding: 14px;
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
+
+  /* Accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .button, .loginButton, .loginButton2 { transition: none !important; }
+  .headLink:hover { font-size: inherit !important; }
+}
+
 #name {
     font-weight: 700;
     text-align:center;

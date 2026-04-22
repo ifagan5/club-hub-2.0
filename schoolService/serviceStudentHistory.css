@@ -32,11 +32,11 @@
     border-radius: 10px;
     /* Removed extra margins for testing */
     min-width: 15vw;
-    min-height: 35vh;
+    min-height: 25vh;
     background-color: white; 
     font-family: Helvetica, sans-serif;
     width: 300px;
-    height: 500px;
+    height: 300px;
     overflow-y: auto;
     margin-left: 7%;
     margin-bottom: 2%;

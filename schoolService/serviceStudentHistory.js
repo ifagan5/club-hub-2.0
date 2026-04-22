@@ -134,9 +134,7 @@ export const getLogActivity = async function() {
     }
 }
 
-
-//only get what's signed up for
-export const getServiceLogActivity = async function(){
+export const getSerivceOpportunities = async function() {
     // NEW LOOP AURA
     const logsRef = collection(db, "serviceOpportunities");
     const originalDiv = document.getElementById('opportunity1');
@@ -231,16 +229,3 @@ export const getServiceLogActivity = async function(){
         }
     }
 }
-
-// checkbox JavaScript to filter by signed up service opportunities
-// const checkbox = document.getElementById('myCheck');
-// checkbox.checked = sessionStorage.getItem("filterBySignedUp") === "true";
-// checkbox.addEventListener('change', function() {
-//     if (this.checked) {
-//         sessionStorage.setItem("filterBySignedUp", "true");
-//         window.location.reload();
-//     } else {
-//         sessionStorage.removeItem("filterBySignedUp");
-//         window.location.reload();
-//     }
-// });
