@@ -97,8 +97,8 @@ export const getLogActivity = async function() {
                             //for the most recent entry it prints out the information for that entry
                             if (i === countLogs) {
                                 document.getElementById("activity").innerText = "Activity: " + description;
-                                document.getElementById("logged-hours").innerText = "Non School Hours: " + hours;
-                                document.getElementById("logged-hours-to-school").innerText = "Service to School Hours: " + schoolServiceHours;
+                                document.getElementById("logged-hours").innerText = "Amount Of Service Hours: " + hours;
+                                document.getElementById("logged-hours-to-school").innerText = "Type Of Hours: " + schoolServiceHours;
                                 document.getElementById("date").innerText = "Date Completed: " + date;
                                 document.getElementById("contact").innerText = "Contact Person: " + contact;
                                // document.getElementById("timestamp").innerText = "Date Logged: " + timestamp;
@@ -115,8 +115,8 @@ export const getLogActivity = async function() {
 
                                 // Update text content of the cloned elements
                                 clonedDiv.querySelector(`#activity${i + 1}`).innerText = "Activity: " + description;
-                                clonedDiv.querySelector(`#logged-hours${i + 1}`).innerText = "Non School Hours: " + hours;
-                                clonedDiv.querySelector(`#logged-hours-to-school${i + 1}`).innerText = "Service to School Hours: " + schoolServiceHours;
+                                clonedDiv.querySelector(`#logged-hours${i + 1}`).innerText = "Amount Of Service Hours: " + hours;
+                                clonedDiv.querySelector(`#logged-hours-to-school${i + 1}`).innerText = "Type Of Hours: " + schoolServiceHours;
                                 clonedDiv.querySelector(`#date${i + 1}`).innerText = "Date Completed: " + date;
                                 clonedDiv.querySelector(`#contact${i + 1}`).innerText = "Contact Person: " + contact;
                                 //clonedDiv.querySelector(`#timestamp${i + 1}`).innerText = "Date Logged: " + timestamp;

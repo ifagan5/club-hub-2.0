@@ -42,7 +42,7 @@ addLog(hours, toSchool, description, contact, date)
 adds a log to the student's logs with the input information and updates all hours totals
 changes the location to serviceStudentPage.html
 */
-export const addLog = async function(hours, toSchool, description, contact, date){
+export const addLog = async function(hours, hoursType, description, contact, date){
     const logFormId = document.getElementById("logForm");
     if (!logFormId.checkValidity()) {
         logFormId.reportValidity();
@@ -57,39 +57,39 @@ export const addLog = async function(hours, toSchool, description, contact, date
     const docSnap = await getDoc(docRef);
     const data = docSnap.data();
     if (docSnap.exists()) {
-        const studentTotalHours = data.totalGeneralHours || 0; // Default to 0 if it doesn't exist?
-        const newHours = parseFloat(studentTotalHours) + parseFloat(hours);
-        await updateDoc(docRef, {
-            totalGeneralHours: newHours,
-        });
-
-        const studentSchoolHours = data.totalSchoolHours || 0 // Default to 0 if it doesn't exist?
-        const newSchoolHours = parseFloat(studentSchoolHours) + parseFloat(toSchool);
-        await updateDoc(docRef, { // Fix: Update totalSchoolHours instead of totalHours
-            totalSchoolHours: newSchoolHours,
-        });
+        if (hoursType === "General Community Service") {
+            const studentTotalGeneralHours = data.totalGeneralHours || 0; // Default to 0 if it doesn't exist?
+            const newHours = parseFloat(String(studentTotalGeneralHours)) + parseFloat(String(hours));
+            await updateDoc(docRef, {
+                totalGeneralHours: newHours,
+            });
+        } else if (hoursType === "Service to the School") {
+            const studentTotalSchoolHours = data.totalSchoolHours || 0 // Default to 0 if it doesn't exist?
+            const newHours = parseFloat(studentTotalSchoolHours) + parseFloat(hours);
+            await updateDoc(docRef, { // Fix: Update totalSchoolHours instead of totalHours
+                totalSchoolHours: newHours,
+            });
+        } else {
+            alert("ERROR - input type not recognized");
+            alert(hoursType);
+        }
     }
 
 
     const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
     const countSnap = await getCountFromServer(serviceLogCollectionRef);
     const i = countSnap.data().count;
-    //const i = query(serviceLogCollectionRef, count());
-    //const snapshot = await getAggregate(i);
     const logEntry = {
         //uid: [`log${snapshot.data().count}`],
         logNum: i+1,
         hours: hours,
-        schoolServiceHours: toSchool,
+        schoolServiceHours: hoursType,
         description: description,
         contact: contact,
         date: date,
         timestamp: Timestamp.now(), // Add a server-side timestamp
     };
-
     await addDoc(serviceLogCollectionRef, logEntry);
-
-  //   redirect the user if necsary
   window.location.href = "serviceStudentPage.html";
 }
 
