@@ -1177,15 +1177,15 @@ option {
 
 /* Override FullCalendar's default blue buttons with Simplex Red */
 :root {
-    --fc-button-bg-color: #d9230f;
-    --fc-button-border-color: #d9230f;
-    --fc-button-hover-bg-color: #b91d0c;
-    --fc-button-hover-border-color: #b91d0c;
-    --fc-button-active-bg-color: #b91d0c;
-    --fc-button-active-border-color: #b91d0c;
+    --fc-button-bg-color: rgb(141, 13, 24);
+    --fc-button-border-color: rgb(141, 13, 24);
+    --fc-button-hover-bg-color: rgba(146, 22, 32, 0.564);
+    --fc-button-hover-border-color: rgba(146, 22, 32, 0.564);
+    --fc-button-active-bg-color: rgba(146, 22, 32, 0.564);
+    --fc-button-active-border-color: rgba(146, 22, 32, 0.564);
 
     /* Matches the blue event highlight boxes to Simplex Red */
-    --fc-event-bg-color: #d9230f;
-    --fc-event-border-color: #d9230f;
+    --fc-event-bg-color: rgb(141, 13, 24);
+    --fc-event-border-color: rgb(141, 13, 24);
     --fc-today-bg-color: rgba(217, 35, 15, 0.1);
 }
