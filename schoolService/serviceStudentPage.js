@@ -13,6 +13,10 @@ export const firebaseConfig = {
     measurementId: "G-P97ML6ZP15"
 };
 
+if (getGradYr().value === 2099) {
+    alert("You are not a student, but also do not have been granted admin privileges. Please contact an admin immediately.");
+}
+
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 

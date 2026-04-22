@@ -141,17 +141,17 @@ export const getLogActivity = async function() {
 }
 
 // checkbox JavaScript to filter by signed up service opportunities
-const checkbox = document.getElementById('myCheck');
-checkbox.checked = sessionStorage.getItem("filterBySignedUp") === "true";
-checkbox.addEventListener('change', function() {
-    if (this.checked) {
-        sessionStorage.setItem("filterBySignedUp", "true");
-        window.location.reload();
-    } else {
-        sessionStorage.removeItem("filterBySignedUp");
-        window.location.reload();
-    }
-});
+// const checkbox = document.getElementById('myCheck');
+// checkbox.checked = sessionStorage.getItem("filterBySignedUp") === "true";
+// checkbox.addEventListener('change', function() {
+//     if (this.checked) {
+//         sessionStorage.setItem("filterBySignedUp", "true");
+//         window.location.reload();
+//     } else {
+//         sessionStorage.removeItem("filterBySignedUp");
+//         window.location.reload();
+//     }
+// });
 
 //only get what's signed up for
 export const getServiceLogActivity = async function(){
