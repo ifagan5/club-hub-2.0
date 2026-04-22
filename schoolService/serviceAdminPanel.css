@@ -1627,12 +1627,12 @@ option {
 
 /* ADMIN CLUBS IN DANEGER ECT> */
 
-.clubsInDangerWrapper {
+.studentsInDangerWrapper {
     width: 22%; display: flex; flex-direction: column; gap: 15px; margin-top: 20px;
 }
 
 /* Base Panel Style (shared by both panels)      */
-.clubsInDanger,
+.studentsInDanger,
 .resetPointsDiv {
     background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(0, 0, 0, 0.07);
     padding: 27px; color: black; box-shadow: none; display: flex; flex-direction: column;
@@ -1642,21 +1642,21 @@ option {
   min-height: 200px;
 }
 
-.clubsInDangerTitle {
+.studentsInDangerTitle {
   font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
   color: #333; border-bottom: 2px solid #7a0c0f; padding-bottom: 4px; margin-bottom: 20px;
 }
 
 /* Clubs in Danger Panel  */
-.clubsInDanger {
+.studentsInDanger {
   max-height: 50vh; overflow-y: auto; font-size: 16px; font-weight: 500; text-align: left;
 }
 
 /* Container that holds all the clubâ€button elements */
-.clubsInDangerButtons {
+.studentsInDangerButtons {
   display: flex; flex-direction: column; gap: 12px;
 }
-.clubsInDangerButtons button {
+.studentsInDangerButtons button {
   width: 100%; padding: 10px 14px; font-size: 16px; font-weight: 600;
   background: transparent; color: #d0141a; border: 2px solid #d0141a;
   position: relative; overflow: hidden; transition: color 0.3s ease;
@@ -1664,19 +1664,19 @@ option {
 }
 
 /* Animated â€œfillâ€*/
-.clubsInDangerButtons button::before {
+.studentsInDangerButtons button::before {
     content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background: #d0141a; transform: scaleX(0); transform-origin: right; z-index: 0;
 }
 /* Keep text above the fill layer */
-.clubsInDangerButtons button span {
+.studentsInDangerButtons button span {
   position: relative; z-index: 1; transition: color 0.3s ease;
 }
 /* expand the  fill */
-.clubsInDangerButtons button:hover::before {
+.studentsInDangerButtons button:hover::before {
     transform: scaleX(1); transform-origin: left; transition: transform 0.35s ease; 
 }
-.clubsInDangerButtons button:hover span {
+.studentsInDangerButtons button:hover span {
   color: #fff;
 }
 
@@ -2386,7 +2386,7 @@ background-color: #eeeeee;
   }
 
   /* Left column → full width */
-  .clubsInDangerWrapper {
+  .studentsInDangerWrapper {
     width: 100%;
     margin-top: 0px;
     order: 1;
@@ -2408,13 +2408,13 @@ background-color: #eeeeee;
     order: 2;
   }
 
-  /* “Clubs in Danger” buttons: auto-fit grid */
-  .clubsInDangerButtons {
+  /* “Students in Danger” buttons: auto-fit grid */
+  .studentsInDangerButtons {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 10px;
   }
-  .clubsInDangerButtons button {
+  .studentsInDangerButtons button {
     width: 100%;
   }
 
@@ -2470,7 +2470,7 @@ background-color: #eeeeee;
 
   /* Left column panels */
   .announcement-controls { min-height: 0; }
-  .clubsInDanger { 
+  .studentsInDanger { 
     max-height: none; justify-content: center; align-items: center;     height: auto; 
     align-items: center; 
     justify-content: center;
@@ -2480,11 +2480,11 @@ background-color: #eeeeee;
     padding: 0;
     max-height: 250px;
   }
-  .clubsInDangerButtons {
+  .studentsInDangerButtons {
     grid-template-columns: 1fr;   /* one per row */
     gap: 8px;
   }
-  .clubsInDangerButtons button {
+  .studentsInDangerButtons button {
     padding: 12px 14px;
     font-size: 15px;
     border-radius: 6px;
