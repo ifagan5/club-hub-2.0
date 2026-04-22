@@ -187,7 +187,57 @@ input.addEventListener("keydown", async function (event) {
     }
   }
 }})
+export const displayStudentsInDanger = async function() {
+  var studentsInDangerDiv = document.getElementById("studentsInDangerDiv");
+  const databaseItems = await getDocs(collection(db, "students"));
 
+  const studentsInDanger = [];
+
+  // Helper function to get required community service hours based on graduation year
+  const getRequiredCommunityHours = (gradYr) => {
+    if (gradYr === "2027") return 30;
+    if (gradYr === "2028") return 15;
+    return 0; // No requirement for other grades
+  };
+
+  // Loop through database items to find students who are in danger (insufficient community service hours)
+  databaseItems.forEach(studentdoc => {
+    const data = studentdoc.data();
+    const requiredHours = getRequiredCommunityHours(data.gradYr);
+    const currentHours = data.totalGeneralHours || 0;
+
+    // Add to danger list if they haven't met the requirement and have a requirement > 0
+    if (requiredHours > 0 && currentHours < requiredHours) {
+      studentsInDanger.push(studentdoc);
+    }
+  });
+  // Render students in danger in the div
+  studentsInDanger.sort((a, b) => {
+    const nameA = a.data().fullName.toLowerCase();
+    const nameB = b.data().fullName.toLowerCase();
+    return nameA.localeCompare(nameB);  
+  });
+
+  const studentsInDangerButtonsContainer = document.getElementById("studentsInDangerButtonsContainer");
+  studentsInDangerButtonsContainer.innerHTML = ""; // Clear old buttons
+
+  studentsInDanger.forEach(student => {
+    const studentInDanger = document.createElement("button");
+    studentInDanger.classList.add("studentsInDangerButton");
+
+    const span = document.createElement("span");
+    const fullName = student.data().fullName;
+    span.innerHTML = fullName;
+
+    studentInDanger.onclick = function () {
+      sessionStorage.setItem("adminStudent", student.id);
+      location.reload();
+    };
+
+    studentInDanger.appendChild(span);
+    studentsInDangerButtonsContainer.appendChild(studentInDanger);
+  });
+}
 /*
 getElementId()
 Is called when the user presses on the "view student's log" button
