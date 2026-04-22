@@ -90,5 +90,15 @@
     background-color: rgba(146, 22, 32, 0.564); color:rgb(141, 13, 24);
 }
 
+.log-calendar-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 25px;
+    margin: 25px 5%;
+}
 
-
+.log-calendar-row,
+.log-calendar-row #calendar {
+    width: 88%;
+}
