@@ -111,7 +111,7 @@ input.addEventListener("keydown", async function (event) {
         const studentId = tempDocSnap.data().uid;
         const fullName = `${tempDocSnap.data().firstName} ${tempDocSnap.data().lastName}`;
         const schoolHours = tempDocSnap.data().totalSchoolHours || 0;
-        const totalHours = tempDocSnap.data().totalNonSchoolHours || 0;
+        const totalHours = tempDocSnap.data().totalGeneralHours || 0;
         const grade = tempDocSnap.data().gradYr || "N/A";
         let schoolRequirement = null;
         const isAdmin = tempDocSnap.data().admin;

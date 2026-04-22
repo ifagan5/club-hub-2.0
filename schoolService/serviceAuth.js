@@ -212,7 +212,7 @@ export async function getEmail() {
 // Get the current user's uid
 /*
 getTotalHours()
-uses the user's uid to get the information under totalNonSchoolHours and returns it, if empty
+uses the user's uid to get the information under totalGeneralHours and returns it, if empty
 it returns 0, and otherwise returns null
 */
 export async function getTotalHours(){
@@ -223,7 +223,7 @@ export async function getTotalHours(){
     const docSnap = await getDoc(docRef);
     const data = docSnap.data();
     if (docSnap.exists()) {
-        return data.totalNonSchoolHours || 0;
+        return data.totalGeneralHours || 0;
     }
     return null;
 }
@@ -303,7 +303,7 @@ export async function calculateSchoolServiceHoursPercentage() {
 // calculate the non-school service percentage
 /*
 calculateSchoolServiceHoursPercentage()
-uses the user's uid to get the student's graduation year and totalNonSchoolHours. Then it
+uses the user's uid to get the student's graduation year and totalGeneralHours. Then it
 uses the graduation requirments based on the year to calculate what percentage of the graduation 
 requirment the student has completed and returns the percentage as a number.
 */
@@ -314,17 +314,17 @@ export async function calculateNonSchoolServiceHoursPercentage() {
     const docRef = doc(db, "students", user.uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-        const totalNonSchoolHours = docSnap.data().totalNonSchoolHours || 0;
+        const totalGeneralHours = docSnap.data().totalGeneralHours || 0;
         const gradYearFirst = docSnap.data().gradYr || "2030";
         const gradYear = parseInt(gradYearFirst);
         if (gradYear === 2027) {
-            const preliminaryResult = (totalNonSchoolHours / 30) * 100
+            const preliminaryResult = (totalGeneralHours / 30) * 100
             return Math.min(preliminaryResult, 100).toFixed(0);
         } else if (gradYear === 2028) {
-            const preliminaryResult = (totalNonSchoolHours / 15) * 100
+            const preliminaryResult = (totalGeneralHours / 15) * 100
             return Math.min(preliminaryResult, 100).toFixed(0);
         } else if (gradYear >= 2029) {
-            // const preliminaryResult = (totalNonSchoolHours / 0) * 100
+            // const preliminaryResult = (totalGeneralHours / 0) * 100
             // return Math.min(preliminaryResult, 100);
             return "N/A";
         } else {
