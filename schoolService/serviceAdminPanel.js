@@ -194,31 +194,50 @@ export const displayStudentsInDanger = async function() {
   const studentsInDanger = [];
 
   // Helper function to get required community service hours based on graduation year
-  const getRequiredCommunityHours = (gradYr) => {
+  const getRequiredGeneralCommunityHours = (gradYr) => {
     if (gradYr === "2027") return 30;
     if (gradYr === "2028") return 15;
     return 0; // No requirement for other grades
   };
+  const getRequiredServiceToSchoolHours = (gradYr) => {
+    if (gradYr === "2027") return 10;
+    if (gradYr === "2028") return 20;
+    return 30; // Requirement for other grades
+  }
 
-  // Loop through database items to find students who are in danger (insufficient community service hours)
+  // Loop through database items to find students who are in danger
   databaseItems.forEach(studentdoc => {
     const data = studentdoc.data();
-    const requiredHours = getRequiredCommunityHours(data.gradYr);
+    
+    // Skip admins
+    if (data.admin === true) {
+      return;
+    }
+    
+    const requiredGeneralHours = getRequiredGeneralCommunityHours(data.gradYr);
+    const requiredSchoolHours = getRequiredServiceToSchoolHours(data.gradYr);
     const currentHours = data.totalGeneralHours || 0;
 
     // Add to danger list if they haven't met the requirement and have a requirement > 0
-    if (requiredHours > 0 && currentHours < requiredHours) {
+    if (requiredGeneralHours > 0 && currentHours < requiredGeneralHours) {
+      studentsInDanger.push(studentdoc);
+    } else if (requiredSchoolHours > 0 && (data.totalSchoolHours || 0) < requiredSchoolHours) {
       studentsInDanger.push(studentdoc);
     }
   });
   // Render students in danger in the div
   studentsInDanger.sort((a, b) => {
-    const nameA = a.data().fullName.toLowerCase();
-    const nameB = b.data().fullName.toLowerCase();
-    return nameA.localeCompare(nameB);  
-  });
+  const nameA = `${a.data().firstName} ${a.data().lastName}`.toLowerCase();
+  const nameB = `${b.data().firstName} ${b.data().lastName}`.toLowerCase();
+  return nameA.localeCompare(nameB);
+});
 
   const studentsInDangerButtonsContainer = document.getElementById("studentsInDangerButtonsContainer");
+
+  if (!studentsInDangerButtonsContainer) {
+  console.error("studentsInDangerButtonsContainer not found");
+  return;
+}
   studentsInDangerButtonsContainer.innerHTML = ""; // Clear old buttons
 
   studentsInDanger.forEach(student => {
@@ -226,7 +245,7 @@ export const displayStudentsInDanger = async function() {
     studentInDanger.classList.add("studentsInDangerButton");
 
     const span = document.createElement("span");
-    const fullName = student.data().fullName;
+    const fullName = `${student.data().firstName} ${student.data().lastName}`;
     span.innerHTML = fullName;
 
     studentInDanger.onclick = function () {
@@ -238,6 +257,8 @@ export const displayStudentsInDanger = async function() {
     studentsInDangerButtonsContainer.appendChild(studentInDanger);
   });
 }
+
+displayStudentsInDanger();
 /*
 getElementId()
 Is called when the user presses on the "view student's log" button

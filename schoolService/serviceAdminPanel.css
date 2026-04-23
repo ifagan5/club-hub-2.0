@@ -1951,6 +1951,7 @@ option {
   display: flex;
   justify-content: center;
   max-width: 100vw;
+  gap: 30px;
   padding: 25px;
   padding-bottom: 0;
   background: white;
@@ -2387,9 +2388,10 @@ background-color: #eeeeee;
 
   /* Left column → full width */
   .studentsInDangerWrapper {
-    width: 100%;
+    width: 300px;
     margin-top: 0px;
     order: 1;
+    flex-shrink: 0;
   }
 
   /* Vertical divider becomes a horizontal rule */
@@ -2406,6 +2408,7 @@ background-color: #eeeeee;
     margin: 0;
     padding: 0 4px 0;
     order: 2;
+    flex: 1
   }
 
   /* “Students in Danger” buttons: auto-fit grid */
