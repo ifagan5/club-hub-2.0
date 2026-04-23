@@ -34,6 +34,25 @@ Contact Person: *Entered faculty/adult contact*
 Date Completed: *Date the student completed the activity*
 */
 export const getLogActivity = async function() {
+
+    //deleting the logs from the last page
+    for(let i = 0; i <10000; i++){
+        console.log("line 40");
+        if(document.getElementById(`log${i}`)){
+            const element = document.getElementById(`log${i}`);
+            element.remove();
+        }
+        else{
+            console.log("line 45");
+            break;
+        }
+    }
+
+    const button = document.getElementById("logButton2");
+    button.outerHTML = '<button class="loginButton2" id="logButton2" onClick = "getServiceOpportunitiesReal();">View Your Sign Ups</button>';
+
+    const name = document.getElementById("logHistoryName");
+    name.outerHTML = '<header class="subheading" id="logHistoryName">Your Log History</header>';
     
     const user = await getCurrentUser()
     const uid = user.uid;
@@ -245,6 +264,144 @@ export const getServiceOpportunities = async function() {
 
             // Append the cloned div to the parent of the original div
             originalDiv.parentNode.appendChild(clonedDiv);
+        }
+    }
+}
+
+export const getServiceOpportunitiesReal = async function() {
+
+    //deleting the logs from the last page
+    for(let i = 2; i <10000; i++){
+        if(document.getElementById(`log${i}`)){
+            console.log("Called");
+            const element = document.getElementById(`log${i}`);
+            element.remove();
+        }
+        else{
+            break;
+        }
+    }
+
+    const button = document.getElementById("logButton2");
+    button.outerHTML = '<button class="loginButton2" id="logButton2" onClick = "getLogActivity(); window.location.reload()">View Your Past Logs</button>';
+
+    const name = document.getElementById("logHistoryName");
+    name.outerHTML = '<header class="subheading" id="logHistoryName">Your Sign Ups</header>';
+
+
+
+    // NEW LOOP AURA
+    let thing = 0;
+     if (true) {
+        sessionStorage.setItem("filterBySignedUp", "true");
+        
+    } else {
+        sessionStorage.removeItem("filterBySignedUp");
+        window.location.reload();
+    };
+    const logsRef = collection(db, "studentServiceLog");
+    const originalDiv = document.getElementById('log1');
+    originalDiv.style.display = 'none';
+    //FIREBASE ISSUE
+    const q = query(collection(db, "serviceOpportunities"), orderBy("opportunityDate", "desc"));
+    const querySnapshot = await getDocs(q);
+    for (const docSnap of querySnapshot.docs) {
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+
+            // check if oppertunity is old
+            const timestamp = new Date(`${data.opportunityDate}T${data.opportunityTime}`);
+            const currentDate = new Date();
+            const timestampDate = new Date(timestamp);
+            const currentDateTimeInMs = currentDate.getTime();
+            const timestampDateTimeInMs = timestampDate.getTime();
+            console.log("currentDateTimeInMs: " + currentDateTimeInMs);
+            console.log("timestampDateTimeInMs: " + timestampDateTimeInMs);
+            const differenceTimeInMs = currentDateTimeInMs - timestampDateTimeInMs;
+            const isPast = differenceTimeInMs > 0 && differenceTimeInMs > 1210000000;
+
+            // delete if past 14 days
+            if (isPast) {
+                console.log("MUST DELETE: " + data.opportunityName);
+                await deleteDoc(doc(db, "serviceOpportunities", docSnap.id));
+                window.location.reload();
+                continue;
+            }
+
+            if (sessionStorage.getItem("filterBySignedUp") === "true") {
+                const user = await getCurrentUser();
+                if (!data.signedUpUsers || !data.signedUpUsers.includes(user.uid)) {
+                    continue;
+                }
+            }
+
+            // do some div cloning
+            const clonedDiv = originalDiv.cloneNode(true);
+            clonedDiv.style.display = 'block';
+            clonedDiv.style.backgroundColor = "rgb(141,13,24)";
+            clonedDiv.style.color = "rgb(243, 232, 234)";
+            clonedDiv.style.padding = " 15px 15px";
+            clonedDiv.style.borderRadius = "15px";
+            clonedDiv.style.marginBottom = "15px";
+            clonedDiv.style.width = "85%";
+
+           
+            if (thing ===0){
+                document.getElementById("activity").innerText = "Name: " + data.opportunityName;
+                document.getElementById("logged-hours").innerText = "Description: " + data.opportunityDescription;
+                document.getElementById("logged-hours-to-school").innerText = "Length: " + data.opportunityLength;
+                document.getElementById("date").innerText = "Date and Time: " + data.opportunityDate + " @ " + data.opportunityTime;
+                document.getElementById("contact").innerText = "Location: " + data.opportunityLocation;
+
+            }
+
+            else{
+            const id = docSnap.id;
+            clonedDiv.id = `log${id}`;
+            clonedDiv.querySelector('#activity').id = `activity${id}`;
+            clonedDiv.querySelector('#logged-hours-to-school').id = `logged-hours-to-school${id}`;
+            clonedDiv.querySelector('#date').id = `date${id}`;
+            clonedDiv.querySelector('#contact').id = `contact${id}`;
+            clonedDiv.querySelector('#opportunityTime').id = `opportunityTime${id}`;
+            clonedDiv.querySelector('#opportunityLocation').id = `opportunityLocation${id}`;
+            const button = clonedDiv.querySelector('#opportunityButton');
+            button.id = `opportunityButton${id}`;
+
+            // Update text content of the cloned elements
+            clonedDiv.querySelector(`#activity${id}`).textContent = "Name: " + data.opportunityName;
+            clonedDiv.querySelector(`#logged-hours-to-school${id}`).textContent = "Description: " + data.opportunityDescription;
+            clonedDiv.querySelector(`#date${id}`).textContent = "Length: " + data.opportunityLength;
+            clonedDiv.querySelector(`#contact${id}`).textContent = "Date: " + data.opportunityDate + " @ " + data.opportunityTime;
+            clonedDiv.querySelector(`#opportunityLocation${id}`).textContent = "Location: " + data.opportunityLocation;
+            button.textContent = "View Service Opportunity";
+            }
+
+            // edit some aperiodic if the user is an admin because they should not be able t osign up for service oppertunites
+            const isAdmin = await checkAdminStatus();
+            if (isAdmin) {
+                const checkMarkLabel = document.getElementById("checkMarkLabel");
+                const checkMarkBox = document.getElementById("myCheck");
+                const checkMarkBreak = document.getElementById("checkMarkBreak");
+                checkMarkLabel.style.display = "none";
+                checkMarkBox.style.display = "none";
+                checkMarkBreak.style.display = "block";
+
+                // button.style.display = "none";
+                button.innerText = "Edit Service Opportunity";
+                button.onclick = () => {
+                    sessionStorage.setItem("opportunityIDToEdit", id);
+                    window.location.href = "./serviceEditOpportunity.html";
+                };
+            } else {
+                button.onclick = () => {
+                    sessionStorage.setItem("opportunityName", data.opportunityName);
+                    window.location.href = "./serviceViewOpportunity.html";
+                };
+            }
+
+            // Append the cloned div to the parent of the original div
+            originalDiv.parentNode.appendChild(clonedDiv);
+            thing++;
         }
     }
 }
