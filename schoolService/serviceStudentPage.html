@@ -30,7 +30,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Fixed the type attribute in the link tag -->
-    <link rel="stylesheet" type="text/css" href="serviceStudentPage.css">
+   <!--  <link rel="stylesheet" type="text/css" href="serviceStudentPage.css">-->
     
     <link rel="stylesheet" type="text/css" href="serviceStudentHistory.css">
     <link rel="icon" type="image/x-icon" href="images/stab_logo.webp">
@@ -39,7 +39,7 @@
 </head>
 <body onload="getServiceOpportunities(); getLogActivity()">
 
-<!-- <script type="module" src="../clubhub/script.js"></script>-->x
+<!-- <script type="module" src="../clubhub/script.js"></script>-->
  <script type="module" src="./serviceStudentPage.js"></script>
  <script type="module" src="./serviceSubmitHours.js"></script>
  <script type="module" src="./serviceAuth.js"></script>
@@ -105,6 +105,7 @@
 <!--        <button class="button" id="logout" onclick="logout();">Logout</button>-->
         <button class="button" id="adminPageBtn" onclick="location.replace('serviceAdminPanel.html');" >Admin Page</button>
    </div>
+   <!--<br> -->
 
 
 
@@ -113,9 +114,9 @@
         <div class="studentPageTitle">
             <h1>Quick Overview</h1>
             <p style="color:white" id="name"></p>
-            <br>
+            <br> 
         </div>
-        <br>
+      <br> 
 
         <!-- Calendar Display -->
         <div class="studentPage">
@@ -124,6 +125,7 @@
 
             </div>
             <div>
+            <div class="summary-row">
                 <div class = "left-side">
                     <div class="red-box-left">
                     <div class="red-text-left">You have:</div>
@@ -144,17 +146,18 @@
                      <div id="writtenReqSchool"></div>
                     </div>
                 </div>
+        </div>
    
    
                 
 
-    <div class="log-calendar-row">
+<div class="log-calendar-row">
     <div class="loginBox">
         <header class="subheading">Your Log History</header>
-            <br>
+            <!--<br> -->
             <button class="loginButton2" id="logButton" onClick = "location.replace('serviceSubmitHours.html');">Log More Hours</button>
             
-            <br>
+            <!--<br> -->
         <div id="log1">
             <div id="activity"></div>
             <div id="logged-hours"></div>
@@ -165,16 +168,16 @@
         </div>
     </div>
       <div id='calendar'></div>
-    </div>
+</div>
   
 
 
 
         </div>
 
-        <div class = "loginBox">
+         <div class = "loginBox2">
             <header class="subheading">Your Future Serivce Opportunities</header>
-            <br>
+            <!--<br> -->
             <div id="opportunity1">
                 <div id="opportunityName"> </div>
                 <div id="opportunityDescription"> </div>
@@ -182,10 +185,10 @@
                 <div id="opportunityDate"> </div>
                 <div id="opportunityTime"> </div>
                 <div id="opportunityLocation"> </div>
-                <br>
+                <!--<br> -->
                 <button id="opportunityButton" class="loginButton2 clubLB">View Service Opportunity</button>
             </div>
-        </div>
+        </div> 
 
     </section>
 

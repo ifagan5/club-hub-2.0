@@ -1,3 +1,275 @@
+
+body {
+    margin: 0; 
+    padding: 0;
+    background-color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Header with background image */
+.header {
+    padding: clamp(60px, 12vw, 100px) 20px; /* scales header height for smaller screens */
+    color: white;
+    background-color: rgb(0, 0, 0);
+    background-image: url("images/Backgroud.png");
+    background-size: cover;
+    background-position: center; /* centers the background image */
+    text-align: center;
+    font-size: clamp(26px, 2.8vw, 44px);
+    box-sizing: border-box; /* includes padding in size calculations */
+}
+
+.header h1 {
+    margin: 0; /* removes default margin so header sizing works smoothly */
+    font-weight: 700;
+}
+
+/* Nav bar with centered buttons */
+.nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 0px 20px;
+    flex-wrap: wrap;
+    background-color: rgb(141, 13, 24);
+}
+
+#adminPageBtn{
+    display: none;
+}
+
+/* customizes the individual buttons in the nav bar */
+.button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 20px clamp(14px, 3vw, 20px);
+    background-color: transparent;
+    border: 1px solid transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(15px, 1.6vw, 20px);
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+/* hover animation */
+.button:hover {
+    background-color: white; color:rgb(141, 13, 24);
+}
+
+
+/* this is the title box for the calendar */
+.studentPageTitle {
+    background-color: rgb(141, 13, 24);
+    font-size: 35px;
+    color: white;
+    margin-left: 12.5%;
+    margin-right: 12.5%;
+    margin-bottom: -70px;
+    border-radius: 10px;
+    text-align: center;
+    background-image: url("images/whiteboard.png");
+    background-size: cover;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+    max-width: 1500px;
+}
+
+/*-- the calendar --*/
+.studentPage {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    position: relative;
+    margin-left: 12.5%;
+    margin-right: 12.5%;
+    /*height: 80vh;*/
+    background-color: rgb(237, 237, 237);
+    color: rgb(141, 13, 24);
+    max-width: 1500px;
+   border-radius: 10px;
+    
+    
+}
+.studentPageTitle p {
+  margin-top: 10px;
+}
+.studentPageHeader {
+    /* makes space between header items */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 0.75vw;
+    background-color: transparent; /* removed gray background */
+    border-bottom: 2px solid rgb(141, 13, 24); /* sleek red underline */
+    max-width: 1500px;
+}
+
+#name {
+    font-weight: 700;
+    text-align:center;
+    font-size: 30px;
+    color: rgb(255, 255, 255) ;
+    user-select: none;
+    font-family: 'Inter', sans-serif;
+    width:100%;
+}
+
+.red-box-left,
+.red-box-right {
+  background-color: rgb(141, 13, 24);
+  color: white;
+  border-radius: 12px;
+
+  padding: 25px 20px;
+  width: 100%;
+  max-width: 400px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  box-shadow: 0 6px 18px rgba(120, 10, 19, 0.25);
+}
+
+.left-side,
+.right-side {
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  justify-content: center;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin: 40px 5%;
+  flex-wrap: wrap;
+}
+
+#red-text-right-description{
+font-size: 20px;
+}
+
+.neededHours{
+  color: rgb(141, 13, 24); 
+}
+
+ 
+#red-text-left-description{
+  font-size: 20px;
+}
+#writtenReqSchool{
+  font-size: 15px;
+   text-align: center;
+}
+#writtenReqNonSchool{
+  font-size: 15px;
+  text-align: center;
+}
+
+.hours-display {
+  font-size: clamp(2.8rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 1;
+}
+/* creates the footer at the bottom of page */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* left align */
+  gap: 3vw;
+  padding: 1.5rem 3rem;
+  background-color: #f5f5f5;
+  color: #222;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  user-select: none;
+  position: relative; /* ensure it doesn't overlap content */
+  z-index: 0;
+}
+.ContactButton{
+  position: relative;
+  margin-left: auto; 
+  background-color: rgb(141, 13, 24);
+  border-radius: 15px;
+  font-weight: bold;
+  font-size: 14px;
+}
+.ContactButton:hover{
+  background-color: rgb(111, 13, 24);
+  color: #ffffff;
+  transition: 0.8s ease;
+}
+
+.logos {
+  position: relative;
+  width: 5vw;
+  height: 5vw;
+  min-width: 60px;
+  min-height: 60px;
+  background-image: url("../../clubhub/images/smallAlogo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+  transition: transform 0.35s ease;
+}
+
+.logos:hover {
+  transform: scale(1.05);
+}
+
+.logo {
+  width: 100%;
+  height: 100%;
+  background-color: #f5f5f5;
+  transition: opacity 0.4s ease;
+  border-radius: 3px;
+}
+
+.logo:hover {
+  opacity: 0;
+}
+
+.developersWrapper {
+  display: flex;
+  gap: 1.5rem;
+  font-weight: 400;
+  color: #444;
+  border-left: 2px solid #8d0d18;
+  padding-left: 1.5rem;
+  font-size: 1vw; /* smaller text */
+}
+
+.devSplit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  color: #222;
+}
+
+.devSplit > div:first-child {
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+
+
+
+
+
+
+
 .log1{
     color: rgb(141,13,24);
 }
@@ -22,15 +294,34 @@
 }
 .subheading { font-size: clamp(22px, 5vw, 26px); }
 
-.loginBox {
+
+.loginBox,
+.loginBox2 {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  max-height: 510px;
+
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  gap: 15px;
+
+  box-shadow: 0 5px 15px rgba(120, 10, 19, 0.2);
+}
+
+
+ .loginBox2 {
     display: flex; 
     flex-direction: column; 
     align-items: center; 
-    /* Change center to flex-start */
     justify-content: flex-start; 
     padding: 30px 50px; 
     border-radius: 10px;
-    /* Removed extra margins for testing */
     min-width: 15vw;
     min-height: 25vh;
     background-color: white; 
@@ -40,7 +331,31 @@
     overflow-y: auto;
     margin-left: 7%;
     margin-bottom: 2%;
+} 
+
+.loginButton2 {
+    cursor: pointer;
+    width: 50%;
+    padding: 12px;
+    font-size: 18px;
+    background-color: rgb(141, 13, 24);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    align-items: center;
 }
+
+.loginButton2:hover {
+    background-color: rgb(120, 10, 19);
+}
+
+  .loginButton2 {
+    width: 90%;
+    padding: 14px;
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
 
 .checkboxContainer {
     width: 50%;
@@ -91,14 +406,27 @@
 }
 
 .log-calendar-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 25px;
-    margin: 25px 5%;
+  display: flex;
+  gap: 30px;
+  margin: 40px 5%;
+  align-items: flex-start;
+  flex-wrap: wrap;
 }
 
-.log-calendar-row,
-.log-calendar-row #calendar {
-    width: 88%;
+.loginBox {
+  flex: 1;
+  min-width: 300px;
+}
+
+#calendar {
+  flex: 2;
+  min-width: 350px;
+}
+
+
+
+:root {
+  --space-sm: 10px;
+  --space-md: 20px;
+  --space-lg: 40px;
 }
