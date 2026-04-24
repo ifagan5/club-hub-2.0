@@ -249,9 +249,38 @@ export const displayStudentsInDanger = async function() {
     span.innerHTML = fullName;
 
     studentInDanger.onclick = function () {
-      sessionStorage.setItem("adminStudent", student.id);
-      location.reload();
-    };
+
+      const data = student.data();
+
+      const fullName = `${data.firstName} ${data.lastName}`;
+      const grade = data.gradYr || "N/A";
+      const schoolHours = data.totalSchoolHours || 0;
+      const totalHours = data.totalGeneralHours || 0;
+
+      let schoolRequirement = "";
+      let communityRequirement = "";
+
+      if (grade === "2027") {
+        schoolRequirement = "(10 school hrs required)";
+        communityRequirement = "(30 community hrs required)";
+      } 
+      else if (grade === "2028") {
+        schoolRequirement = "(20 school hrs required)";
+        communityRequirement = "(15 community hrs required)";
+      } 
+      else {
+        schoolRequirement = "(30 school hrs required)";
+        communityRequirement = "(No general hrs required)";
+      }
+
+      document.getElementById("adminBigStudentName").innerHTML = fullName;
+      document.getElementById("adminStudentName").innerHTML = fullName;
+      document.getElementById("adminStudentGrade").innerHTML = grade;
+      document.getElementById("adminStudentNonSchoolHours").innerHTML = totalHours + " " + communityRequirement;
+      document.getElementById("adminStudentSchoolHours").innerHTML = schoolHours + " " + schoolRequirement;
+      document.getElementById("adminViewLog").innerHTML = fullName + "'s Log";
+      sessionStorage.setItem("studentUIDArray", student.id);
+};
 
     studentInDanger.appendChild(span);
     studentsInDangerButtonsContainer.appendChild(studentInDanger);
