@@ -118,14 +118,15 @@ export const getHours = async function(){
     const docFetched= await getDoc(docRef);
     const numFields= Object.keys(docFetched.data()).length;
     const numLogs = numFields - 5;
-    let hours;
+    let hours = 0;
 
-  for (let i = 1; i<=numLogs, i++;){
-    let mapName = [`log${i}`];
-    let myMap = docFetched.data()[mapName];
-    let h = myMap[totalHours];
-    hours+= h;
-  }
+    for (let i = 1; i <= numLogs; i++) {
+        let mapName = `log${i}`;
+        let myMap = docFetched.data()[mapName];
+        if (myMap && myMap.totalHours) {
+            hours += myMap.totalHours;
+        }
+    }
 
   console.log("working " + hours);
   return hours;
@@ -135,37 +136,35 @@ export const getHours = async function(){
 ;(async () => {
     const loggedIn = await checkLoginStatus();
     if (loggedIn === false) {
-        window.href = "./serviceStudentLogin.html";
+        window.location.href = "./serviceStudentLogin.html";
     }
 })();
 
-document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        theme: 'bootstrap5',
-    });
-    calendar.render();
-});
+async function populateCalendar() {
+    const q = query(collection(db, "serviceOpportunities"), orderBy("opportunityDate", "desc"));
+    const querySnapshot = await getDocs(q);
+    const user = await getCurrentUser();
 
-const serviceRef = collection(db, "serviceOpportunities");
-const q = query(collection(db, "serviceOpportunities"), orderBy("opportunityDate", "desc"));
-const querySnapshot = await getDocs(q);
-const user = await getCurrentUser();
-for (const docSnap of querySnapshot.docs) {
-    if (docSnap.exists()) {
-        const data = docSnap.data();
-        if (user && data.signedUpUsers && data.signedUpUsers.includes(user.uid)) {
-            const opportunityTime = new Date(`${data.opportunityDate}T${data.opportunityTime}`);
-            if (window.calendar) {
+    // Wait until the calendar is initialized by the script in the HTML file
+    while (!window.calendar) {
+        await new Promise(resolve => setTimeout(resolve, 50));
+    }
+
+    for (const docSnap of querySnapshot.docs) {
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (user && data.signedUpUsers && data.signedUpUsers.includes(user.uid)) {
+                const opportunityTime = new Date(`${data.opportunityDate}T${data.opportunityTime}`);
                 window.calendar.addEvent({
                     title: data.opportunityName,
                     start: opportunityTime,
                 });
                 console.log("yay");
+            } else {
+                console.log("not your event!");
             }
-        } else {
-            console.log("not your event!");
         }
     }
 }
+
+populateCalendar();
