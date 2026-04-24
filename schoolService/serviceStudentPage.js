@@ -138,3 +138,24 @@ export const getHours = async function(){
         window.href = "./serviceStudentLogin.html";
     }
 })();
+
+const serviceRef = collection(db, "serviceOpportunities");
+const q = query(collection(db, "serviceOpportunities"), orderBy("opportunityDate", "desc"));
+const querySnapshot = await getDocs(q);
+const user = await getCurrentUser();
+for (const docSnap of querySnapshot.docs) {
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (user && data.signedUpUsers && data.signedUpUsers.includes(user.uid)) {
+            const opportunityTime = new Date(`${data.opportunityDate}T${data.opportunityTime}`);
+            // if (window.calendar) {
+            //     window.calendar.addEvent({
+            //         title: data.opportunityName,
+            //         start: opportunityTime,
+            //     });
+            // }
+        } else {
+            console.log("not your event!");
+        }
+    }
+}
