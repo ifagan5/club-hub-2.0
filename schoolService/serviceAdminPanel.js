@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import {checkAdminStatus} from "./serviceAuth.js";
+import {checkAdminStatus, getGradYr} from "./serviceAuth.js";
 import { getFirestore, arrayUnion, getCountFromServer, collection, collectionGroup, addDoc, getDocs,or, getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import {checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
@@ -213,15 +213,18 @@ export const displayStudentsInDanger = async function() {
     if (data.admin === true) {
       return;
     }
+
+    let gradYear= getGradYr();
+    let year = d.getFullYear();
     
     const requiredGeneralHours = getRequiredGeneralCommunityHours(data.gradYr);
     const requiredSchoolHours = getRequiredServiceToSchoolHours(data.gradYr);
     const currentHours = data.totalGeneralHours || 0;
 
-    // Add to danger list if they haven't met the requirement and have a requirement > 0
-    if (requiredGeneralHours > 0 && currentHours < requiredGeneralHours) {
+    // Add to danger list if they have less than half their service hours and if they graduate that year
+    if (requiredGeneralHours > 0 && currentHours < (requiredGeneralHours / 2) && year === gradYear) {
       studentsInDanger.push(studentdoc);
-    } else if (requiredSchoolHours > 0 && (data.totalSchoolHours || 0) < requiredSchoolHours) {
+    } else if (requiredSchoolHours > 0 && (data.totalSchoolHours || 0) < (requiredSchoolHours / 2) && year === gradYear) {
       studentsInDanger.push(studentdoc);
     }
   });
