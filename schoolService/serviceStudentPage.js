@@ -115,8 +115,8 @@ export const getHours = async function(){
     const user = await getCurrentUser()
     const uid = user.uid;
     const docRef = doc(db, "students", uid);
-    const docFetched= await getDoc(docRef);
-    const numFields= Object.keys(docFetched.data()).length;
+    const docFetched = await getDoc(docRef);
+    const numFields = Object.keys(docFetched.data()).length;
     const numLogs = numFields - 5;
     let hours = 0;
 
@@ -145,10 +145,6 @@ async function populateCalendar() {
     const querySnapshot = await getDocs(q);
     const user = await getCurrentUser();
 
-    // Wait until the calendar is initialized by the script in the HTML file
-    while (!window.calendar) {
-        await new Promise(resolve => setTimeout(resolve, 50));
-    }
 
     for (const docSnap of querySnapshot.docs) {
         if (docSnap.exists()) {
@@ -167,4 +163,4 @@ async function populateCalendar() {
     }
 }
 
-populateCalendar();
+await populateCalendar();
