@@ -44,10 +44,9 @@
  <script type="module" src="./serviceSubmitHours.js"></script>
  <script type="module" src="./serviceAuth.js"></script>
  <script type="module">
-    import {getLogActivity, getServiceOpportunities, getServiceOpportunitiesReal} from './serviceStudentHistory.js';
+    import {getLogActivity, getServiceOpportunities} from './serviceStudentHistory.js';
     window.getLogActivity = getLogActivity;
     window.getServiceOpportunities = getServiceOpportunities;
-     window.getServiceOpportunitiesReal = getServiceOpportunitiesReal;
     </script>
  <script type="module">
     import {getTotalHours, getTotalSchoolServiceHours, calculateSchoolServiceHoursPercentage, calculateNonSchoolServiceHoursPercentage} from './serviceAuth.js';
@@ -126,6 +125,7 @@
 
             </div>
             <div>
+        <div class="grid-container">
             <div class="summary-row">
                 <div class = "left-side">
                     <div class="red-box-left">
@@ -147,6 +147,7 @@
                      <div id="writtenReqSchool"></div>
                     </div>
                 </div>
+            </div>
         </div>
    
    
@@ -157,7 +158,7 @@
         <header class="subheading" id="logHistoryName">Your Log History</header>
             <!--<br> -->
             <button class="loginButton2" id="logButton" onClick = "location.replace('serviceSubmitHours.html');">Log More Hours</button>
-             <!--<button class="loginButton2" id="logButton2" onClick = "getServiceOpportunitiesReal()">View Your Sign Ups</button>-->
+            <!-- <button class="loginButton2" id="logButton2" onClick = "getServiceOpportunitiesReal()">View Your Sign Ups</button>-->
             
             <!--<br> -->
         <div id="log1">
@@ -189,7 +190,10 @@
 
 
         </div>
+        <div class="calFlex">
          <div id='calendar'></div>
+         </div>
+         <br>
 
           
 
