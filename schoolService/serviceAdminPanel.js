@@ -228,8 +228,20 @@ export const displayStudentsInDanger = async function() {
       studentsInDanger.push(studentdoc);
     }
   });
-  // Render students in danger in the div
+  // Render students in danger in the div based on seniority and then alphabetically by name
   studentsInDanger.sort((a, b) => {
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const month = today.getMonth(); 
+
+  const seniorYear = month >= 6 ? currentYear + 1 : currentYear;
+
+  const diffA = parseInt(a.data().gradYr) - seniorYear;
+  const diffB = parseInt(b.data().gradYr) - seniorYear;
+
+  if (diffA !== diffB) {
+    return diffA - diffB;
+  }
   const nameA = `${a.data().firstName} ${a.data().lastName}`.toLowerCase();
   const nameB = `${b.data().firstName} ${b.data().lastName}`.toLowerCase();
   return nameA.localeCompare(nameB);
