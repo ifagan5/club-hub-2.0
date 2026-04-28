@@ -37,22 +37,19 @@
 
     <title>Saints Service Sign Up</title>
 </head>
-<body onload="getServiceOpportunities(); getLogActivity()">
+<body onload="displayAllStudentServiceOpportunities('opportunity1', true); displayAllStudentLogs('log1');">
 
 <!-- <script type="module" src="../clubhub/script.js"></script>-->
  <script type="module" src="./serviceStudentPage.js"></script>
  <script type="module" src="./serviceSubmitHours.js"></script>
  <script type="module" src="./serviceAuth.js"></script>
+
  <script type="module">
-    import {getLogActivity, getServiceOpportunities, getServiceOpportunitiesReal} from './serviceStudentHistory.js';
-    window.getLogActivity = getLogActivity;
-    window.getServiceOpportunities = getServiceOpportunities;
-     window.getServiceOpportunitiesReal = getServiceOpportunitiesReal;
-    </script>
- <script type="module">
-    import {getTotalHours, getTotalSchoolServiceHours, calculateSchoolServiceHoursPercentage, calculateNonSchoolServiceHoursPercentage} from './serviceAuth.js';
+    import {getTotalHours, getTotalSchoolServiceHours, calculateSchoolServiceHoursPercentage, calculateNonSchoolServiceHoursPercentage, displayAllStudentServiceOpportunities, displayAllStudentLogs} from './serviceAuth.js';
     import {logout, getFirstNameFromAuth, getLastNameFromAuth, getHours, getSchoolGradRequirement, getCommunityGradRequirement} from './serviceStudentPage.js';
     window.getHours = getHours;
+    window.displayAllStudentServiceOpportunities = displayAllStudentServiceOpportunities;
+    window.displayAllStudentLogs = displayAllStudentLogs;
     window.calculateNonSchoolServiceHoursPercentage = calculateNonSchoolServiceHoursPercentage;
     window.calculateSchoolServiceHoursPercentage = calculateSchoolServiceHoursPercentage;
     window.getTotalHours = getTotalHours;
@@ -62,7 +59,6 @@
     window.logout = async () => {
         await logout();
     };
-    import {getLogActivity} from './serviceStudentHistory.js';
     // Populate user name after the page has loaded
     window.addEventListener('DOMContentLoaded', async (event) => {
         const firstName = await getFirstNameFromAuth();
@@ -75,7 +71,7 @@
         const nonSchoolServiceHoursPercentage = await calculateNonSchoolServiceHoursPercentage();
         // const neededSchoolHours = await getSchoolGradRequirement();
         // const neededCommunityHours = await getCommunityGradRequirement();
-        if (nonSchoolServiceHoursPercentage == "N/A"){
+        if (nonSchoolServiceHoursPercentage === "N/A"){
             document.getElementById("red-text-left-description").innerText = "total general service hours";
         }
         else{

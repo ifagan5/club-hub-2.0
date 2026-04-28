@@ -12,7 +12,12 @@ import {
     getDoc,
     getFirestore,
     serverTimestamp,
-    setDoc
+    setDoc,
+    getDocs,
+    collection,
+    query,
+    orderBy,
+    deleteDoc,
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 // Firebase config
@@ -333,4 +338,150 @@ export async function calculateNonSchoolServiceHoursPercentage() {
 
     }
     return 0;
+}
+
+// Function to display all the students logs.
+export async function displayAllStudentLogs(divId) {
+    // Delete Past Logs
+    const existingLogs = document.querySelectorAll(`[id^="${divId}"]`);
+    existingLogs.forEach(element => {
+        if (element.id !== divId) element.remove();
+    });
+
+    // Get current user
+    const user = await getCurrentUser()
+    const uid = user.uid;
+
+    // Get logs
+    const logsRef = collection(db, "studentServiceLog", uid, "logs");
+    const docSnap = await getDocs(logsRef);
+
+    // Define div to clone
+    const originalDiv = document.getElementById(divId);
+    originalDiv.style.backgroundColor = "rgb(141,13,24)";
+    originalDiv.style.color = "rgb(243, 232, 234)";
+    originalDiv.style.padding = " 15px 15px";
+    originalDiv.style.borderRadius = "15px";
+    originalDiv.style.marginBottom = "15px";
+    originalDiv.style.width = "85%";
+    originalDiv.style.display = "none";
+
+
+    let i = 0;
+    docSnap.forEach((doc) => {
+        const data = doc.data();
+        const contact = data.contact;
+        const date = data.date;
+        const description = data.description;
+        const hours = data.schoolServiceHours || data.hours;
+        const type = data.schoolServiceHours ? "School Service" : "General Service";
+        const timestamp = data.timestamp;
+
+        // clone the div to where it needs to go
+        const clonedDiv = originalDiv.cloneNode(true);
+        clonedDiv.id = `${divId}${i}`; // Update ID for uniqueness
+        clonedDiv.style.display = "block";
+        clonedDiv.querySelector('#activity').id = `activity${i}`;
+        clonedDiv.querySelector('#logged-hours').id = `logged-hours${i}`;
+        clonedDiv.querySelector('#logged-hours-to-school').id = `logged-hours-to-school${i}`;
+        clonedDiv.querySelector('#date').id = `date${i}`;
+        clonedDiv.querySelector('#contact').id = `contact${i}`;
+
+        // Update text content of the cloned elements
+        clonedDiv.querySelector(`#activity${i}`).innerText = "Activity: " + description;
+        clonedDiv.querySelector(`#logged-hours${i}`).innerText = "Hours: " + hours;
+        clonedDiv.querySelector(`#logged-hours-to-school${i}`).innerText = "Type of Service: " + type;
+        clonedDiv.querySelector(`#date${i}`).innerText = "Date Completed: " + date;
+        clonedDiv.querySelector(`#contact${i}`).innerText = "Contact Person: " + contact;
+
+        // Make clone visible
+        clonedDiv.style.display = "block";
+
+        // Append the cloned div to the parent of the original div
+        originalDiv.parentNode.appendChild(clonedDiv);
+
+        // Increase i
+        i++;
+    });
+}
+
+// Function to display all student service opportunities
+export async function displayAllStudentServiceOpportunities(divId, onlyUsers) {
+    // Delete Any Cloned Service Opportunities
+    // const existingLogs = document.querySelectorAll('[id^=divId]');
+    // existingLogs.forEach(element => {
+    //     if (element.id !== divId) element.remove();
+    // });
+
+    const user = await getCurrentUser();
+    const uid = user.uid;
+
+    const originalDiv = document.getElementById(divId);
+    originalDiv.style.display = "none";
+
+    const q = query(collection(db, "serviceOpportunities"), orderBy("opportunityDate", "desc"));
+    const querySnapshot = await getDocs(q);
+
+    let id = 0;
+    let needsReload = false;
+    for (const doc of querySnapshot.docs) {
+        const data = doc.data();
+
+        const timestamp = new Date(`${data.opportunityDate}T${data.opportunityTime}`);
+        const currentDate = new Date();
+        const differenceTimeInMs = currentDate.getTime() - timestamp.getTime();
+        const FOURTEEN_DAYS_IN_MS = 14 * 24 * 60 * 60 * 1000;
+        const isPast = differenceTimeInMs > FOURTEEN_DAYS_IN_MS;
+
+        if (isPast) {
+            console.log("Deleting past opportunity: " + data.opportunityName);
+            await deleteDoc(doc.ref);
+            needsReload = true;
+            continue;
+        }
+
+        if (onlyUsers) {
+            if (!data.signedUpUsers || !data.signedUpUsers.includes(uid)) {
+                continue;
+            }
+        }
+
+        const clonedDiv = originalDiv.cloneNode(true);
+        clonedDiv.style.display = 'block';
+        clonedDiv.id = `opportunity${id}`;
+
+        // Target the correct IDs from the opportunity1 HTML
+        clonedDiv.querySelector('#opportunityName').id = `opportunityName${id}`;
+        clonedDiv.querySelector('#opportunityDescription').id = `opportunityDescription${id}`;
+        clonedDiv.querySelector('#opportunityLength').id = `opportunityLength${id}`;
+        clonedDiv.querySelector('#opportunityDate').id = `opportunityDate${id}`;
+        clonedDiv.querySelector('#opportunityTime').id = `opportunityTime${id}`;
+        clonedDiv.querySelector('#opportunityLocation').id = `opportunityLocation${id}`;
+
+        const button = clonedDiv.querySelector('#opportunityButton');
+        button.id = `opportunityButton${id}`;
+
+        clonedDiv.style.backgroundColor = "rgb(141,13,24)";
+        clonedDiv.style.color = "rgb(243, 232, 234)";
+        clonedDiv.style.padding = " 15px 15px";
+        clonedDiv.style.borderRadius = "15px";
+        clonedDiv.style.marginBottom = "15px";
+        clonedDiv.style.width = "85%";
+
+        // Update text content of the cloned elements using the new IDs
+        clonedDiv.querySelector(`#opportunityName${id}`).textContent = "Name: " + data.opportunityName;
+        clonedDiv.querySelector(`#opportunityDescription${id}`).textContent = "Description: " + data.opportunityDescription;
+        clonedDiv.querySelector(`#opportunityLength${id}`).textContent = "Length: " + data.opportunityLength;
+        clonedDiv.querySelector(`#opportunityDate${id}`).textContent = "Date: " + data.opportunityDate + " @ " + data.opportunityTime;
+        clonedDiv.querySelector(`#opportunityLocation${id}`).textContent = "Location: " + data.opportunityLocation;
+        button.textContent = "View Service Opportunity";
+
+        // Append the cloned div to the parent of the original div
+        originalDiv.parentNode.appendChild(clonedDiv);
+        id++;
+    }
+
+    if (needsReload) {
+        window.location.reload();
+    }
 }
