@@ -150,10 +150,11 @@ body {
 
 .summary-row {
   display: flex;
-  justify-content: space-between;
   gap: 30px;
   margin: 40px 5%;
+  align-items: flex-start;
   flex-wrap: wrap;
+justify-content: space-between;
 }
 
 #red-text-right-description{
@@ -298,11 +299,11 @@ font-size: 20px;
 .loginBox,
 .loginBox2 {
   background-color: white;
-  border-radius: 12px;
-  padding: 20px;
-  width: 100%;
+  border-radius: 10px;
+  padding: 30px 50px; 
+  width: 300px;
   max-width: 400px;
-  max-height: 510px;
+  max-height: 400px;
 
   overflow-y: auto;
 
@@ -312,26 +313,18 @@ font-size: 20px;
   gap: 15px;
 
   box-shadow: 0 5px 15px rgba(120, 10, 19, 0.2);
-}
 
-
- .loginBox2 {
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: flex-start; 
-    padding: 30px 50px; 
-    border-radius: 10px;
+  justify-content: flex-start; 
     min-width: 15vw;
     min-height: 25vh;
-    background-color: white; 
+    
     font-family: Helvetica, sans-serif;
-    width: 300px;
     height: 300px;
-    overflow-y: auto;
     margin-left: 7%;
     margin-bottom: 2%;
-} 
+
+    flex: 1;
+}
 
 .loginButton2 {
     cursor: pointer;
@@ -411,16 +404,25 @@ font-size: 20px;
   margin: 40px 5%;
   align-items: flex-start;
   flex-wrap: wrap;
+justify-content: space-between;
+margin-right: 120px;
+margin-left: 60px;
 }
 
-.loginBox {
-  flex: 1;
-  min-width: 300px;
-}
+
+ 
+
 
 #calendar {
   flex: 2;
   min-width: 350px;
+  max-width: 600px;
+  float: center;
+}
+.calFlex {
+  display: grid;
+  place-items: center; /* Shorthand for horizontal and vertical centering */
+  min-height: 100vh;
 }
 
 
