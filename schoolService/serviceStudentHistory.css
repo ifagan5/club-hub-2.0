@@ -44,6 +44,7 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     cursor: pointer;
     padding: 20px clamp(14px, 3vw, 20px);
     background-color: transparent;
@@ -288,12 +289,17 @@ font-size: 20px;
     padding: 5%;
     border-radius: 10px;
     color: rgb(141,13,24); 
+    text-align: center;
     /*text-align: left;*/
 }
 .text{
     font-family: Helvetica, sans-serif;
 }
 .subheading { font-size: clamp(22px, 5vw, 26px); }
+
+.opportunity1{
+    position: relative;
+}
 
 
 .loginBox,
@@ -328,27 +334,26 @@ font-size: 20px;
 
 .loginButton2 {
     cursor: pointer;
-    width: 50%;
-    padding: 12px;
-    font-size: 18px;
-    background-color: rgb(141, 13, 24);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-    align-items: center;
-}
-
-.loginButton2:hover {
-    background-color: rgb(120, 10, 19);
-}
-
-  .loginButton2 {
     width: 90%;
     padding: 14px;
     font-size: 17px;
+    background-color:  white;
+    color: rgb(89, 8, 15);
+    border-color: rgb(89, 8, 15);
+    border: none;
+    border: 4px solid rgb(89, 8, 15);
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    align-items: center;
     margin-bottom: 10px;
-  }
+    margin-left: 10px;
+    
+}
+
+.loginButton2:hover {
+    background-color: rgb(89, 8, 15);
+    color: white;
+}
 
 .checkboxContainer {
     width: 50%;
@@ -415,15 +420,17 @@ margin-left: 60px;
 
 #calendar {
   flex: 2;
-  min-width: 350px;
-  max-width: 600px;
-  float: center;
+  min-height: 25vh;
+  min-width: 50vw;
 }
+
+
 .calFlex {
   display: grid;
-  place-items: center; /* Shorthand for horizontal and vertical centering */
-  min-height: 100vh;
+  place-items: center;
+
 }
+
 
 
 
