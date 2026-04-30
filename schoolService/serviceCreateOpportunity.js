@@ -116,9 +116,11 @@ checkbox.addEventListener('change', (event) => {
         form.style.display = "block";
         dateInput.style.display = "none";
         opportunityDateLabel.style.display = "none";
+        dateInput.required = false;
     } else {
         form.style.display = "none";
         dateInput.style.display = "block";
         opportunityDateLabel.style.display = "block";
+        dateInput.required = true;
     }
 });
