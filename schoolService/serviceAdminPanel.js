@@ -214,8 +214,8 @@ export const displayStudentsInDanger = async function() {
       return;
     }
 
-    let gradYear= getGradYr();
-    let year = d.getFullYear();
+    let gradYear = getGradYr();
+    let year = getGradYr();
     
     const requiredGeneralHours = getRequiredGeneralCommunityHours(data.gradYr);
     const requiredSchoolHours = getRequiredServiceToSchoolHours(data.gradYr);

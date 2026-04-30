@@ -14,7 +14,7 @@ export const firebaseConfig = {
 };
 
 if (getGradYr().value === 2099) {
-    alert("You are not a student, but also do not have been granted admin privileges. Please contact an admin immediately.");
+    alert("You are not a student, but also have not have been granted admin privileges. Please contact an admin immediately.");
 }
 
 export const app = initializeApp(firebaseConfig);
