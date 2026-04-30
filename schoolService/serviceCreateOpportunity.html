@@ -47,7 +47,8 @@
   <form id="loginForm">
   <label for="opportunityName">Name Of Opportunity:</label><input required type="text" id="opportunityName" placeholder = "Type Here">
   <label for="opportunityDescription">Description Of Opportunity:</label><input required type="text" id="opportunityDescription" placeholder = "Type Here">
-  <label for="opportunityLength">Length Of Opportunity:</label><input required type="number" id="opportunityLength" step = "any" placeholder = "Type Here">
+  <label for="opportunityLengthHours">Length Of Opportunity (Hours):</label><input required type="number" id="opportunityLengthHours" step = "any" placeholder = "Hours">
+  <label for="opportunityLengthMinutes">Length Of Opportunity (Minutes):</label><input required type="number" id="opportunityLengthMinutes" step = "any" placeholder = "Minutes">
   <label for="opportunityDate" id="opportunityDateLabel">Date of Opportunity:</label><input required type="date" id="opportunityDate">
   <label for="opportunityTime">Time of Opportunity:</label><input required type="time" id="opportunityTime">
   <label for="opportunityContact">Person of Contact:</label><input required type="text" id="opportunityContact" placeholder = "Type Here">
@@ -65,7 +66,7 @@
     <label for="cb-7">Repeat On Sunday:</label><input type="checkbox" id="cb-7">
     <label for="repeatTimes">Amount Of Times To Repeat:</label><input required type="number" id="repeatTimes">
   </form>
-  <button onclick="createServiceOpportunity(document.getElementById('opportunityName').value, document.getElementById('opportunityDescription').value, document.getElementById('opportunityLength').value, document.getElementById('opportunityDate').value, document.getElementById('opportunityTime').value, document.getElementById('opportunityContact').value, document.getElementById('opportunityLocation').value);" class="loginButton clubLB">Create</button>
+  <button onclick="createServiceOpportunity(document.getElementById('opportunityName').value, document.getElementById('opportunityDescription').value, document.getElementById('opportunityLengthHours').value, document.getElementById('opportunityLengthMinutes').value, document.getElementById('opportunityDate').value, document.getElementById('opportunityTime').value, document.getElementById('opportunityContact').value, document.getElementById('opportunityLocation').value);" class="loginButton clubLB">Create</button>
 </div>
 </body>
 </html>
