@@ -48,7 +48,7 @@ opportunityLocation: opportunityLocation,
 timestamp: Timestamp.now()
 based on the user inputs
 */
-export const createServiceOpportunity = async function(opportunityName, opportunityDescription, opportunityLength, opportunityDate, opportunityTime, opportunityContact, opportunityLocation){
+export const createServiceOpportunity = async function(opportunityName, opportunityDescription, opportunityLengthHours, opportunityLengthMinutes, opportunityDate, opportunityTime, opportunityContact, opportunityLocation){
     const logFormId = document.getElementById("loginForm");
     if (!logFormId.checkValidity()) {
         logFormId.reportValidity();
@@ -60,7 +60,7 @@ export const createServiceOpportunity = async function(opportunityName, opportun
     const serviceOpportunityEntry = {
         opportunityName: opportunityName,
         opportunityDescription :opportunityDescription,
-        opportunityLength: opportunityLength,
+        opportunityLength: Math.round(((parseFloat(opportunityLengthHours) + (parseFloat(opportunityLengthMinutes) / 60)) + Number.EPSILON) * 100) / 100, // Convert minutes to hours and add to total length
         opportunityDate: opportunityDate,
         opportunityTime: opportunityTime,
         opportunityContact: opportunityContact,
