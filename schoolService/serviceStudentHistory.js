@@ -164,6 +164,19 @@ export const getLogActivity = async function() {
     }
 }
 
+
+/* getServiceOpportunities()
+prints out each opportunity the student has sign up for in order from most to least recent.
+Each opportunity prints out in a box with the format:
+Name: 
+Description:
+Length: 
+Date: 
+Time: 
+Location: 
+Includes button that lets students claim hours once passed or view before completing. 
+Automatically deletes opporunities once passed
+*/
 export const getServiceOpportunities = async function() {
     
     // NEW LOOP AURA
