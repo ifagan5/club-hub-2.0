@@ -271,18 +271,12 @@ font-size: 20px;
 
 
 
-
+/*setting the color of each log display*/
 .log1{
     color: rgb(141,13,24);
 }
 
-/* card scales with viewport; tighter padding */
-  .studentLogs {
-    margin-top: 10vh;
-    width: 85%;
-    padding: 20px 16px;
-    border-radius: 12px;
-  }
+/*makes all the subheadings the same.*/
   .subheading{
     font-size: 30px; font-family: Helvetica, sans-serif;
     /*background-color: rgb(141,13,24);*/
@@ -290,26 +284,27 @@ font-size: 20px;
     border-radius: 10px;
     color: rgb(141,13,24); 
     text-align: center;
+     font-size: clamp(22px, 5vw, 26px);
     /*text-align: left;*/
 }
+/*Makes all the text on the page the same*/
 .text{
     font-family: Helvetica, sans-serif;
 }
-.subheading { font-size: clamp(22px, 5vw, 26px); }
 
+/*locks it in place relative to the box*/
 .opportunity1{
     position: relative;
 }
 
-
+/*Making both the log box and the opportunity box have the exact same formatting. */
 .loginBox,
 .loginBox2 {
   background-color: white;
   border-radius: 10px;
   padding: 30px 50px; 
-  width: 300px;
-  max-width: 400px;
-  max-height: 400px;
+ max-height: 50vh;
+  max-width: 75vw; 
 
   overflow-y: auto;
 
@@ -321,8 +316,8 @@ font-size: 20px;
   box-shadow: 0 5px 15px rgba(120, 10, 19, 0.2);
 
   justify-content: flex-start; 
-    min-width: 15vw;
-    min-height: 25vh;
+    min-width: 25vw;
+    min-height: 35vh;
     
     font-family: Helvetica, sans-serif;
     height: 300px;
@@ -332,6 +327,7 @@ font-size: 20px;
     flex: 1;
 }
 
+/*making the button look nice. White with dark outline*/
 .loginButton2 {
     cursor: pointer;
     width: 90%;
@@ -349,15 +345,55 @@ font-size: 20px;
     margin-left: 10px;
     
 }
-
+/* hover animation: button gets darker (original color of the outline) to indicate you're hovering*/
 .loginButton2:hover {
     background-color: rgb(89, 8, 15);
     color: white;
 }
 
+
+/*making the log and future opportunity displays aligned together and spaced correctly. Centered and evenly spaced*/
+.log-calendar-row {
+  display: flex;
+  gap: 30px;
+  margin: 40px 5%;
+  align-items: flex-start;
+  flex-wrap: wrap;
+    justify-content: space-between;
+    margin-right: 120px;
+margin-left: 60px;
+}
+
+
+ 
+
+/*makes the calendar take up about 1/2 of the avaible space and sets a minimum height and width for it*/
+#calendar {
+  flex: 2;
+  min-height: 25vh;
+  min-width: 50vw; 
+}
+
+/*Puts the calendar in a grid and centers it! Makes it all look pretty*/
+.calFlex {
+  display: grid;
+  place-items: center;
+}
+
+
+
+/*making consistant spacing!*/
+:root {
+  --space-sm: 10px;
+  --space-md: 20px;
+  --space-lg: 40px;
+}
+
+/*
+THINGS I THINK I CAN DELETE BUT AM NOT DELETING UNTIL I'M SURE
 .checkboxContainer {
     width: 50%;
-    display: flex;       /* Enables flexbox layout */
+    display: flex;       
     align-items: center; 
     justify-content: center;
     white-space: nowrap;
@@ -373,14 +409,14 @@ font-size: 20px;
 }
 
 .checkboxContainer input[type="checkbox"] {
-    /* Prevent the checkbox from growing or shrinking if the container size changes */
     margin-top: 110%;
     vertical-align: middle;
 }
 
 .checkbox-label {
-  margin: 0; /* Resets default label margins if any */
+  margin: 0; 
 }
+
 .button2{
     display: inline-flex;
     align-items: center;
@@ -398,44 +434,13 @@ font-size: 20px;
    
 }
 
-/* hover animation */
 .button2:hover {
     background-color: rgba(146, 22, 32, 0.564); color:rgb(141, 13, 24);
 }
-
-.log-calendar-row {
-  display: flex;
-  gap: 30px;
-  margin: 40px 5%;
-  align-items: flex-start;
-  flex-wrap: wrap;
-justify-content: space-between;
-margin-right: 120px;
-margin-left: 60px;
-}
-
-
- 
-
-
-#calendar {
-  flex: 2;
-  min-height: 25vh;
-  min-width: 50vw;
-}
-
-
-.calFlex {
-  display: grid;
-  place-items: center;
-
-}
-
-
-
-
-:root {
-  --space-sm: 10px;
-  --space-md: 20px;
-  --space-lg: 40px;
-}
+     .studentLogs {
+    margin-top: 10vh;
+    width: 85%;
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+*/
