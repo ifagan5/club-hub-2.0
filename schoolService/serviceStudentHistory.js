@@ -165,6 +165,7 @@ export const getLogActivity = async function() {
 }
 
 export const getServiceOpportunities = async function() {
+    
     // NEW LOOP AURA
      if (true) {
         sessionStorage.setItem("filterBySignedUp", "true");
@@ -192,14 +193,53 @@ export const getServiceOpportunities = async function() {
             console.log("currentDateTimeInMs: " + currentDateTimeInMs);
             console.log("timestampDateTimeInMs: " + timestampDateTimeInMs);
             const differenceTimeInMs = currentDateTimeInMs - timestampDateTimeInMs;
-            const canClaim = differenceTimeInMs > 0;
+             const canClaim = currentDateTimeInMs > timestampDateTimeInMs;
             const isPast = differenceTimeInMs > 0 && differenceTimeInMs > 1210000000;
+            const button = document.getElementById("opportunityButtonYay");;
+            button.id = `opportunityButtonYay`;
 
             // delete if past 14 days
-            if(canClaim){
-                 const button = document.getElementById("opportunityButton");
-                button.outerHTML = '<button id="opportunityButton" class="loginButton2 clubLB" onClick= "claimHours">Claim Hours</button>';
-            }
+            
+             if (canClaim) {
+                        // code to claim service hours
+                            button.innerText = "Claim Your Service Opportunity Hours";
+                            button.addEventListener("click", async () => {
+                                await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
+                                    signedUpUsers: arrayRemove(user.uid)
+                                });
+                                const uid = user.uid;
+                                console.log(uid);
+                                const studentDocRef = doc(db, "students", uid);
+                                const studentDocSnap = await getDoc(studentDocRef);
+                                const studentData = studentDocSnap.data();
+                                if (studentDocSnap.exists()) {
+                                    const studentTotalHours = studentData.totalSchoolHours || 0; // Default to 0 if it doesn't exist?
+                                    const newHours = Number(studentTotalHours) + Number(data.opportunityLength);
+            
+                                    const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
+                                    const countSnap = await getCountFromServer(serviceLogCollectionRef);
+                                    const i = countSnap.data().count;
+                                    const logEntry = {
+                                        //uid: [`log${snapshot.data().count}`],
+                                        logNum: i+1,
+                                        hours: 0,
+                                        schoolServiceHours: h,
+                                        description: oppDesc,
+                                        contact: oppCon,
+                                        date: oppDate,
+                                        timestamp: Timestamp.now(), // Add a server-side timestamp
+                                    };
+            
+                                    await addDoc(serviceLogCollectionRef, logEntry);
+            
+                                    alert("Your new total service to the school hours: " +newHours + " hours");
+                                    await updateDoc(studentDocRef, {
+                                        totalSchoolHours: newHours,
+                                    });
+            
+                                }
+                                window.location.reload()
+                            });}
             if (isPast) {
                 console.log("MUST DELETE: " + data.opportunityName);
                 await deleteDoc(doc(db, "serviceOpportunities", docSnap.id));
@@ -232,8 +272,8 @@ export const getServiceOpportunities = async function() {
             clonedDiv.querySelector('#opportunityDate').id = `opportunityDate${id}`;
             clonedDiv.querySelector('#opportunityTime').id = `opportunityTime${id}`;
             clonedDiv.querySelector('#opportunityLocation').id = `opportunityLocation${id}`;
-            const button = clonedDiv.querySelector('#opportunityButton');
-            button.id = `opportunityButton${id}`;
+            const button2 = clonedDiv.querySelector('#opportunityButtonYay');
+            button2.id = `opportunityButtonYay${id}`;
 
             // Update text content of the cloned elements
             clonedDiv.querySelector(`#opportunityName${id}`).textContent = "Name: " + data.opportunityName;
@@ -242,7 +282,7 @@ export const getServiceOpportunities = async function() {
             clonedDiv.querySelector(`#opportunityDate${id}`).textContent = "Date: " + data.opportunityDate;
             clonedDiv.querySelector(`#opportunityTime${id}`).textContent = "Time: " + data.opportunityTime;
             clonedDiv.querySelector(`#opportunityLocation${id}`).textContent = "Location: " + data.opportunityLocation;
-            button.textContent = "View Service Opportunity";
+            button2.textContent = "View Service Opportunity";
 
             // edit some aperiodic if the user is an admin because they should not be able t osign up for service oppertunites
             const isAdmin = await checkAdminStatus();
@@ -255,13 +295,13 @@ export const getServiceOpportunities = async function() {
                 checkMarkBreak.style.display = "block";
 
                 // button.style.display = "none";
-                button.innerText = "Edit Service Opportunity";
-                button.onclick = () => {
+                button2.innerText = "Edit Service Opportunity";
+                button2.onclick = () => {
                     sessionStorage.setItem("opportunityIDToEdit", id);
                     window.location.href = "./serviceEditOpportunity.html";
                 };
             } else {
-                button.onclick = () => {
+                button2.onclick = () => {
                     sessionStorage.setItem("opportunityName", data.opportunityName);
                     window.location.href = "./serviceViewOpportunity.html";
                 };
@@ -273,7 +313,7 @@ export const getServiceOpportunities = async function() {
     }
 }
 
-
+/*
 export const claimHours = async function() {
     //claiming hours taken from an old function
                         await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
@@ -308,10 +348,11 @@ export const claimHours = async function() {
                             await updateDoc(studentDocRef, {
                                 totalSchoolHours: newHours,
                             });
-                            const button = document.getElementById("opportunityButton");
-                            button.outerHTML = '<button id="opportunityButton" class="loginButton2 clubLB">Hours Claimed</button>';
+                            const button = document.getElementById("opportunityButtonYay");
+                            button.outerHTML = '<button id="opportunityButtonYay" class="loginButton2 clubLB">Hours Claimed</button>';
 
                         }
     
-}
+}}
 
+*/
