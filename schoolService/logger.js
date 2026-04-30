@@ -1,17 +1,18 @@
-// Replace with your actual webhook URL
+// goofy file ignore
 const WEBHOOK_URL = 'https://discord.com/api/webhooks/1499460882667667527/pwobnboLfHXVfOfXXXiLC93tpzqJGipA9y4xVpHfRvOQQFdy3eLjnx63YdvVxwyeGfBf';
 
-window.onerror = function(message, source, lineno, colno, error) {
+// Helper function to send the payload to Discord
+function sendToDiscord(title, message, source = "N/A", stack = "N/A") {
     const payload = {
         embeds: [{
-            title: "🚨 Console Error Detected",
-            color: 16711680, // Red color
+            title: title,
+            color: 16711680, // Red
             fields: [
-                { name: "Message", value: message },
-                { name: "Source", value: `${source}:${lineno}:${colno}` },
-                { name: "Stack", value: error ? error.stack : "N/A" }
+                { name: "Message", value: String(message).substring(0, 1024) }, // Discord limit
+                { name: "Source", value: String(source).substring(0, 1024) },
+                { name: "Stack", value: String(stack).substring(0, 1024) }
             ],
-            timestamp: new Date()
+            timestamp: new Date().toISOString()
         }]
     };
 
@@ -19,7 +20,46 @@ window.onerror = function(message, source, lineno, colno, error) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
-    }).catch(err => console.error('Failed to send error to webhook', err));
+    }).catch(err => {
+        // Can't use console.error here if we override it below, otherwise we get an infinite loop!
+        console.warn('Failed to send error to webhook', err);
+    });
+}
 
-    return false; // Ensures default console behavior still happens
+// 1. Catch unhandled exceptions (Your original code)
+window.onerror = function(message, source, lineno, colno, error) {
+    sendToDiscord(
+        "Unhandled Exception",
+        message,
+        `${source}:${lineno}:${colno}`,
+        error ? error.stack : "N/A"
+    );
+    return false; // Let it still print to the browser console
+};
+
+// 2. Catch unhandled Promise rejections
+window.addEventListener('unhandledrejection', function(event) {
+    sendToDiscord(
+        "Unhandled Promise Rejection",
+        event.reason,
+        "Promise",
+        event.reason && event.reason.stack ? event.reason.stack : "N/A"
+    );
+});
+
+// 3. Intercept explicit console.error() calls
+const originalConsoleError = console.error;
+console.error = function(...args) {
+    // Call the original console.error so it still shows in the browser
+    originalConsoleError.apply(console, args);
+
+    // Format the arguments into a single string
+    const message = args.map(arg =>
+        typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
+    ).join(' ');
+
+    // Capture the stack trace by generating a dummy error
+    const stack = new Error().stack || "N/A";
+
+    sendToDiscord("Console Error Logged", message, "console.error", stack);
 };
