@@ -1,7 +1,7 @@
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp, addDoc, arrayRemove, arrayUnion, query, where, getCountFromServer} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-import {checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
+import {checkLoginStatus, getCurrentUser, checkAdminStatus} from "./serviceAuth.js";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const firebaseConfig = {
@@ -522,6 +522,7 @@ export async function logout() {
     try {
         await signOut(auth);
         correctDisplay(); // Update buttons after logout
+        window.location.reload();
     } catch (err) {
         alert("Logout failed: " + err.message);
         console.error("logout error:", err);
@@ -533,6 +534,8 @@ onAuthStateChanged(auth, (user) => {
     correctDisplay();
 });
 
-if (checkLoginStatus() === false) {
-    window.location.href = "serviceStudentLogin.js";
+const isLoggedIn = await checkLoginStatus();
+console.log(isLoggedIn);
+if (!isLoggedIn) {
+    window.location.href = "serviceStudentLogin.html";
 }
