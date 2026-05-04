@@ -297,6 +297,32 @@ font-size: 20px;
     position: relative;
 }
 
+/*making the title buttons*/
+.titleBox{
+    background-color: white;
+    flex-direction: column;
+    align-items: center; 
+    flex: 1;
+    border-radius: 10px;
+    min-width: 25vw;
+    max-width: 75vw; 
+    margin-left: 7%;
+    margin-bottom: 2%;
+
+}
+
+/*yay making sides*/
+.left,
+.right{
+    display: flex;
+  flex-direction: column;
+  align-items: center; 
+  gap: 15px;
+    justify-content: flex-start; 
+    flex: 1;
+}
+
+
 /*Making both the log box and the opportunity box have the exact same formatting. */
 .loginBox,
 .loginBox2 {
