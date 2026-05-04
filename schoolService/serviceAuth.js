@@ -496,6 +496,10 @@ export async function displayAllStudentServiceOpportunities(divId, onlyUsers) {
         clonedDiv.querySelector(`#opportunityDate${id}`).textContent = "Date: " + data.opportunityDate + " @ " + data.opportunityTime;
         clonedDiv.querySelector(`#opportunityLocation${id}`).textContent = "Location: " + data.opportunityLocation;
         button.textContent = "View Service Opportunity";
+        button.onclick = () => {
+            sessionStorage.setItem("opportunityName", data.opportunityName);
+            window.location.href = "./serviceViewOpportunity.html";
+        };
 
         // Append the cloned div to the parent of the original div
         originalDiv.parentNode.appendChild(clonedDiv);
