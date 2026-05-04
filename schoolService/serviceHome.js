@@ -81,7 +81,8 @@ export async function addMeetings() {
             date: formattedDate,
             time: finalTime,
             dateObj: dateObj,
-            type: 'Event'
+            type: 'Event',
+            uid: docSnap.id,
         });
     });
     events.sort((a, b) => a.dateObj - b.dateObj);
@@ -360,8 +361,8 @@ function attachEventsToDay({ container, date }) {
 
             const user = await getCurrentUser();
             const docsRef = collection(db, "serviceOpportunities");
-            const serviceName = sessionStorage.getItem('opportunityName');
-            const q = query(docsRef, where("opportunityName", "==", serviceName));
+            const q = query(docsRef, where("__name__", "==", event.uid));
+
             const querySnapshot = await getDocs(q);
             if (!querySnapshot.empty) {
                 for (const docSnap of querySnapshot.docs) {
