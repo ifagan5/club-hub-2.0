@@ -372,7 +372,7 @@ export async function displayAllStudentLogs(divId, studentUid = null) {
 
     if (docSnap.empty) {
         const noOppMsg = document.createElement("p");
-        noOppMsg.innerText = "You are not signed up for any opportunities.";
+        noOppMsg.innerText = "You do not have any logs recorded.";
         originalDiv.parentNode.appendChild(noOppMsg);
     }
 
