@@ -11,6 +11,8 @@
     gtag('config', 'G-P97ML6ZP15');
   </script>
 
+  <script type="module" src="logger.js"></script>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" type="text/css" href="../clubhub/login.css">
@@ -20,7 +22,7 @@
   <title>Edit Service Opportunity</title>
 
   <style>
-    body {
+    body {  
       background-color: rgba(146, 22, 32, 0.564);
     }
   </style>
@@ -38,23 +40,20 @@
 </header>
 
 <script type="module">
-  import {updateServiceOpportunity} from './serviceEditOpportunity.js';
-  window.updateServiceOpportunity = updateServiceOpportunity;
+  import {updateServiceLog} from './serviceEditLog.js';
+  window.updateServiceLog = updateServiceLog;
 </script>
 
 <div class="loginBox">
-  <header class="subheading">Edit Service Opportunity</header>
+  <header class="subheading">Edit Service Log</header>
   <form id="editForm">
-  <label for="opportunityName">Name Of Opportunity:</label><input required type="text" id="opportunityName" placeholder = "Type Here">
-  <label for="opportunityDescription">Description Of Opportunity:</label><input required type="text" id="opportunityDescription" placeholder = "Type Here">
-  <label for="opportunityLength">Length Of Opportunity:</label><input required type="number" id="opportunityLength" step = "any" placeholder = "Type Here">
-  <label for="opportunityDate">Date of Opportunity:</label><input required type="date" id="opportunityDate">
-  <label for="opportunityTime">Time of Opportunity:</label><input required type="time" id="opportunityTime">
-  <label for="opportunityContact">Person of Contact:</label><input required type="text" id="opportunityContact" placeholder = "Type Here">
-  <label for="opportunityLocation">Location of Opportunity:</label><input required type="text" id="opportunityLocation" placeholder = "Type Here">
+  <label for="description">Description Of Opportunity:</label><input required type="text" id="description" placeholder = "Type Here">
+  <label for="hours">Length Of Opportunity:</label><input required type="number" id="hours" step = "any" placeholder = "Type Here">
+  <label for="date">Date of Opportunity:</label><input required type="date" id="date">
+  <label for="contact">Person of Contact:</label><input required type="text" id="contact" placeholder = "Type Here">
   </form>
 
-  <button onclick="updateServiceOpportunity();" type="button" class="loginButton clubLB">Update</button>
+  <button onclick="updateServiceLog();" type="button" class="loginButton clubLB">Update</button>
 </div>
 </body>
 </html>
