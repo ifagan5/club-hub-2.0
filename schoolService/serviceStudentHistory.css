@@ -282,7 +282,7 @@ font-size: 20px;
     /*background-color: rgb(141,13,24);*/
     padding: 5%;
     border-radius: 10px;
-    color: rgb(141,13,24); 
+    color: rgb(255, 255, 255); 
     text-align: center;
      font-size: clamp(22px, 5vw, 26px);
     /*text-align: left;*/
@@ -299,16 +299,26 @@ font-size: 20px;
 
 /*making the title buttons*/
 .titleBox{
-    background-color: white;
+    background-color: rgb(141,13,24); 
     flex-direction: column;
     align-items: center; 
     flex: 1;
     border-radius: 10px;
     min-width: 25vw;
-    max-width: 75vw; 
     margin-left: 7%;
     margin-bottom: 2%;
 
+}
+
+.titleBox2{
+    background-color: rgb(141,13,24); 
+    flex-direction: column;
+    align-items: center; 
+    flex: 1;
+    border-radius: 10px;
+    min-width: 35vw;
+    margin-left: 7%;
+    margin-bottom: 2%;
 }
 
 /*yay making sides*/
@@ -414,59 +424,3 @@ margin-left: 60px;
   --space-md: 20px;
   --space-lg: 40px;
 }
-
-/*
-THINGS I THINK I CAN DELETE BUT AM NOT DELETING UNTIL I'M SURE
-.checkboxContainer {
-    width: 50%;
-    display: flex;       
-    align-items: center; 
-    justify-content: center;
-    white-space: nowrap;
-    gap: 10px;  
-}
-
-.checkboxDiv{
-    display: flex;
-    align-items: center; 
-    justify-content: center;
-
-    flex-direction: column;
-}
-
-.checkboxContainer input[type="checkbox"] {
-    margin-top: 110%;
-    vertical-align: middle;
-}
-
-.checkbox-label {
-  margin: 0; 
-}
-
-.button2{
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    padding: 20px clamp(14px, 3vw, 20px);
-    background-color: rgb(141,13,24);
-    border: 1px solid transparent;
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(15px, 1.6vw, 20px);
-    color: white;
-    text-decoration: none;
-    transition: background-color 0.18s ease, color 0.18s ease;
-    border-radius: 50px;
-   
-}
-
-.button2:hover {
-    background-color: rgba(146, 22, 32, 0.564); color:rgb(141, 13, 24);
-}
-     .studentLogs {
-    margin-top: 10vh;
-    width: 85%;
-    padding: 20px 16px;
-    border-radius: 12px;
-  }
-*/
