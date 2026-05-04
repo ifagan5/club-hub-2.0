@@ -498,6 +498,7 @@ export async function displayAllStudentServiceOpportunities(divId, onlyUsers) {
         button.textContent = "View Service Opportunity";
         button.onclick = () => {
             sessionStorage.setItem("opportunityName", data.opportunityName);
+            sessionStorage.setItem("opportunityId", doc.id);
             window.location.href = "./serviceViewOpportunity.html";
         };
 
