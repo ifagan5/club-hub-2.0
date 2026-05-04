@@ -370,6 +370,12 @@ export async function displayAllStudentLogs(divId, studentUid = null) {
 
     const isAdmin = await checkAdminStatus() || false;
 
+    if (docSnap.empty) {
+        const noOppMsg = document.createElement("p");
+        noOppMsg.innerText = "You are not signed up for any opportunities.";
+        originalDiv.parentNode.appendChild(noOppMsg);
+    }
+
 
     let i = 0;
     docSnap.forEach((doc) => {
@@ -494,6 +500,12 @@ export async function displayAllStudentServiceOpportunities(divId, onlyUsers) {
         // Append the cloned div to the parent of the original div
         originalDiv.parentNode.appendChild(clonedDiv);
         id++;
+    }
+
+    if (id === 0 && onlyUsers) {
+        const noOppMsg = document.createElement("p");
+        noOppMsg.innerText = "You are not signed up for any opportunities.";
+        originalDiv.parentNode.appendChild(noOppMsg);
     }
 
     if (needsReload) {

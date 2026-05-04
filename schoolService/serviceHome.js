@@ -436,13 +436,18 @@ function attachEventsToDay({ container, date }) {
                     } else {
                         // code to signup for oppertuniy
                         if (!isPast) {
-                            button.innerText = "Signup For Service Opportunity";
-                            button.addEventListener("click", async () => {
-                                await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
-                                    signedUpUsers: arrayUnion(user.uid)
+                            const isAdmin = await checkAdminStatus();
+                            if (isAdmin) {
+                                button.innerText = "Admins Cannot Signup";
+                            } else {
+                                button.innerText = "Signup For Service Opportunity";
+                                button.addEventListener("click", async () => {
+                                    await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
+                                        signedUpUsers: arrayUnion(user.uid)
+                                    });
+                                    window.location.reload()
                                 });
-                                window.location.reload()
-                            });
+                            }
                         } else {
                             // opperuntiy expired
                             button.innerText = "Service Opportunity Expired";
