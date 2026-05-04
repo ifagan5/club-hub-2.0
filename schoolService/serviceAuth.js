@@ -30,7 +30,6 @@ export const firebaseConfig = {
     appId: "1:339870020143:web:cc698c287ed642e3798cda",
     measurementId: "G-P97ML6ZP15"
 };
-
 // setting vars
 const app = initializeApp(firebaseConfig);
 export const db   = getFirestore(app);
@@ -341,16 +340,19 @@ export async function calculateNonSchoolServiceHoursPercentage() {
 }
 
 // Function to display all the students logs.
-export async function displayAllStudentLogs(divId) {
+export async function displayAllStudentLogs(divId, studentUid = null) {
     // Delete Past Logs
     const existingLogs = document.querySelectorAll(`[id^="${divId}"]`);
     existingLogs.forEach(element => {
         if (element.id !== divId) element.remove();
     });
 
-    // Get current user
-    const user = await getCurrentUser()
-    const uid = user.uid;
+    let uid = studentUid;
+    if (!uid) {
+        // Get current user
+        const user = await getCurrentUser();
+        uid = user.uid;
+    }
 
     // Get logs
     const logsRef = collection(db, "studentServiceLog", uid, "logs");
@@ -365,6 +367,8 @@ export async function displayAllStudentLogs(divId) {
     originalDiv.style.marginBottom = "15px";
     originalDiv.style.width = "85%";
     originalDiv.style.display = "none";
+
+    const isAdmin = await checkAdminStatus() || false;
 
 
     let i = 0;
@@ -393,6 +397,17 @@ export async function displayAllStudentLogs(divId) {
         clonedDiv.querySelector(`#logged-hours-to-school${i}`).innerText = "Type of Service: " + type;
         clonedDiv.querySelector(`#date${i}`).innerText = "Date Completed: " + date;
         clonedDiv.querySelector(`#contact${i}`).innerText = "Contact Person: " + contact;
+
+        // add edit button if admin logged in
+        if (isAdmin) {
+            const editBtn = document.createElement("button");
+            editBtn.innerText = "Edit Log";
+            editBtn.onclick = () => {
+                sessionStorage.setItem("editLogId", doc.id);
+                window.location.href = "./serviceEditLog.html";
+            };
+            clonedDiv.appendChild(editBtn);
+        }
 
         // Make clone visible
         clonedDiv.style.display = "block";
