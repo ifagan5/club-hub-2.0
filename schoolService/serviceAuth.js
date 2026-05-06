@@ -6,18 +6,19 @@ import {
     onAuthStateChanged,
     signInWithEmailAndPassword,
     signOut,
+    sendEmailVerification,
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import {
+    collection,
+    deleteDoc,
     doc,
     getDoc,
+    getDocs,
     getFirestore,
+    orderBy,
+    query,
     serverTimestamp,
     setDoc,
-    getDocs,
-    collection,
-    query,
-    orderBy,
-    deleteDoc,
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 // Firebase config
@@ -35,6 +36,8 @@ const app = initializeApp(firebaseConfig);
 export const db   = getFirestore(app);
 export const auth = getAuth(app);
 
+
+
 // was having problems with rendering the users name on club page due to improper async handeling
 export const getCurrentUser = () => {
     return new Promise((resolve, reject) => {
@@ -44,6 +47,25 @@ export const getCurrentUser = () => {
         }, reject);
     });
 };
+
+export async function sendVerificationEmail() {
+    try {
+        const user = await getCurrentUser()
+        if (user) {
+            await sendEmailVerification(user);
+        }
+        alert("Please check your email to verify your account!");
+    } catch (err) {
+        console.error("Error sending verification email:", err);
+    }
+}
+
+export async function checkVerificationEmailStatus() {
+    const user = await getCurrentUser()
+    if (user) {
+        return user.emailVerified;
+    }
+}
 
 /*
 createUser(email, password, firstName, lastName, gradYr)
@@ -59,7 +81,7 @@ export async function createUser(email, password, firstName, lastName, gradYr) {
         // Create the auth record
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const uid = userCredential.user.uid;
-        await signInWithEmailAndPassword(auth, email, password);
+        // await signInWithEmailAndPassword(auth, email, password);
 
         // Store a profile document – not password because bad
         await setDoc(doc(db, "students", uid), {
@@ -71,7 +93,11 @@ export async function createUser(email, password, firstName, lastName, gradYr) {
             admin: isAdmin,
             createdAt: serverTimestamp(),
         });
-        window.location.href = "./serviceStudentPage.html";
+
+        await sendVerificationEmail()
+
+        alert("You have been sent a verification email. Please verify your account and then login.");
+        window.location.href = "./serviceStudentLogin.js.html";
 
         return true;
     } catch (err) {
@@ -107,6 +133,18 @@ with serviceAdminPanel.html (for admin) and serviceStudentPage.html (for other)
 export async function loginUser(email, password) {
     try {
         await signInWithEmailAndPassword(auth, email, password);
+        const user = await getCurrentUser();
+        if (await checkVerificationEmailStatus() !== true) {
+            alert("You have been sent a verification email. Please verify your account to continue.");
+
+            if (confirm("Would you like to be sent a new verification email?")) {
+                await sendVerificationEmail();
+            }
+
+            await logoutUser()
+            window.location.href = "./serviceStudentLogin.html";
+        }
+
         if (await checkAdminStatus()) {
             window.location.href = "./serviceAdminPanel.html";
             return { success: true };
@@ -145,19 +183,7 @@ checkLoginStatus()
 Checks if a user is logged in and returns true if one is and returns false if one is not
 */
 export async function checkLoginStatus() {
-    const user = await getCurrentUser();
-    if (!user) {
-        // window.location.href = "./serviceStudentLogin.html";
-        return false;
-    }
-
-    const isAdmin = await checkAdminStatus();
-    if (isAdmin) {
-        // window.location.href = "./serviceAdminPanel.html";
-    } else {
-        // window.location.href = "./serviceStudentPage.html";
-    }
-    return true;
+    return await getCurrentUser();
 }
 
 // Check if a user is already signed in
@@ -166,11 +192,7 @@ checkLoginStatusNoRedirect()
 Checks if a user is logged in and returns true if one is and returns false if one is not
 */
 export async function checkLoginStatusNoRedirect() {
-    const isAdmin = await checkAdminStatus();
-    if (isAdmin) {
-        return true; // User is an admin and redirected, consider them logged in
-    }
-    return !!await getCurrentUser();
+    return await getCurrentUser();
 }
 
 // Get the current user's first name
