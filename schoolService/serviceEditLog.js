@@ -46,13 +46,14 @@ export const updateServiceLog = async function(){
     }
 
     const opportunityId = sessionStorage.getItem('editLogId');
-    const opportunityRef = doc(db, "log", opportunityId);
+    const studentUserId = sessionStorage.getItem('studentUID');
+    const opportunityRef = doc(db, "studentServiceLog", studentUserId, "logs", opportunityId);
 
     const updatedEntry = {
-        opportunityDescription: document.getElementById('description').value,
-        opportunityLength: document.getElementById('hours').value,
-        opportunityDate: document.getElementById('date').value,
-        opportunityContact: document.getElementById('contact').value,
+        description: document.getElementById('description').value,
+        date: document.getElementById('date').value,
+        contact: document.getElementById('contact').value,
+        hours: Number(document.getElementById('hours').value),
         lastUpdated: Timestamp.now(),
     };
 
@@ -61,15 +62,14 @@ export const updateServiceLog = async function(){
 };
 
 const opportunityId = sessionStorage.getItem('editLogId');
-const opportunityRef = doc(db, "log", opportunityId);
+const studentUserId = sessionStorage.getItem('studentUID');
+const opportunityRef = doc(db, "studentServiceLog", studentUserId, "logs", opportunityId);
 const docSnap = await getDoc(opportunityRef);
 
 if (docSnap.exists()) {
     const data = docSnap.data();
-    document.getElementById('description').value = data.opportunityDescription;
-    document.getElementById('hours').value = data.opportunityLength;
-    document.getElementById('date').value = data.opportunityDate;
-    document.getElementById('time').value = data.opportunityTime;
-    document.getElementById('contact').value = data.opportunityContact;
-    document.getElementById('location').value = data.opportunityLocation;
+    document.getElementById('description').value = data.description || data.opportunityDescription || '';
+    document.getElementById('hours').value = data.hours != null ? data.hours : (data.opportunityLength || '');
+    document.getElementById('date').value = data.date || data.opportunityDate || '';
+    document.getElementById('contact').value = data.contact || data.opportunityContact || '';
 }
