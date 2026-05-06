@@ -97,7 +97,7 @@ export async function createUser(email, password, firstName, lastName, gradYr) {
         await sendVerificationEmail()
 
         alert("You have been sent a verification email. Please verify your account and then login.");
-        window.location.href = "./serviceStudentLogin.js.html";
+        window.location.href = "./serviceStudentLogin.html";
 
         return true;
     } catch (err) {
