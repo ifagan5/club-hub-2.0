@@ -69,7 +69,13 @@ const docSnap = await getDoc(opportunityRef);
 if (docSnap.exists()) {
     const data = docSnap.data();
     document.getElementById('description').value = data.description || data.opportunityDescription || '';
-    document.getElementById('hours').value = data.hours != null ? data.hours : (data.opportunityLength || '');
+
+    if (data.hours != null) {
+        document.getElementById('hours').value = data.hours;
+    } else {
+        document.getElementById('hours').value = data.opportunityLength || '';
+    }
+
     document.getElementById('date').value = data.date || data.opportunityDate || '';
     document.getElementById('contact').value = data.contact || data.opportunityContact || '';
 }

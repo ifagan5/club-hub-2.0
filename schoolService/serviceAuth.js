@@ -415,6 +415,18 @@ export async function displayAllStudentLogs(divId, studentUid = null) {
             clonedDiv.appendChild(editBtn);
         }
 
+        // add delete button if admin is logged in
+        if (isAdmin) {
+            const deleteBtn = document.createElement("button");
+            deleteBtn.innerText = "Delete Log";
+            deleteBtn.style.marginLeft = "10px";
+            deleteBtn.onclick = async () => {
+                await deleteDoc(doc.ref);
+                window.location.reload();
+            };
+            clonedDiv.appendChild(deleteBtn);
+        }
+
         // Make clone visible
         clonedDiv.style.display = "block";
 
