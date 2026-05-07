@@ -277,14 +277,27 @@ font-size: 20px;
 
 /*makes all the subheadings the same.*/
   .subheading{
-    font-size: 30px; font-family: Helvetica, sans-serif;
-    /*background-color: rgb(141,13,24);*/
-    padding: 5%;
-    border-radius: 10px;
-    color: rgb(255, 255, 255); 
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    width: 100%;
+    margin: 0;
+
+    background-color: rgb(141,13,24);
+    color: white;
+
+    padding: 16px 20px;
+    box-sizing: border-box;
+
     text-align: center;
-     font-size: clamp(22px, 5vw, 26px);
-    /*text-align: left;*/
+    font-family: Helvetica, sans-serif;
+    font-size: clamp(22px, 5vw, 26px);
+
+    border-radius: 10px 10px 0 0;
+    border-bottom: 10px solid white;
+
+    box-shadow: 0 4px 6px 2px rgb(255, 255, 255); 
 }
 /*Makes all the text on the page the same*/
 .text{
@@ -336,31 +349,28 @@ font-size: 20px;
 .loginBox,
 .loginBox2 {
   background-color: white;
-  border-radius: 10px;
-  padding: 30px 50px; 
-/*max-height: 50vh;
-  max-width: 75vw; */
-  width: 30vw;
+    border-radius: 10px;
 
-  overflow-y: auto;
+    width: 30vw;
+    height: 50vh;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-  gap: 15px;
+    overflow-y: auto;
 
-  box-shadow: 0 5px 15px rgba(120, 10, 19, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-  justify-content: flex-start; 
+    padding: 0; /* IMPORTANT */
+
+    box-shadow: 0 5px 15px rgba(120, 10, 19, 0.2);
+
     min-width: 25vw;
     min-height: 35vh;
-    
+
     font-family: Helvetica, sans-serif;
-    height: 300px;
+
     margin-left: 7%;
     margin-bottom: 2%;
-
-    flex: 1;
 }
 
 /*making the button look nice. White with dark outline*/
@@ -416,6 +426,12 @@ margin-left: 60px;
   place-items: center;
 }
 
+#log1,
+#opportunity1 {
+    padding: 20px 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
 
 
 /*making consistant spacing!*/
