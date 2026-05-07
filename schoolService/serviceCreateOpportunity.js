@@ -95,7 +95,7 @@ export const createServiceOpportunity = async function(opportunityName, opportun
                 const newServiceOpportunityEntry = {
                     opportunityName: opportunityName,
                     opportunityDescription :opportunityDescription,
-                    opportunityLength: opportunityLength,
+                    opportunityLength: Math.round(((parseFloat(opportunityLengthHours) + (parseFloat(opportunityLengthMinutes) / 60)) + Number.EPSILON) * 100) / 100,
                     opportunityDate: dateObj.toISOString().split('T')[0], // also from google because timestamps weird
                     opportunityTime: opportunityTime,
                     opportunityContact: opportunityContact,
