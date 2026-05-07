@@ -19,6 +19,7 @@ import {
     query,
     serverTimestamp,
     setDoc,
+    limit,
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 // Firebase config
@@ -377,8 +378,9 @@ export async function displayAllStudentLogs(divId, studentUid = null) {
     }
 
     // Get logs
-    const logsRef = collection(db, "studentServiceLog", uid, "logs");
-    const docSnap = await getDocs(logsRef);
+    // Fetch the 50 most recent logs to save read operations
+    const logsQuery = query(collection(db, "studentServiceLog", uid, "logs"), orderBy("timestamp", "desc"), limit(50));
+    const docSnap = await getDocs(logsQuery);
 
     // Define div to clone
     const originalDiv = document.getElementById(divId);
