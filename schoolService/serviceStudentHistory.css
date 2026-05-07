@@ -128,8 +128,7 @@ body {
   border-radius: 12px;
 
   padding: 25px 20px;
-  width: 100%;
-  max-width: 400px;
+  width: 30vw;
 
   display: flex;
   flex-direction: column;
@@ -339,8 +338,9 @@ font-size: 20px;
   background-color: white;
   border-radius: 10px;
   padding: 30px 50px; 
- max-height: 50vh;
-  max-width: 75vw; 
+/*max-height: 50vh;
+  max-width: 75vw; */
+  width: 30vw;
 
   overflow-y: auto;
 
