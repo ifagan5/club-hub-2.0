@@ -12,6 +12,7 @@
     </script>
 
     <script type="module" src="logger.js"></script>
+    <script type="module" src="serviceStudentPage.js"></script>
 
     <link href='https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/simplex/bootstrap.min.css' rel='stylesheet'>
     <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
@@ -40,7 +41,7 @@
 
     <title>Saints Service Sign Up</title>
 </head>
-<body onload="displayAllStudentServiceOpportunities('opportunity1', true); displayAllStudentLogs('log1');">
+<body onload="displayAllStudentServiceOpportunities('opportunity1', true); displayAllStudentLogs('log1')">
 
 <!-- <script type="module" src="../clubhub/script.js"></script>-->
  <script type="module" src="./serviceStudentPage.js"></script>
@@ -106,21 +107,6 @@
         <button class="button" id="adminPageBtn" onclick="location.replace('serviceAdminPanel.html');" >Admin Page</button>
    </div>
    <!--<br> -->
-   
-   <div id="eventInfoModal" class="eventInfoModal">
-        <div class="eventInfoModalContent">
-        <p id="meetInfoPopUp">Service To The School Opportunity Information:</p>
-        <p id="clubPopUp">Opportunity Name: </p>
-        <p id="datePopUp">Date: </p>
-        <p id="timePopUp">Time: </p>
-        <p id="locationPopUp">Location: </p>
-        <p id="descriptionPopUp">Description: </p>
-            <button id="buttonPopUp" class="confbtn">Signup</button>
-<!--        <button id="goToClub" class="confbtn"  onclick="location.replace('clubDash.html');">Go to Club Page</button>-->
-        <br>
-        <button id="confCancelDelete" class="confbtn" onclick="document.getElementById('eventInfoModal').style.display = 'none';">Close</button>
-        </div>
-    </div>
 
 
 
