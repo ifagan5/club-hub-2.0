@@ -358,6 +358,7 @@ function attachEventsToDay({ container, date }) {
             // uh oh
 
             sessionStorage.setItem("opportunityName", event.title)
+            sessionStorage.setItem("opportunityId", event.uid);
 
             const user = await getCurrentUser();
             const docsRef = collection(db, "serviceOpportunities");

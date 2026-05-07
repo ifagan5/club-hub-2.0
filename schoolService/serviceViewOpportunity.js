@@ -42,9 +42,15 @@ const opportunityLocation = document.getElementById("opportunityLocation");
 const user = await getCurrentUser();
 const docsRef = collection(db, "serviceOpportunities");
 const serviceName = sessionStorage.getItem('opportunityName');
+const serviceId = sessionStorage.getItem('opportunityId');
 console.log(serviceName);
 // make the request to firebase
-const q = query(docsRef, where("opportunityName", "==", serviceName));
+let q;
+if (serviceId) {
+    q = query(docsRef, where("__name__", "==", serviceId));
+} else {
+    q = query(docsRef, where("opportunityName", "==", serviceName));
+}
 const querySnapshot = await getDocs(q);
 if (!querySnapshot.empty) {
     for (const docSnap of querySnapshot.docs) {
@@ -148,13 +154,18 @@ if (!querySnapshot.empty) {
         } else {
             // code to signup for oppertuniy
             if (!isPast) {
-                button.innerText = "Signup For Service Opportunity";
-                button.addEventListener("click", async () => {
-                    await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
-                        signedUpUsers: arrayUnion(user.uid)
+                const isAdmin = await checkAdminStatus();
+                if (isAdmin) {
+                    button.innerText = "Admins Cannot Signup";
+                } else {
+                    button.innerText = "Signup For Service Opportunity";
+                    button.addEventListener("click", async () => {
+                        await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
+                            signedUpUsers: arrayUnion(user.uid)
+                        });
+                        window.location.reload();
                     });
-                    window.location.reload()
-                });
+                }
             } else {
                 // opperuntiy expired
                 button.innerText = "Service Opportunity Expired";
