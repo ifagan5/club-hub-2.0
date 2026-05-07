@@ -1,6 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp, addDoc, arrayRemove, arrayUnion, query, where, getCountFromServer} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp, addDoc, arrayRemove, arrayUnion, query, where, getCountFromServer, enableIndexedDbPersistence} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {checkLoginStatus, getCurrentUser, checkAdminStatus} from "./serviceAuth.js";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -19,7 +19,10 @@ export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 const auth = getAuth(app);
 
-
+// Enable offline persistence
+enableIndexedDbPersistence(db).catch((err) => {
+    console.error("Persistence failed", err);
+});
 
 // Nav bar editing function based on users status (admin, club, not logged in)
     // Calendar setup
@@ -52,7 +55,16 @@ export async function addMeetings() {
     events = [];
     const logsRef = collection(db, "serviceOpportunities");
 
-    const querySnapshot = await getDocs(logsRef);
+    const t = new Date();
+    t.setDate(t.getDate() - 7); // Include past week just in case
+    const dateString = t.toISOString().split('T')[0]; // e.g. "2023-10-25"
+
+    const q = query(
+        logsRef, 
+        where("opportunityDate", ">=", dateString)
+    );
+
+    const querySnapshot = await getDocs(q);
     querySnapshot.forEach((docSnap) => {
         const data = docSnap.data();
 
