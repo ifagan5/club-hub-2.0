@@ -38,7 +38,7 @@ export const db   = getFirestore(app);
 export const auth = getAuth(app);
 
 
-
+// aura
 // was having problems with rendering the users name on club page due to improper async handeling
 export const getCurrentUser = () => {
     return new Promise((resolve, reject) => {
