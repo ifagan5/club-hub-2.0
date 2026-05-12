@@ -39,6 +39,7 @@ export const auth = getAuth(app);
 
 
 // aura
+// aura test 2
 // was having problems with rendering the users name on club page due to improper async handeling
 export const getCurrentUser = () => {
     return new Promise((resolve, reject) => {
