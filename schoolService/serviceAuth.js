@@ -108,10 +108,10 @@ export async function createUser(email, password, firstName, lastName, gradYr) {
     }
 }
 
-// check if the user had admin perms
+// check if the user had admin permissions
 /*
 checkAdminStatus()
-Checks in the user's "admin" field is set to true and returns true if it is a false if not
+Checks in the user's "admin" field is set to true in firebase and returns true if it is a false if not
 */
 export async function checkAdminStatus() {
     const user = await getCurrentUser();
@@ -128,7 +128,8 @@ export async function checkAdminStatus() {
 // logs the user in
 /*
 loginUser(email, password)
-logs in the user and checks if they are an admin or not. Based on admin status it replaces the location
+logs in the user and checks if it is true that they are set to admin or not in firebase. 
+Based on admin status it replaces the location
 with serviceAdminPanel.html (for admin) and serviceStudentPage.html (for other)
 */
 export async function loginUser(email, password) {
@@ -145,16 +146,18 @@ export async function loginUser(email, password) {
             await logoutUser()
             window.location.href = "./serviceStudentLogin.html";
         }
-
+        //redirects user to the admin page
         if (await checkAdminStatus()) {
             window.location.href = "./serviceAdminPanel.html";
             return { success: true };
+        //redirects user to the student page
         } else {
             window.location.href = "./serviceStudentPage.html";
             return { success: true };
         }
 
-
+        //throws an error and alerts the the user if their email or password is not linked
+        //to any user in firebase
     } catch (err) {
         alert("Login failed: " + err.message);
         console.warn("loginUser error:", err);
