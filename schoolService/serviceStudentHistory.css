@@ -324,8 +324,6 @@ justify-content: space-between;
     font-family: Helvetica, sans-serif;
     font-size: clamp(22px, 5vw, 26px);
 
-    border-radius: 10px 10px 10px 10px;
-
 }
 /*Makes all the text on the page the same*/
 .text{
@@ -434,9 +432,15 @@ justify-content: space-between;
   margin: 40px 5%;
   align-items: flex-start;
   flex-wrap: wrap;
-    justify-content: space-between;
-    margin-right: 95px;
-margin-left: 60px;
+  justify-content: space-between;
+  margin-right: 95px;
+  margin-left: 60px;
+}
+
+.middle{
+    display: flex;
+    align-items: center;
+    margin-top: 20vh; 
 }
 
 
