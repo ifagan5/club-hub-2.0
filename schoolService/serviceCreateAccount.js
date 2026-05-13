@@ -50,3 +50,6 @@ export const theFlood = async function() {
     
 };
 // theFlood()
+// What is the flood? Glad you asked! The flood(TM) is a revolutionary function that foolishly clears all users from the firebase.
+// Theoretically, anyone could call it from the console and wreck havoc on our servers...
+// But security through obscurity, right?
