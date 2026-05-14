@@ -80,6 +80,11 @@ export async function createUser(email, password, firstName, lastName, gradYr) {
     try {
         const isAdmin = false;
 
+        if (gradYr === "2026" || "26") {
+            alert("ERROR: Unc Detected. Exiting...")
+            return;
+        }
+
         // Create the auth record
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const uid = userCredential.user.uid;
