@@ -28,7 +28,6 @@ export const registerService = async function(email, pass, first, last){
     // stack over flow lookup for how to remove all non numebr charaacters from string
     const newGradYear = email.replace(/\D/g, '') || "99";
     const newGradYearFinal = "20" + newGradYear;
-    alert(newGradYearFinal);
 
     const full_name = first + " " + last;
     // Helper to normalize case (e.g., "jake" -> "Jake") from stack overflow
@@ -38,8 +37,6 @@ export const registerService = async function(email, pass, first, last){
     const [firstName, ...lastNameParts] = full_name.split(" ");
     const formattedLastName = lastNameParts.map(capitalize).join(" ");
     const formattedFirstName = capitalize(firstName);
-    alert(formattedFirstName);
-    alert(formattedLastName);
     //creates the account using the user input. 
     await createUser(email, pass, formattedFirstName, formattedLastName, newGradYearFinal);
 }
@@ -53,3 +50,6 @@ export const theFlood = async function() {
     
 };
 // theFlood()
+// What is the flood? Glad you asked! The flood(TM) is a revolutionary function that foolishly clears all users from the firebase.
+// Theoretically, anyone could call it from the console and wreck havoc on our servers...
+// But security through obscurity, right?

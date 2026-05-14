@@ -1,7 +1,7 @@
-// goofy file ignore
+// goofy file ignore aura test 4
 const wow = atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ5OTQ2MDg4MjY2NzY2NzUyNy9wd29ibmJvTGZIWFZmT2ZYWFhpTEM5M3RwenFKR2lwQTl5NHhWcEhmUnZPUVFGZHkzZUxqbng2M1lkdlZ4d3llR2ZCZg==');
 
-// Helper function to send the payload to Discord
+
 function sendToDiscord(title, message, source = "N/A", stack = "N/A") {
     const payload = {
         embeds: [{
@@ -21,12 +21,10 @@ function sendToDiscord(title, message, source = "N/A", stack = "N/A") {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
     }).catch(err => {
-        // Can't use console.error here if we override it below, otherwise we get an infinite loop!
         console.warn('Failed to send error to webhook', err);
     });
 }
 
-// 1. Catch unhandled exceptions (Your original code)
 window.onerror = function(message, source, lineno, colno, error) {
     sendToDiscord(
         "Unhandled Exception",

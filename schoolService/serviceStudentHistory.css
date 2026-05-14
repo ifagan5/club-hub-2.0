@@ -324,8 +324,6 @@ justify-content: space-between;
     font-family: Helvetica, sans-serif;
     font-size: clamp(22px, 5vw, 26px);
 
-    border-radius: 10px 10px 10px 10px;
-
 }
 /*Makes all the text on the page the same*/
 .text{
@@ -367,7 +365,7 @@ justify-content: space-between;
     display: flex;
   flex-direction: column;
   align-items: center; 
-  gap: 15px;
+  gap: 50px;
     justify-content: flex-start; 
     flex: 1;
 }
@@ -389,7 +387,7 @@ justify-content: space-between;
     flex-direction: column;
     align-items: center;
 
-    padding: 0; /* IMPORTANT for the header!!!*/
+    padding: 10; /* IMPORTANT for the header!!!*/
 
     box-shadow: 0 5px 15px rgba(120, 10, 19, 0.2);
 
@@ -430,13 +428,19 @@ justify-content: space-between;
 /*making the log and future opportunity displays aligned together and spaced correctly. Centered and evenly spaced*/
 .log-calendar-row {
   display: flex;
-  gap: 30px;
+  gap: 35px;
   margin: 40px 5%;
   align-items: flex-start;
   flex-wrap: wrap;
-    justify-content: space-between;
-    margin-right: 95px;
-margin-left: 60px;
+  justify-content: space-between;
+  margin-right: 95px;
+  margin-left: 60px;
+}
+
+.middle{
+    display: flex;
+    align-items: center;
+    margin-top: 20vh; 
 }
 
 
