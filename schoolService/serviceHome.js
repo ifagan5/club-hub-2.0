@@ -55,7 +55,6 @@ export async function addMeetings() {
         alert("wow admin");
         document.getElementById("servicePage").innerText = "View Admin Page";
     }
-
     events = [];
     const logsRef = collection(db, "serviceOpportunities");
 
