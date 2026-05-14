@@ -436,6 +436,14 @@ export async function displayAllStudentLogs(divId, studentUid = null) {
         if (isAdmin) {
             const editBtn = document.createElement("button");
             editBtn.innerText = "Edit Log";
+            editBtn.style.marginTop = "10px";
+            editBtn.style.setProperty("background-color", "white");
+            editBtn.style.setProperty("color", "rgb(89, 8, 15)");
+            editBtn.style.setProperty("border-color", "rgb(89, 8, 15)");
+            editBtn.style.setProperty("border-radius", "5px");
+            editBtn.style.setProperty("curser", "hand");
+            editBtn.style.setProperty("border", "4px solid rgb(89, 8, 15)");
+            editBtn.style.setProperty("transition", "background-color 0.3s");
             editBtn.onclick = () => {
                 sessionStorage.setItem("editLogId", doc.id);
                 window.location.href = "./serviceEditLog.html";
@@ -448,6 +456,14 @@ export async function displayAllStudentLogs(divId, studentUid = null) {
             const deleteBtn = document.createElement("button");
             deleteBtn.innerText = "Delete Log";
             deleteBtn.style.marginLeft = "10px";
+            deleteBtn.style.marginTop = "10px";
+            deleteBtn.style.setProperty("background-color", "white");
+            deleteBtn.style.setProperty("color", "rgb(89, 8, 15)");
+            deleteBtn.style.setProperty("border-color", "rgb(89, 8, 15)");
+            deleteBtn.style.setProperty("border-radius", "5px");
+            deleteBtn.style.setProperty("curser", "hand");
+            deleteBtn.style.setProperty("border", "4px solid rgb(89, 8, 15)");
+            deleteBtn.style.setProperty("transition", "background-color 0.3s");
             deleteBtn.onclick = async () => {
                 await deleteDoc(doc.ref);
                 window.location.reload();
