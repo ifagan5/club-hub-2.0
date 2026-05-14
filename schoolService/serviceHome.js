@@ -52,7 +52,6 @@ let events = [];
 export async function addMeetings() {
     const isAdmin = await checkAdminStatus();
     if (isAdmin) {
-        alert("wow admin");
         document.getElementById("servicePage").innerText = "View Admin Page";
     }
     events = [];
