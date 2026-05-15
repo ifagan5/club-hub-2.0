@@ -87,7 +87,7 @@ input.addEventListener("keydown", async function (event) {
     });
 
     const countSnap = await getCountFromServer(q2);
-    const countLogs = countSnap.data().count;
+    let countLogs = countSnap.data().count;
     console.log("countLogs:" + countLogs);
     sessionStorage.setItem("studentUIDArray", docIds);
     const saved = sessionStorage.getItem("studentUIDArray");
@@ -115,78 +115,93 @@ input.addEventListener("keydown", async function (event) {
         const grade = tempDocSnap.data().gradYr || "N/A";
         let schoolRequirement = null;
         const isAdmin = tempDocSnap.data().admin;
+        /*
         if (isAdmin === true) {
-            return;
-          }
+            i--;
+          }*/
+
         // w for loops for hours required to graduate
-        if (grade === "2027"){
-              schoolRequirement = "(10 service to the school hours before senior year to graduate)"
-          }
-          else if (grade === "2028"){
-              schoolRequirement = "(20 service to the school hours before senior year to graduate)"
-          }
-          else {
-              schoolRequirement = "(30 service to the school hours before senior year to graduate)"
-          }
+        if(!isAdmin){
 
-          let communityRequirement;
           if (grade === "2027"){
-              communityRequirement =  "(30 general community service hours before senior year to graduate)"
-          }
-          else if (grade === "2028"){
-              communityRequirement = "(15 general community service hours before senior year to graduate)"
-          }
-          else {
-              communityRequirement = "(No general community service graduation requirement)"
-          }
-                    console.log("Found student ID:", studentId);
-          console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
-        
-        // clone the divs for each document. this will end up the search results being one per search result
-        const originalDiv = document.getElementById('studentWrapper');
-        if (i===countLogs){
-          console.log(i + " first iteration");
-          document.getElementById("adminStudentName").innerHTML = fullName;
-          document.getElementById("adminStudentGrade").innerHTML = grade;
-          document.getElementById("adminStudentNonSchoolHours").innerHTML = totalHours + " " + communityRequirement;
-          document.getElementById("adminStudentSchoolHours").innerHTML = schoolHours + " " + schoolRequirement;
-          document.getElementById("adminBigStudentName").innerHTML = fullName;
-          document.getElementById("adminViewLog").innerHTML = fullName + "'s Log";
-          selectedStudentUID = doc.id;
-          //sessionStorage.setItem("studentUID", doc.id);
-        }
-        else{
-          console.log(i + " next iteration");
-          const clonedDiv = originalDiv.cloneNode(true);
-          clonedDiv.id = `log${i + 1}`; // Update ID for uniqueness (don't do it now)
-          clonedDiv.querySelector('#adminStudentName').id = `adminStudentName${i}`;
-          clonedDiv.querySelector('#adminStudentGrade').id = `adminStudentGrade${i}`;
-          clonedDiv.querySelector('#adminStudentNonSchoolHours').id = `adminStudentNonSchoolHours${i}`;
-          clonedDiv.querySelector('#adminStudentSchoolHours').id = `adminStudentSchoolHours${i}`;
-          clonedDiv.querySelector('#adminBigStudentName').id = `adminBigStudentName${i}`;
-          clonedDiv.querySelector('#adminViewLog').id = `adminViewLog${i}`;
-          // Update text content of the cloned elements
-          clonedDiv.querySelector(`#adminStudentName${i}`).innerHTML = fullName;
-          clonedDiv.querySelector(`#adminStudentGrade${i}`).innerHTML = grade;
-          clonedDiv.querySelector(`#adminStudentNonSchoolHours${i}`).innerHTML = totalHours + " " + communityRequirement;
-          clonedDiv.querySelector(`#adminStudentSchoolHours${i}`).innerHTML = schoolHours + " " + schoolRequirement;
-          clonedDiv.querySelector(`#adminBigStudentName${i}`).innerHTML = fullName;
-          clonedDiv.querySelector(`#adminViewLog${i}`).innerHTML = fullName + "'s Log";
+                schoolRequirement = "(10 service to the school hours before senior year to graduate)"
+            }
+            else if (grade === "2028"){
+                schoolRequirement = "(20 service to the school hours before senior year to graduate)"
+            }
+            else {
+                schoolRequirement = "(30 service to the school hours before senior year to graduate)"
+            }
 
-          // Append the cloned div to the parent of the original div
-          originalDiv.parentNode.appendChild(clonedDiv);
-          selectedStudentUID = doc.id;
-          //Storage.setItem("studentUID", doc.id);
-        }
+            let communityRequirement;
+            if (grade === "2027"){
+                communityRequirement =  "(30 general community service hours before senior year to graduate)"
+            }
+            else if (grade === "2028"){
+                communityRequirement = "(15 general community service hours before senior year to graduate)"
+            }
+            else {
+                communityRequirement = "(No general community service graduation requirement)"
+            }
+                      console.log("Found student ID:", studentId);
+            console.log("Name:", fullName, "Grade:", grade, "School Hours:", schoolHours, "Total Hours:", totalHours);
+          
+          // clone the divs for each document. this will end up the search results being one per search result
+          const originalDiv = document.getElementById('studentWrapper');
+          if (i===countLogs){
+            console.log(i + " first iteration");
+            document.getElementById("adminStudentName").innerHTML = fullName;
+            document.getElementById("adminStudentGrade").innerHTML = grade;
+            document.getElementById("adminStudentNonSchoolHours").innerHTML = totalHours + " " + communityRequirement;
+            document.getElementById("adminStudentSchoolHours").innerHTML = schoolHours + " " + schoolRequirement;
+            document.getElementById("adminBigStudentName").innerHTML = fullName;
+            document.getElementById("adminViewLog").innerHTML = fullName + "'s Log";
+            selectedStudentUID = doc.id;
+            //sessionStorage.setItem("studentUID", doc.id);
+          }
+          else{
+            console.log(i + " next iteration");
+            const clonedDiv = originalDiv.cloneNode(true);
+            clonedDiv.id = `log${i + 1}`; // Update ID for uniqueness (don't do it now)
+            clonedDiv.querySelector('#adminStudentName').id = `adminStudentName${i}`;
+            clonedDiv.querySelector('#adminStudentGrade').id = `adminStudentGrade${i}`;
+            clonedDiv.querySelector('#adminStudentNonSchoolHours').id = `adminStudentNonSchoolHours${i}`;
+            clonedDiv.querySelector('#adminStudentSchoolHours').id = `adminStudentSchoolHours${i}`;
+            clonedDiv.querySelector('#adminBigStudentName').id = `adminBigStudentName${i}`;
+            clonedDiv.querySelector('#adminViewLog').id = `adminViewLog${i}`;
+            // Update text content of the cloned elements
+            clonedDiv.querySelector(`#adminStudentName${i}`).innerHTML = fullName;
+            clonedDiv.querySelector(`#adminStudentGrade${i}`).innerHTML = grade;
+            clonedDiv.querySelector(`#adminStudentNonSchoolHours${i}`).innerHTML = totalHours + " " + communityRequirement;
+            clonedDiv.querySelector(`#adminStudentSchoolHours${i}`).innerHTML = schoolHours + " " + schoolRequirement;
+            clonedDiv.querySelector(`#adminBigStudentName${i}`).innerHTML = fullName;
+            clonedDiv.querySelector(`#adminViewLog${i}`).innerHTML = fullName + "'s Log";
 
+            // Append the cloned div to the parent of the original div
+            originalDiv.parentNode.appendChild(clonedDiv);
+            selectedStudentUID = doc.id;
+            //Storage.setItem("studentUID", doc.id);
+          }
 
 
       }
+
+      else{
+        console.log("docIds before splice: " + docIds);
+        docIds.splice(i-1,i-1);
+        countLogs--;
+        console.log("docIds after splice: " + docIds);
+        console.log("i value: " + i);
+        console.log("countLogs: " + countLogs);
+        
+      }
+    }
       
     }
     }
   }
 }})
+
 export const displayStudentsInDanger = async function() {
   var studentsInDangerDiv = document.getElementById("studentsInDangerDiv");
   const databaseItems = await getDocs(collection(db, "students"));
