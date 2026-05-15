@@ -37,6 +37,9 @@ const app = initializeApp(firebaseConfig);
 export const db   = getFirestore(app);
 export const auth = getAuth(app);
 
+// Caches to prevent redundant read requests
+let cachedAdminStatus = null;
+let cachedStudentDoc = null;
 
 // aura
 // aura test 2
@@ -120,13 +123,15 @@ checkAdminStatus()
 Checks in the user's "admin" field is set to true in firebase and returns true if it is a false if not
 */
 export async function checkAdminStatus() {
+    if (cachedAdminStatus !== null) return cachedAdminStatus;
     const user = await getCurrentUser();
     if (!user) return false;
     const docRef = doc(db, "students", user.uid);
     const docSnap = await getDoc(docRef);
     const userData = docSnap.data();
     if (docSnap.exists()) {
-        return userData.admin === true;
+        cachedAdminStatus = userData.admin === true;
+        return cachedAdminStatus;
     }
     return false;
 }
@@ -179,6 +184,8 @@ logs out the user and replaces the location with serviceHome.html
 export async function logoutUser() {
     try {
         await signOut(auth);
+        cachedAdminStatus = null;
+        cachedStudentDoc = null;
         window.location.href = "./serviceHome.html";
     } catch (err) {
         alert("Logout failed: " + err.message);
@@ -215,7 +222,8 @@ export async function getFirstName() {
     if (!user) return null;
 
     const docRef = doc(db, "students", user.uid);
-    const docSnap = await getDoc(docRef);
+    if (!cachedStudentDoc) cachedStudentDoc = await getDoc(docRef);
+    const docSnap = cachedStudentDoc;
 
     return docSnap.exists() ? docSnap.data().firstName : null;
 }
@@ -230,7 +238,8 @@ export async function getLastName() {
     if (!user) return null;
 
     const docRef = doc(db, "students", user.uid);
-    const docSnap = await getDoc(docRef);
+    if (!cachedStudentDoc) cachedStudentDoc = await getDoc(docRef);
+    const docSnap = cachedStudentDoc;
 
     return docSnap.exists() ? docSnap.data().lastName : null;
 }
@@ -256,7 +265,8 @@ export async function getTotalHours(){
     const uid = user.uid;
     console.log(uid);
     const docRef = doc(db, "students", uid);
-    const docSnap = await getDoc(docRef);
+    if (!cachedStudentDoc) cachedStudentDoc = await getDoc(docRef);
+    const docSnap = cachedStudentDoc;
     const data = docSnap.data();
     if (docSnap.exists()) {
         return data.totalGeneralHours || 0;
@@ -275,7 +285,8 @@ export async function getTotalSchoolServiceHours(){
     const uid = user.uid;
     console.log(uid);
     const docRef = doc(db, "students", uid);
-    const docSnap = await getDoc(docRef);
+    if (!cachedStudentDoc) cachedStudentDoc = await getDoc(docRef);
+    const docSnap = cachedStudentDoc;
     const data = docSnap.data();
     if (docSnap.exists()) {
         return data.totalSchoolHours || 0;
@@ -294,7 +305,8 @@ export async function getGradYr(){
     const uid = user.uid;
     console.log(uid);
     const docRef = doc(db, "students", uid);
-    const docSnap = await getDoc(docRef);
+    if (!cachedStudentDoc) cachedStudentDoc = await getDoc(docRef);
+    const docSnap = cachedStudentDoc;
     const data = docSnap.data();
     if (docSnap.exists()) {
         return data.gradYr || "0";
@@ -314,7 +326,8 @@ export async function calculateSchoolServiceHoursPercentage() {
     if (!user) return 0;
 
     const docRef = doc(db, "students", user.uid);
-    const docSnap = await getDoc(docRef);
+    if (!cachedStudentDoc) cachedStudentDoc = await getDoc(docRef);
+    const docSnap = cachedStudentDoc;
     if (docSnap.exists()) {
         const totalSchoolHours = docSnap.data().totalSchoolHours || 0;
         const gradYearFirst = docSnap.data().gradYr || "2030";
@@ -348,7 +361,8 @@ export async function calculateNonSchoolServiceHoursPercentage() {
     if (!user) return 0;
 
     const docRef = doc(db, "students", user.uid);
-    const docSnap = await getDoc(docRef);
+    if (!cachedStudentDoc) cachedStudentDoc = await getDoc(docRef);
+    const docSnap = cachedStudentDoc;
     if (docSnap.exists()) {
         const totalGeneralHours = docSnap.data().totalGeneralHours || 0;
         const gradYearFirst = docSnap.data().gradYr || "2030";
@@ -387,8 +401,8 @@ export async function displayAllStudentLogs(divId, studentUid = null) {
     }
 
     // Get logs
-    // Fetch the 50 most recent logs to save read operations
-    const logsQuery = query(collection(db, "studentServiceLog", uid, "logs"), orderBy("timestamp", "desc"), limit(50));
+    // Fetch the 25 most recent logs to save read operations
+    const logsQuery = query(collection(db, "studentServiceLog", uid, "logs"), orderBy("timestamp", "desc"), limit(25));
     const docSnap = await getDocs(logsQuery);
 
     // Define div to clone
@@ -445,10 +459,11 @@ export async function displayAllStudentLogs(divId, studentUid = null) {
             editBtn.style.setProperty("background-color", "white");
             editBtn.style.setProperty("color", "rgb(89, 8, 15)");
             editBtn.style.setProperty("border-color", "rgb(89, 8, 15)");
-            editBtn.style.setProperty("border-radius", "5px");
-            editBtn.style.setProperty("curser", "hand");
-            editBtn.style.setProperty("border", "4px solid rgb(89, 8, 15)");
+            editBtn.style.setProperty("border-radius", "7px");
+            editBtn.style.setProperty("cursor", "pointer");
+            editBtn.style.setProperty("border", "5px solid rgb(89, 8, 15)");
             editBtn.style.setProperty("transition", "background-color 0.3s");
+            editBtn.style.setProperty("font-size", "medium");
             editBtn.onclick = () => {
                 sessionStorage.setItem("editLogId", doc.id);
                 window.location.href = "./serviceEditLog.html";
@@ -465,10 +480,11 @@ export async function displayAllStudentLogs(divId, studentUid = null) {
             deleteBtn.style.setProperty("background-color", "white");
             deleteBtn.style.setProperty("color", "rgb(89, 8, 15)");
             deleteBtn.style.setProperty("border-color", "rgb(89, 8, 15)");
-            deleteBtn.style.setProperty("border-radius", "5px");
-            deleteBtn.style.setProperty("curser", "hand");
-            deleteBtn.style.setProperty("border", "4px solid rgb(89, 8, 15)");
+            deleteBtn.style.setProperty("border-radius", "7px");
+            deleteBtn.style.setProperty("cursor", "pointer");
+            deleteBtn.style.setProperty("border", "5px solid rgb(89, 8, 15)");
             deleteBtn.style.setProperty("transition", "background-color 0.3s");
+            deleteBtn.style.setProperty("font-size", "medium");
             deleteBtn.onclick = async () => {
                 await deleteDoc(doc.ref);
                 window.location.reload();
