@@ -1,6 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp, addDoc, arrayRemove, arrayUnion, query, where, getCountFromServer, enableIndexedDbPersistence} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp, addDoc, arrayRemove, arrayUnion, query, where, getCountFromServer} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {checkLoginStatus, getCurrentUser, checkAdminStatus} from "./serviceAuth.js";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -15,14 +15,12 @@ export const firebaseConfig = {
 };
 
 
+
+
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 const auth = getAuth(app);
 
-// Enable offline persistence
-enableIndexedDbPersistence(db).catch((err) => {
-    console.error("Persistence failed", err);
-});
 
 // Nav bar editing function based on users status (admin, club, not logged in)
     // Calendar setup
@@ -52,6 +50,10 @@ let events = [];
 
 // Add meetings to the `events` array
 export async function addMeetings() {
+    const isAdmin = await checkAdminStatus();
+    if (isAdmin) {
+        document.getElementById("servicePage").innerText = "View Admin Page";
+    }
     events = [];
     const logsRef = collection(db, "serviceOpportunities");
 
@@ -532,7 +534,7 @@ export function correctDisplay(){
         logoutBtn.style.display = "none";
         studentPageBtn.style.display = "none";
     }
-    
+
 
 }
 
