@@ -445,10 +445,11 @@ export async function displayAllStudentLogs(divId, studentUid = null) {
             editBtn.style.setProperty("background-color", "white");
             editBtn.style.setProperty("color", "rgb(89, 8, 15)");
             editBtn.style.setProperty("border-color", "rgb(89, 8, 15)");
-            editBtn.style.setProperty("border-radius", "5px");
-            editBtn.style.setProperty("curser", "hand");
-            editBtn.style.setProperty("border", "4px solid rgb(89, 8, 15)");
+            editBtn.style.setProperty("border-radius", "7px");
+            editBtn.style.setProperty("cursor", "pointer");
+            editBtn.style.setProperty("border", "5px solid rgb(89, 8, 15)");
             editBtn.style.setProperty("transition", "background-color 0.3s");
+            editBtn.style.setProperty("font-size", "medium");
             editBtn.onclick = () => {
                 sessionStorage.setItem("editLogId", doc.id);
                 window.location.href = "./serviceEditLog.html";
@@ -465,10 +466,11 @@ export async function displayAllStudentLogs(divId, studentUid = null) {
             deleteBtn.style.setProperty("background-color", "white");
             deleteBtn.style.setProperty("color", "rgb(89, 8, 15)");
             deleteBtn.style.setProperty("border-color", "rgb(89, 8, 15)");
-            deleteBtn.style.setProperty("border-radius", "5px");
-            deleteBtn.style.setProperty("curser", "hand");
-            deleteBtn.style.setProperty("border", "4px solid rgb(89, 8, 15)");
+            deleteBtn.style.setProperty("border-radius", "7px");
+            deleteBtn.style.setProperty("cursor", "pointer");
+            deleteBtn.style.setProperty("border", "5px solid rgb(89, 8, 15)");
             deleteBtn.style.setProperty("transition", "background-color 0.3s");
+            deleteBtn.style.setProperty("font-size", "medium");
             deleteBtn.onclick = async () => {
                 await deleteDoc(doc.ref);
                 window.location.reload();

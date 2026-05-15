@@ -400,6 +400,8 @@ justify-content: space-between;
     margin-bottom: 2%;
 }
 
+/*this is a third loginBox that I use on other pages.
+It's bigger!*/
 .loginBox3{
     background-color: white;
     border-radius: 10px;
