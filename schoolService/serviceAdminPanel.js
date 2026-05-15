@@ -121,6 +121,7 @@ input.addEventListener("keydown", async function (event) {
           }*/
 
         // w for loops for hours required to graduate
+        //if the account is a student it will print them out
         if(!isAdmin){
 
           if (grade === "2027"){
@@ -185,7 +186,8 @@ input.addEventListener("keydown", async function (event) {
 
 
       }
-
+      /*if the account is an admin (there is an admin with the same name as a student).
+      Takes away the admin from the array and makes the number of people you are looping through one fewer */
       else{
         console.log("docIds before splice: " + docIds);
         docIds.splice(i-1,i-1);
