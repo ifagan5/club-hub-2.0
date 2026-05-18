@@ -38,6 +38,6 @@ export async function sLogin(email, password) {
     }
 
     await loginUser(email, password);
-    alert(await checkAdminStatus());
+    /*alert(await checkAdminStatus());*/
   }
 
