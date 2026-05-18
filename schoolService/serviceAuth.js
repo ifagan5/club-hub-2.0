@@ -83,7 +83,7 @@ export async function createUser(email, password, firstName, lastName, gradYr) {
     try {
         const isAdmin = false;
 
-        if (gradYr === "2025" || "25") {
+        if (parseInt(gradYr) <= 2025 || parseInt(gradYr) <= 25) {
             alert("ERROR: Unc Detected. Exiting...")
             return;
         }
