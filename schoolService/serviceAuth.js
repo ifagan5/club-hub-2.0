@@ -351,15 +351,43 @@ export async function calculateSchoolServiceHoursPercentage() {
         const totalSchoolHours = docSnap.data().totalSchoolHours || 0;
         const gradYearFirst = docSnap.data().gradYr || "2030";
         const gradYear = parseInt(gradYearFirst);
+        const gradeEntered = docSnap.data().gradeEntered; 
         if (gradYear === 2027) {
-            const preliminaryResult = (totalSchoolHours / 10) * 100
-            return Math.min(preliminaryResult, 100).toFixed(0);
+            if(gradeEntered === "Freshman" ||gradeEntered === "Sophormore" ||gradeEntered === "Junior"){
+                const preliminaryResult = (totalSchoolHours / 10) * 100
+                return Math.min(preliminaryResult, 100).toFixed(0);
+            }
+            else{
+                return 0
+            }
         } else if (gradYear === 2028) {
-            const preliminaryResult = (totalSchoolHours / 20) * 100
-            return Math.min(preliminaryResult, 100).toFixed(0);
+            if(gradeEntered === "Freshman" ||gradeEntered === "Sophormore"){
+                const preliminaryResult = (totalSchoolHours / 20) * 100
+                return Math.min(preliminaryResult, 100).toFixed(0);
+            }
+            else if (gradeEntered === "Junior"){
+                const preliminaryResult = (totalSchoolHours / 10) * 100
+                return Math.min(preliminaryResult, 100).toFixed(0);
+            }
+            else{
+                return 0
+            }
         } else if (gradYear >= 2029) {
-            const preliminaryResult = (totalSchoolHours / 30) * 100
-            return Math.min(preliminaryResult, 100).toFixed(0);
+            if(gradeEntered === "Freshman"){
+                const preliminaryResult = (totalSchoolHours / 30) * 100
+                return Math.min(preliminaryResult, 100).toFixed(0);
+            }
+            else if (gradeEntered === "Sophomore"){
+                const preliminaryResult = (totalSchoolHours / 20) * 100
+                return Math.min(preliminaryResult, 100).toFixed(0);
+            }
+            else if (gradeEntered === "Junior"){
+                const preliminaryResult = (totalSchoolHours / 10) * 100
+                return Math.min(preliminaryResult, 100).toFixed(0);
+            }
+            else{
+                return 0
+            }
         } else {
             return 0;
         }
@@ -386,12 +414,27 @@ export async function calculateNonSchoolServiceHoursPercentage() {
         const totalGeneralHours = docSnap.data().totalGeneralHours || 0;
         const gradYearFirst = docSnap.data().gradYr || "2030";
         const gradYear = parseInt(gradYearFirst);
+        const gradeEntered = docSnap.data().gradeEntered; 
         if (gradYear === 2027) {
-            const preliminaryResult = (totalGeneralHours / 30) * 100
-            return Math.min(preliminaryResult, 100).toFixed(0);
+            if(gradeEntered === "Freshman"){
+                const preliminaryResult = (totalSchoolHours / 30) * 100
+                return Math.min(preliminaryResult, 100).toFixed(0);
+            }
+            else if (gradeEntered === "Sophomore"){
+                const preliminaryResult = (totalSchoolHours / 15) * 100
+                return Math.min(preliminaryResult, 100).toFixed(0);
+            }
+            else{
+                return 0
+            }
         } else if (gradYear === 2028) {
-            const preliminaryResult = (totalGeneralHours / 15) * 100
-            return Math.min(preliminaryResult, 100).toFixed(0);
+            if(gradeEntered === "Freshman"){
+                const preliminaryResult = (totalSchoolHours / 15) * 100
+                return Math.min(preliminaryResult, 100).toFixed(0);
+            }
+            else{
+                return 0
+            }
         } else if (gradYear >= 2029) {
             // const preliminaryResult = (totalGeneralHours / 0) * 100
             // return Math.min(preliminaryResult, 100);
