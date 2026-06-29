@@ -313,6 +313,25 @@ export async function getGradYr(){
     }
     return null;
 }
+// get the grade entered
+/*
+getGradeEntered()
+uses the user's uid to get the information under gradeEntered and returns it, if empty
+it returns "0", and otherwise returns null
+*/
+export async function getGradeEntered(){
+    const user = await getCurrentUser()
+    const uid = user.uid;
+    console.log(uid);
+    const docRef = doc(db, "students", uid);
+    if (!cachedStudentDoc) cachedStudentDoc = await getDoc(docRef);
+    const docSnap = cachedStudentDoc;
+    const data = docSnap.data();
+    if (docSnap.exists()) {
+        return data.GradeEntered || "0";
+    }
+    return null;
+}
 
 // calculate the school service percentage
 /*

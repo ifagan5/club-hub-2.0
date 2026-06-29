@@ -210,6 +210,193 @@ export const displayStudentsInDanger = async function() {
 
   const studentsInDanger = [];
 
+  // Figure out which grad year corresponds to "senior year" right now,
+  // so we can derive each student's CURRENT grade level from their gradYr.
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const month = today.getMonth();
+  const seniorYear = month >= 6 ? currentYear + 1 : currentYear;
+
+  // diff: 0 = Senior, 1 = Junior, 2 = Sophomore, 3 = Freshman
+  const getGradeLevelDiff = (gradYr) => parseInt(gradYr) - seniorYear;
+
+  // Required general community service hours — mirrors getCommunityGradRequirement
+  const getRequiredGeneralCommunityHours = (gradYr, gradeEntered) => {
+    if (gradYr === "2027") {
+      if (gradeEntered === "Freshman") return 30;
+      if (gradeEntered === "Sophomore") return 15;
+      return 0;
+    }
+    if (gradYr === "2028") {
+      if (gradeEntered === "Freshman") return 15;
+      return 0;
+    }
+    return 0;
+  };
+
+  // Required service-to-school hours — mirrors getSchoolGradRequirement
+  const getRequiredServiceToSchoolHours = (gradYr, gradeEntered) => {
+    if (gradYr === "2027") {
+      if (gradeEntered === "Freshman" || gradeEntered === "Sophomore" || gradeEntered === "Junior") return 10;
+      return 0;
+    }
+    if (gradYr === "2028") {
+      if (gradeEntered === "Freshman" || gradeEntered === "Sophomore") return 20;
+      if (gradeEntered === "Junior") return 10;
+      return 0;
+    }
+    // Any other grad year
+    if (gradeEntered === "Freshman") return 30;
+    if (gradeEntered === "Sophomore") return 20;
+    if (gradeEntered === "Junior") return 10;
+    return 0;
+  };
+
+  // Loop through database items to find students who are in danger
+  databaseItems.forEach(studentdoc => {
+    const data = studentdoc.data();
+
+    // Skip admins
+    if (data.admin === true) {
+      return;
+    }
+
+    // Only consider current Juniors and Seniors
+    const gradeLevelDiff = getGradeLevelDiff(data.gradYr);
+    const isJuniorOrSenior = gradeLevelDiff === 0 || gradeLevelDiff === 1;
+    if (!isJuniorOrSenior) {
+      return;
+    }
+
+    const requiredGeneralHours = getRequiredGeneralCommunityHours(data.gradYr, data.gradeEntered);
+    const requiredSchoolHours = getRequiredServiceToSchoolHours(data.gradYr, data.gradeEntered);
+    const currentGeneralHours = data.totalGeneralHours || 0;
+    const currentSchoolHours = data.totalSchoolHours || 0;
+
+    // Add to danger list if they have less than half of either required hour type
+    if (requiredGeneralHours > 0 && currentGeneralHours < (requiredGeneralHours / 2)) {
+      studentsInDanger.push(studentdoc);
+    } else if (requiredSchoolHours > 0 && currentSchoolHours < (requiredSchoolHours / 2)) {
+      studentsInDanger.push(studentdoc);
+    }
+  });
+
+  // Render students in danger based on seniority, then alphabetically by name
+  studentsInDanger.sort((a, b) => {
+    const diffA = getGradeLevelDiff(a.data().gradYr);
+    const diffB = getGradeLevelDiff(b.data().gradYr);
+
+    if (diffA !== diffB) {
+      return diffA - diffB;
+    }
+    const nameA = `${a.data().firstName} ${a.data().lastName}`.toLowerCase();
+    const nameB = `${b.data().firstName} ${b.data().lastName}`.toLowerCase();
+    return nameA.localeCompare(nameB);
+  });
+
+  const studentsInDangerButtonsContainer = document.getElementById("studentsInDangerButtonsContainer");
+
+  if (!studentsInDangerButtonsContainer) {
+    console.error("studentsInDangerButtonsContainer not found");
+    return;
+  }
+  studentsInDangerButtonsContainer.innerHTML = ""; // Clear old buttons
+
+  studentsInDanger.forEach(student => {
+    const studentInDanger = document.createElement("button");
+    studentInDanger.classList.add("studentsInDangerButton");
+
+    const span = document.createElement("span");
+    const fullName = `${student.data().firstName} ${student.data().lastName}`;
+    span.innerHTML = fullName;
+
+    studentInDanger.onclick = function () {
+      const data = student.data();
+
+      const fullName = `${data.firstName} ${data.lastName}`;
+      const grade = data.gradYr || "N/A";
+      const schoolHours = data.totalSchoolHours || 0;
+      const totalHours = data.totalGeneralHours || 0;
+
+      let schoolRequirement = "";
+      let communityRequirement = "";
+//gets community service requirments based on graduation year and grade entered
+      if (grade === "2027") {
+        if (gradeEntered === "Freshman") {
+          schoolRequirement = "(10 school hrs required)";
+          communityRequirement = "(30 general community hrs required)";
+        }
+        else if (gradeEntered === "Sophomore"){
+          schoolRequirement = "(10 school hrs required)";
+          communityRequirement = "(15 general community hrs required)";
+        }
+        else if (gradeEntered === "Junior"){
+          schoolRequirement = "(10 school hrs required)";
+          communityRequirement = "(0 general community hrs required)";
+        }
+        else{
+          schoolRequirement = "(0 school hrs required)";
+          communityRequirement = "(0 general community hrs required)";
+        }
+      }
+      else if (grade === "2028") {
+        if (gradeEntered === "Freshman") {
+          schoolRequirement = "(20 school hrs required)";
+          communityRequirement = "(15 general community hrs required)";
+        }
+        else if (gradeEntered === "Sophomore"){
+          schoolRequirement = "(20 school hrs required)";
+          communityRequirement = "(0 general community hrs required)";
+        }
+        else if (gradeEntered === "Junior"){
+          schoolRequirement = "(10 school hrs required)";
+          communityRequirement = "(0 general community hrs required)";
+        }
+        else{
+          schoolRequirement = "(0 school hrs required)";
+          communityRequirement = "(0 general community hrs required)";
+        }
+      }
+      else {
+        if (gradeEntered === "Freshman") {
+          schoolRequirement = "(30 school hrs required)";
+          communityRequirement = "(0 general community hrs required)";
+        }
+        else if (gradeEntered === "Sophomore"){
+          schoolRequirement = "(20 school hrs required)";
+          communityRequirement = "(0 general community hrs required)";
+        }
+        else if (gradeEntered === "Junior"){
+          schoolRequirement = "(10 school hrs required)";
+          communityRequirement = "(0 general community hrs required)";
+        }
+        else{
+          schoolRequirement = "(0 school hrs required)";
+          communityRequirement = "(0 general community hrs required)";
+        }
+      }
+
+      document.getElementById("adminBigStudentName").innerHTML = fullName;
+      document.getElementById("adminStudentName").innerHTML = fullName;
+      document.getElementById("adminStudentGrade").innerHTML = grade;
+      document.getElementById("adminStudentNonSchoolHours").innerHTML = totalHours + " " + communityRequirement;
+      document.getElementById("adminStudentSchoolHours").innerHTML = schoolHours + " " + schoolRequirement;
+      document.getElementById("adminViewLog").innerHTML = fullName + "'s Log";
+      sessionStorage.setItem("studentUIDArray", student.id);
+    };
+
+    studentInDanger.appendChild(span);
+    studentsInDangerButtonsContainer.appendChild(studentInDanger);
+  });
+}
+
+/*
+export const displayStudentsInDanger = async function() {
+  var studentsInDangerDiv = document.getElementById("studentsInDangerDiv");
+  const databaseItems = await getDocs(collection(db, "students"));
+
+  const studentsInDanger = [];
+
   // Helper function to get required community service hours based on graduation year
   const getRequiredGeneralCommunityHours = (gradYr) => {
     if (gradYr === "2027") return 30;
@@ -317,7 +504,7 @@ export const displayStudentsInDanger = async function() {
     studentInDanger.appendChild(span);
     studentsInDangerButtonsContainer.appendChild(studentInDanger);
   });
-}
+}*/
 
 displayStudentsInDanger();
 /*

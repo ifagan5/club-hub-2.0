@@ -59,10 +59,23 @@
       <label for="password">Password:</label><input minlength="6" required type="password" id="password" placeholder = "Password">
       <label for="firstName">First Name:</label><input required type="text" id="firstName" placeholder = "First Name">
       <label for="lastName">Last Name:</label><input required type="text" id="lastName" placeholder = "Last Name">
+      <form>
+          <label for="demo">Grade entered St. Anne's-Belfied Upper School:</label>
+          <input required list="choices" id="demo" name="demo"/>
+
+          <datalist id="choices">
+            <option value = "Freshman"></option>
+            <option value = "Sophomore"></option>
+            <option value = "Junior"></option>
+            <option value = "Senior"></option>
+            <option value = "Admin"></option>
+          </datalist>
+
+        </form>
     </form>
       <!-- Links to the moreInfo page and calls onclick function login(); uses username and password as parameters -->
       <!-- <button class="loginButton" onclick="register(document.getElementById('username').value, document.getElementById('password').value); ">Continue</button> -->
-        <button class="loginButton" onclick="registerService(document.getElementById('email').value, document.getElementById('password').value, document.getElementById('firstName').value, document.getElementById('lastName').value); ">Continue</button>
+        <button class="loginButton" onclick="registerService(document.getElementById('email').value, document.getElementById('password').value, document.getElementById('firstName').value, document.getElementById('lastName').value, document.getElementById('demo').value); ">Continue</button>
         <br>
       <a href="serviceStudentLogin.html">Already have an account? Login Here</a>
   </div>
