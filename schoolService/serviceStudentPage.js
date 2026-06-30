@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore,getDoc,doc,updateDoc,query,collection,orderBy,getDocs,where,arrayRemove,arrayUnion,Timestamp,addDoc,getCountFromServer} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-import {logoutUser, checkLoginStatus, getFirstName, getLastName , getEmail, getCurrentUser, getGradYr} from "./serviceAuth.js";
+import {logoutUser, checkLoginStatus, getFirstName, getLastName , getEmail, getCurrentUser, getGradYr, getGradeEntered} from "./serviceAuth.js";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const firebaseConfig = {
@@ -75,13 +75,30 @@ or: "You do not have a general community service graduation requirement"
 */
 export const getCommunityGradRequirement = async function(){
     const grade = await getGradYr();
+    const gradeEntered = await getGradeEntered();
     if (grade === "2027"){
-        return "You need 30 general community service hours before your senior year to graduate"
+        if (gradeEntered === "Freshman"){
+            return "You need 30 general community service hours before graduation to graduate";
+        }
+        else if(gradeEntered === "Sophomore"){
+            return "You need 15 general community service hours before graduation to graduate";
+        }  
+        else{
+            return "You do not have a general community service graduation requirement";
+        }  
     }
     else if (grade === "2028"){
-        return "You need 15 general community service hours before your senior year to graduate"
+        if (gradeEntered === "Freshman"){
+             return "You need 15 general community service hours before graduation to graduate";
+        }
+        else{
+            return "You do not have a general community service graduation requirement";
+        }   
     }
     else{
+        if (gradeEntered === "Admin"){
+            return "Your admin status is pending approval. Please contact admin to grant your status.";
+        }
         return "You do not have a general community service graduation requirement"
 
     }
@@ -94,14 +111,43 @@ Returns a statement like: " you need # service to the school hours before your s
 */
 export const getSchoolGradRequirement = async function(){
     const grade = await getGradYr();
+    const gradeEntered = await getGradeEntered();
     if (grade === "2027"){
-        return "You need 10 service to the school hours before your senior year to graduate"
+        if (gradeEntered === "Freshman" || gradeEntered === "Sophomore" || gradeEntered === "Junior"){
+            return "You need 10 service to the school hours before your senior year to graduate";
+        }
+        else{
+            return "You do not have a service to the school graduation requirement";
+        }
     }
     else if (grade === "2028"){
-        return "You need 20 service to the school hours before your senior year to graduate"
+        if (gradeEntered === "Freshman" || gradeEntered === "Sophomore"){
+            return "You need 20 service to the school hours before your senior year to graduate";
+        }
+        else if (gradeEntered === "Junior"){
+            return "You need 10 service to the school hours before your senior year to graduate";
+        }
+        else{
+            return "You do not have a service to the school graduation requirement";
+        }
+        
     }
     else{
-        return "You need 30 service to the school hours before your senior year to graduate"
+        if (gradeEntered === "Freshman"){
+            return "You need 30 service to the school hours before your senior year to graduate";
+        }
+        else if (gradeEntered === "Sophomore"){
+            return "You need 20 service to the school hours before your senior year to graduate";
+        }
+        else if (gradeEntered === "Junior"){
+            return "You need 10 service to the school hours before your senior year to graduate";
+        }
+        else if (gradeEntered === "Admin"){
+            return "Your admin status is pending approval. Please contact admin to grant your status.";
+        }
+        else{
+            return "You do not have a service to the school graduation requirement";
+        }
 
     }
 }

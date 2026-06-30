@@ -17,7 +17,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-export const registerService = async function(email, pass, first, last){
+export const registerService = async function(email, pass, first, last, entered){
     //gets the user input from the form
     const logFormId = document.getElementById("createAccountForm");
     if (!logFormId.checkValidity()) {
@@ -38,7 +38,8 @@ export const registerService = async function(email, pass, first, last){
     const formattedLastName = lastNameParts.map(capitalize).join(" ");
     const formattedFirstName = capitalize(firstName);
     //creates the account using the user input. 
-    await createUser(email, pass, formattedFirstName, formattedLastName, newGradYearFinal);
+    const gradeEntered = entered;
+    await createUser(email, pass, formattedFirstName, formattedLastName, newGradYearFinal, gradeEntered);
 }
 
 export const theFlood = async function() {
