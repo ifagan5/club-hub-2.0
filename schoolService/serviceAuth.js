@@ -73,13 +73,13 @@ export async function checkVerificationEmailStatus() {
 }
 
 /*
-createUser(email, password, firstName, lastName, gradYr)
+createUser(email, password, firstName, lastName, gradYr, gradeEntered)
 
-creates a student under "students" in firebase and stores their uid, email, firstName, lastName, gradYr, admin, and 
+creates a student under "students" in firebase and stores their uid, email, firstName, lastName, gradYr, gradeEntered, admin, and 
 createdAt based on their inputs. 
 */
 // Create a new user (Firebase Auth + Firestore profile)
-export async function createUser(email, password, firstName, lastName, gradYr) {
+export async function createUser(email, password, firstName, lastName, gradYr, gradeEntered) {
     try {
         const isAdmin = false;
 
@@ -100,13 +100,13 @@ export async function createUser(email, password, firstName, lastName, gradYr) {
             firstName,
             lastName,
             gradYr,
+            gradeEntered,
             admin: isAdmin,
             createdAt: serverTimestamp(),
         });
 
         await sendVerificationEmail()
 
-        alert("You have been sent a verification email. Please verify your account and then login.");
         window.location.href = "./serviceStudentLogin.html";
 
         return true;
@@ -328,7 +328,7 @@ export async function getGradeEntered(){
     const docSnap = cachedStudentDoc;
     const data = docSnap.data();
     if (docSnap.exists()) {
-        return data.GradeEntered || "0";
+        return data.gradeEntered || "0";
     }
     return null;
 }
@@ -353,7 +353,7 @@ export async function calculateSchoolServiceHoursPercentage() {
         const gradYear = parseInt(gradYearFirst);
         const gradeEntered = docSnap.data().gradeEntered; 
         if (gradYear === 2027) {
-            if(gradeEntered === "Freshman" ||gradeEntered === "Sophormore" ||gradeEntered === "Junior"){
+            if(gradeEntered === "Freshman" || gradeEntered === "Sophomore" || gradeEntered === "Junior"){
                 const preliminaryResult = (totalSchoolHours / 10) * 100
                 return Math.min(preliminaryResult, 100).toFixed(0);
             }
@@ -361,7 +361,7 @@ export async function calculateSchoolServiceHoursPercentage() {
                 return 0
             }
         } else if (gradYear === 2028) {
-            if(gradeEntered === "Freshman" ||gradeEntered === "Sophormore"){
+            if(gradeEntered === "Freshman" || gradeEntered === "Sophomore"){
                 const preliminaryResult = (totalSchoolHours / 20) * 100
                 return Math.min(preliminaryResult, 100).toFixed(0);
             }
@@ -417,11 +417,11 @@ export async function calculateNonSchoolServiceHoursPercentage() {
         const gradeEntered = docSnap.data().gradeEntered; 
         if (gradYear === 2027) {
             if(gradeEntered === "Freshman"){
-                const preliminaryResult = (totalSchoolHours / 30) * 100
+                const preliminaryResult = (totalGeneralHours / 30) * 100
                 return Math.min(preliminaryResult, 100).toFixed(0);
             }
             else if (gradeEntered === "Sophomore"){
-                const preliminaryResult = (totalSchoolHours / 15) * 100
+                const preliminaryResult = (totalGeneralHours / 15) * 100
                 return Math.min(preliminaryResult, 100).toFixed(0);
             }
             else{
@@ -429,7 +429,7 @@ export async function calculateNonSchoolServiceHoursPercentage() {
             }
         } else if (gradYear === 2028) {
             if(gradeEntered === "Freshman"){
-                const preliminaryResult = (totalSchoolHours / 15) * 100
+                const preliminaryResult = (totalGeneralHours / 15) * 100
                 return Math.min(preliminaryResult, 100).toFixed(0);
             }
             else{

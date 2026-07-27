@@ -13,9 +13,12 @@ export const firebaseConfig = {
     measurementId: "G-P97ML6ZP15"
 };
 
-if (getGradYr().value === 2099) {
-    alert("You are not a student, but also have not have been granted admin privileges. Please contact an admin immediately.");
-}
+(async () => {
+    const yr = await getGradYr();
+    if (yr === "2099" || yr === 2099) {
+        alert("You are not a student, but also have not have been granted admin privileges. Please contact an admin immediately.");
+    }
+})();
 
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
@@ -75,7 +78,13 @@ or: "You do not have a general community service graduation requirement"
 */
 export const getCommunityGradRequirement = async function(){
     const grade = await getGradYr();
-    const gradeEntered = await getGradeEntered();
+    const rawGradeEntered = await getGradeEntered();
+    const gradeEntered = (!rawGradeEntered || rawGradeEntered === "0") ? "Freshman" : rawGradeEntered;
+
+    if (gradeEntered === "Admin"){
+        return "Your admin status is pending approval. Please contact admin to grant your status.";
+    }
+
     if (grade === "2027"){
         if (gradeEntered === "Freshman"){
             return "You need 30 general community service hours before graduation to graduate";
@@ -96,11 +105,7 @@ export const getCommunityGradRequirement = async function(){
         }   
     }
     else{
-        if (gradeEntered === "Admin"){
-            return "Your admin status is pending approval. Please contact admin to grant your status.";
-        }
-        return "You do not have a general community service graduation requirement"
-
+        return "You do not have a general community service graduation requirement";
     }
 }
 /*
@@ -111,7 +116,13 @@ Returns a statement like: " you need # service to the school hours before your s
 */
 export const getSchoolGradRequirement = async function(){
     const grade = await getGradYr();
-    const gradeEntered = await getGradeEntered();
+    const rawGradeEntered = await getGradeEntered();
+    const gradeEntered = (!rawGradeEntered || rawGradeEntered === "0") ? "Freshman" : rawGradeEntered;
+
+    if (gradeEntered === "Admin"){
+        return "Your admin status is pending approval. Please contact admin to grant your status.";
+    }
+
     if (grade === "2027"){
         if (gradeEntered === "Freshman" || gradeEntered === "Sophomore" || gradeEntered === "Junior"){
             return "You need 10 service to the school hours before your senior year to graduate";
@@ -130,7 +141,6 @@ export const getSchoolGradRequirement = async function(){
         else{
             return "You do not have a service to the school graduation requirement";
         }
-        
     }
     else{
         if (gradeEntered === "Freshman"){
@@ -142,13 +152,9 @@ export const getSchoolGradRequirement = async function(){
         else if (gradeEntered === "Junior"){
             return "You need 10 service to the school hours before your senior year to graduate";
         }
-        else if (gradeEntered === "Admin"){
-            return "Your admin status is pending approval. Please contact admin to grant your status.";
-        }
         else{
             return "You do not have a service to the school graduation requirement";
         }
-
     }
 }
 
