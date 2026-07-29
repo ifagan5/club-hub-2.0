@@ -42,15 +42,4 @@ export const registerService = async function(email, pass, first, last, entered)
     await createUser(email, pass, formattedFirstName, formattedLastName, newGradYearFinal, gradeEntered);
 }
 
-export const theFlood = async function() {
-    const queryRef = query(collection(db, "students"));
-    const snapshot = await getDocs(queryRef);
-    for (const item of snapshot.docs) {
-        await deleteDoc(doc(db, "students", item.id));
-    }
-    
-};
-// theFlood()
-// What is the flood? Glad you asked! The flood(TM) is a revolutionary function that foolishly clears all users from the firebase.
-// Theoretically, anyone could call it from the console and wreck havoc on our servers...
-// But security through obscurity, right?
+

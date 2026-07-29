@@ -82,8 +82,8 @@ export const addLog = async function(hours, hoursType, description, contact, dat
     const logEntry = {
         //uid: [`log${snapshot.data().count}`],
         logNum: i+1,
-        hours: hours,
-        schoolServiceHours: hoursType,
+        hours: hoursType === "General Community Service" ? Number(hours) : 0,
+        schoolServiceHours: hoursType === "Service to the School" ? Number(hours) : 0,
         description: description,
         contact: contact,
         date: date,

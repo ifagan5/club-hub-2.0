@@ -156,6 +156,7 @@ export async function loginUser(email, password) {
 
             await logoutUser()
             window.location.href = "./serviceStudentLogin.html";
+            return { success: false, error: "Email not verified" };
         }
         //redirects user to the admin page
         if (await checkAdminStatus()) {
@@ -594,9 +595,6 @@ export async function displayAllStudentServiceOpportunities(divId, onlyUsers) {
         const isPast = differenceTimeInMs > FOURTEEN_DAYS_IN_MS;
 
         if (isPast) {
-            console.log("Deleting past opportunity: " + data.opportunityName);
-            await deleteDoc(doc.ref);
-            needsReload = true;
             continue;
         }
 

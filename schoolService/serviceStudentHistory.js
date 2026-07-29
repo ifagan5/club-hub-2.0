@@ -36,11 +36,13 @@ Date Completed: *Date the student completed the activity*
 export const getLogActivity = async function() {
 
     //deleting the logs from the last page
-    for(let i = 0; i <10000; i++){
+    for(let i = 1; i <10000; i++){
         console.log("line 40");
         if(document.getElementById(`log${i}`)){
             const element = document.getElementById(`log${i}`);
-            element.remove();
+            if (i > 1) {
+                element.remove();
+            }
         }
         else{
             console.log("line 45");
@@ -58,110 +60,58 @@ export const getLogActivity = async function() {
     const uid = user.uid;
     console.log(uid);
     const logsRef = collection(db, "studentServiceLog", uid, "logs");
-    const docSnap = await getDocs(logsRef);
-    const docIds = [];
-    const querySnapshot = await getDocs(collection(db, "studentServiceLog", uid, "logs"));
-    querySnapshot.forEach((doc) => {
-        docIds.push(doc.id);
-    });
-    //get how many logs the student has and save it as countLogs
-    const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
-    const countSnap = await getCountFromServer(serviceLogCollectionRef);
-    const countLogs = countSnap.data().count;
-    console.log("countLogs:" + countLogs);
+    const q = query(logsRef, orderBy("logNum", "desc"));
+    const querySnapshot = await getDocs(q);
 
-    
-
-
-    //loops through as many times as logs the student has
-    for (let i = countLogs; i >= 1; i--) {
-        //loops through as many times as logs the student has until broken
-        let index = undefined;
-        innerLoop: 
-        for(let j = 0; j < countLogs; j++){
-            //get the document id at j
-            let tempDocumentUID = docIds[j];
-            let tempDocRef = doc(db, "studentServiceLog", uid, "logs", tempDocumentUID);
-            let tempDocSnap = await getDoc(tempDocRef);
-            if (tempDocSnap.exists()) {
-                //get what log number this entry is
-                let possibleI = tempDocSnap.data().logNum;
-                //if it is the one we are looking for break the code
-                if(possibleI == i){
-                    index = j;
-                    //get the document at index j
-                    let documentUID = docIds[index];
-                        let docRef = doc(db, "studentServiceLog", uid, "logs", documentUID);
-                        let docSnap = await getDoc(docRef);
-                        if (docSnap.exists()) {
-                            let contact = docSnap.data().contact;
-                            let date = docSnap.data().date;
-                            let description = docSnap.data().description;
-                            let hours;
-                            let type;
-                            if(docSnap.data().hours == 0){
-                                hours = docSnap.data().schoolServiceHours;
-                                type = "School Service";
-
-                            }
-                            else{
-                                hours = docSnap.data().hours;
-                                type = "General Service";
-                            }
-
-                            
-                            let timestamp = docSnap.data().timestamp;
-                            console.log(docSnap.data().date);
-                            console.log(docSnap.data());
-
-                            // Get the original elements from the HTML
-                            const originalDiv = document.getElementById('log1'); // Assuming 'log1' is the ID of the first log entry container
-                            //STYLING
-                            originalDiv.style.backgroundColor = "rgb(141,13,24)";
-                            originalDiv.style.color = "rgb(243, 232, 234)";
-                            originalDiv.style.padding = " 15px 15px";
-                            originalDiv.style.borderRadius = "15px";
-                            originalDiv.style.marginBottom = "15px";
-                            originalDiv.style.width = "85%";
-
-                            //for the most recent entry it prints out the information for that entry
-                            if (i === countLogs) {
-                                document.getElementById("activity").innerText = "Activity: " + description;
-                                document.getElementById("logged-hours").innerText = "Hours: " + hours;
-                                document.getElementById("logged-hours-to-school").innerText = "Type of Service: " + type;
-                                document.getElementById("date").innerText = "Date Completed: " + date;
-                                document.getElementById("contact").innerText = "Contact Person: " + contact;
-                               // document.getElementById("timestamp").innerText = "Date Logged: " + timestamp;
-                            } else {
-                                // For subsequent log entries, clone the original elements and append them
-                                const clonedDiv = originalDiv.cloneNode(true);
-                                clonedDiv.id = `log${i + 1}`; // Update ID for uniqueness
-                                clonedDiv.querySelector('#activity').id = `activity${i + 1}`;
-                                clonedDiv.querySelector('#logged-hours').id = `logged-hours${i + 1}`;
-                                clonedDiv.querySelector('#logged-hours-to-school').id = `logged-hours-to-school${i + 1}`;
-                                clonedDiv.querySelector('#date').id = `date${i + 1}`;
-                                clonedDiv.querySelector('#contact').id = `contact${i + 1}`;
-                                //clonedDiv.querySelector('#timestamp').id = `timestamp${i + 1}`;
-
-                                // Update text content of the cloned elements
-                                clonedDiv.querySelector(`#activity${i + 1}`).innerText = "Activity: " + description;
-                                clonedDiv.querySelector(`#logged-hours${i + 1}`).innerText = "Hours: " + hours;
-                                clonedDiv.querySelector(`#logged-hours-to-school${i + 1}`).innerText = "Type of Service: " + type;
-                                clonedDiv.querySelector(`#date${i + 1}`).innerText = "Date Completed: " + date;
-                                clonedDiv.querySelector(`#contact${i + 1}`).innerText = "Contact Person: " + contact;
-                                //clonedDiv.querySelector(`#timestamp${i + 1}`).innerText = "Date Logged: " + timestamp;
-
-                                // Append the cloned div to the parent of the original div
-                                originalDiv.parentNode.appendChild(clonedDiv);
-
-                            }
-                        }
-                    break innerLoop;
-                }
-            }
+    let count = 1;
+    querySnapshot.forEach((docSnap) => {
+        let contact = docSnap.data().contact;
+        let date = docSnap.data().date;
+        let description = docSnap.data().description;
+        let hours;
+        let type;
+        if(docSnap.data().hours == 0){
+            hours = docSnap.data().schoolServiceHours;
+            type = "School Service";
         }
-        
-    }
+        else{
+            hours = docSnap.data().hours;
+            type = "General Service";
+        }
+
+        const originalDiv = document.getElementById('log1');
+        originalDiv.style.backgroundColor = "rgb(141,13,24)";
+        originalDiv.style.color = "rgb(243, 232, 234)";
+        originalDiv.style.padding = " 15px 15px";
+        originalDiv.style.borderRadius = "15px";
+        originalDiv.style.marginBottom = "15px";
+        originalDiv.style.width = "85%";
+
+        if (count === 1) {
+            document.getElementById("activity").innerText = "Activity: " + description;
+            document.getElementById("logged-hours").innerText = "Hours: " + hours;
+            document.getElementById("logged-hours-to-school").innerText = "Type of Service: " + type;
+            document.getElementById("date").innerText = "Date Completed: " + date;
+            document.getElementById("contact").innerText = "Contact Person: " + contact;
+        } else {
+            const clonedDiv = originalDiv.cloneNode(true);
+            clonedDiv.id = `log${count}`; 
+            clonedDiv.querySelector('#activity').id = `activity${count}`;
+            clonedDiv.querySelector('#logged-hours').id = `logged-hours${count}`;
+            clonedDiv.querySelector('#logged-hours-to-school').id = `logged-hours-to-school${count}`;
+            clonedDiv.querySelector('#date').id = `date${count}`;
+            clonedDiv.querySelector('#contact').id = `contact${count}`;
+
+            clonedDiv.querySelector(`#activity${count}`).innerText = "Activity: " + description;
+            clonedDiv.querySelector(`#logged-hours${count}`).innerText = "Hours: " + hours;
+            clonedDiv.querySelector(`#logged-hours-to-school${count}`).innerText = "Type of Service: " + type;
+            clonedDiv.querySelector(`#date${count}`).innerText = "Date Completed: " + date;
+            clonedDiv.querySelector(`#contact${count}`).innerText = "Contact Person: " + contact;
+
+            originalDiv.parentNode.appendChild(clonedDiv);
+        }
+        count++;
+    });
 }
 
 
@@ -236,10 +186,10 @@ export const getServiceOpportunities = async function() {
                                         //uid: [`log${snapshot.data().count}`],
                                         logNum: i+1,
                                         hours: 0,
-                                        schoolServiceHours: h,
-                                        description: oppDesc,
-                                        contact: oppCon,
-                                        date: oppDate,
+                                        schoolServiceHours: data.opportunityLength,
+                                        description: data.opportunityDescription,
+                                        contact: data.opportunityContact || "Service Opportunity",
+                                        date: data.opportunityDate,
                                         timestamp: Timestamp.now(), // Add a server-side timestamp
                                     };
             
@@ -254,9 +204,6 @@ export const getServiceOpportunities = async function() {
                                 window.location.reload()
                             });}
             if (isPast) {
-                console.log("MUST DELETE: " + data.opportunityName);
-                await deleteDoc(doc(db, "serviceOpportunities", docSnap.id));
-                window.location.reload();
                 continue;
             }
 

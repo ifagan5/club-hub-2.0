@@ -105,41 +105,47 @@ if (!querySnapshot.empty) {
                 // code to claim service hours
                 button.innerText = "Claim Your Service Opportunity Hours";
                 button.addEventListener("click", async () => {
-                    await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
-                        signedUpUsers: arrayRemove(user.uid)
-                    });
-                    const uid = user.uid;
-                    console.log(uid);
-                    const studentDocRef = doc(db, "students", uid);
-                    const studentDocSnap = await getDoc(studentDocRef);
-                    const studentData = studentDocSnap.data();
-                    if (studentDocSnap.exists()) {
-                        const studentTotalHours = studentData.totalSchoolHours || 0; // Default to 0 if it doesn't exist?
-                        const newHours = Number(studentTotalHours) + Number(data.opportunityLength);
-
-                        const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
-                        const countSnap = await getCountFromServer(serviceLogCollectionRef);
-                        const i = countSnap.data().count;
-                        const logEntry = {
-                            //uid: [`log${snapshot.data().count}`],
-                            logNum: i+1,
-                            hours: 0,
-                            schoolServiceHours: h,
-                            description: oppDesc,
-                            contact: oppCon,
-                            date: oppDate,
-                            timestamp: Timestamp.now(), // Add a server-side timestamp
-                        };
-
-                        await addDoc(serviceLogCollectionRef, logEntry);
-
-                        alert("Your new total service to the school hours: " +newHours + " hours");
-                        await updateDoc(studentDocRef, {
-                            totalSchoolHours: newHours,
+                    button.disabled = true;
+                    try {
+                        await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
+                            signedUpUsers: arrayRemove(user.uid)
                         });
+                        const uid = user.uid;
+                        console.log(uid);
+                        const studentDocRef = doc(db, "students", uid);
+                        const studentDocSnap = await getDoc(studentDocRef);
+                        const studentData = studentDocSnap.data();
+                        if (studentDocSnap.exists()) {
+                            const studentTotalHours = studentData.totalSchoolHours || 0; // Default to 0 if it doesn't exist?
+                            const newHours = Number(studentTotalHours) + Number(data.opportunityLength);
 
+                            const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
+                            const countSnap = await getCountFromServer(serviceLogCollectionRef);
+                            const i = countSnap.data().count;
+                            const logEntry = {
+                                //uid: [`log${snapshot.data().count}`],
+                                logNum: i+1,
+                                hours: 0,
+                                schoolServiceHours: h,
+                                description: oppDesc,
+                                contact: oppCon,
+                                date: oppDate,
+                                timestamp: Timestamp.now(), // Add a server-side timestamp
+                            };
+
+                            await addDoc(serviceLogCollectionRef, logEntry);
+
+                            alert("Your new total service to the school hours: " +newHours + " hours");
+                            await updateDoc(studentDocRef, {
+                                totalSchoolHours: newHours,
+                            });
+
+                        }
+                        window.location.reload()
+                    } catch (error) {
+                        console.error(error);
+                        button.disabled = false;
                     }
-                    window.location.reload()
                 });
             } else {
                 // code to cancel signup

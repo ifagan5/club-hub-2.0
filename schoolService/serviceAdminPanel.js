@@ -72,7 +72,7 @@ input.addEventListener("keydown", async function (event) {
     if (querySnapshot.empty) {
       // check for students with first name
       //const q2 = query(docsRef, where("firstName", "==", formattedFirstName));
-      const q2 = query(collection(db, "students"), or(where("firstName", "==", formattedFirstName), where("lastName", "==", formattedFirstName), where("gradYr", "==", formattedgradYr)));
+      const q2 = query(collection(db, "students"), or(where("firstName", "==", formattedFirstName), where("lastName", "==", formattedLastName), where("gradYr", "==", formattedgradYr)));
       let docIds = [];
       const querySnapshot2 = await getDocs(q2);
 
@@ -157,8 +157,8 @@ input.addEventListener("keydown", async function (event) {
             document.getElementById("adminStudentSchoolHours").innerHTML = schoolHours + " " + schoolRequirement;
             document.getElementById("adminBigStudentName").innerHTML = fullName;
             document.getElementById("adminViewLog").innerHTML = fullName + "'s Log";
-            selectedStudentUID = doc.id;
-            //sessionStorage.setItem("studentUID", doc.id);
+            selectedStudentUID = tempDocumentUID;
+            //sessionStorage.setItem("studentUID", tempDocumentUID);
           }
           else{
             console.log(i + " next iteration");
@@ -180,8 +180,8 @@ input.addEventListener("keydown", async function (event) {
 
             // Append the cloned div to the parent of the original div
             originalDiv.parentNode.appendChild(clonedDiv);
-            selectedStudentUID = doc.id;
-            //Storage.setItem("studentUID", doc.id);
+            selectedStudentUID = tempDocumentUID;
+            //Storage.setItem("studentUID", tempDocumentUID);
           }
 
 
@@ -190,7 +190,7 @@ input.addEventListener("keydown", async function (event) {
       Takes away the admin from the array and makes the number of people you are looping through one fewer */
       else{
         console.log("docIds before splice: " + docIds);
-        docIds.splice(i-1,i-1);
+        docIds.splice(i-1, 1);
         countLogs--;
         console.log("docIds after splice: " + docIds);
         console.log("i value: " + i);
@@ -317,6 +317,7 @@ export const displayStudentsInDanger = async function() {
       const grade = data.gradYr || "N/A";
       const schoolHours = data.totalSchoolHours || 0;
       const totalHours = data.totalGeneralHours || 0;
+      const gradeEntered = data.gradeEntered || "Freshman";
 
       let schoolRequirement = "";
       let communityRequirement = "";

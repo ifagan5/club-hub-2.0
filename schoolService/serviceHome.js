@@ -402,7 +402,7 @@ function attachEventsToDay({ container, date }) {
                         if (isPast) {
                             // code to claim service hours
                             button.innerText = "Claim Your Service Opportunity Hours";
-                            button.addEventListener("click", async () => {
+                            button.onclick = async () => {
                                 await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
                                     signedUpUsers: arrayRemove(user.uid)
                                 });
@@ -438,16 +438,16 @@ function attachEventsToDay({ container, date }) {
 
                                 }
                                 window.location.reload()
-                            });
+                            };
                         } else {
                             // code to cancel signup
                             button.innerText = "Cancel Your Signup";
-                            button.addEventListener("click", async () => {
+                            button.onclick = async () => {
                                 await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
                                     signedUpUsers: arrayRemove(user.uid)
                                 });
                                 window.location.reload()
-                            });
+                            };
                         }
                     } else {
                         // code to signup for oppertuniy
@@ -457,12 +457,12 @@ function attachEventsToDay({ container, date }) {
                                 button.innerText = "Admins Cannot Signup";
                             } else {
                                 button.innerText = "Signup For Service Opportunity";
-                                button.addEventListener("click", async () => {
+                                button.onclick = async () => {
                                     await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
                                         signedUpUsers: arrayUnion(user.uid)
                                     });
                                     window.location.reload()
-                                });
+                                };
                             }
                         } else {
                             // opperuntiy expired
