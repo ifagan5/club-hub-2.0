@@ -23,6 +23,7 @@ export const checkIsAdmin = async function() {
     const uid = sessionStorage.getItem("studentUID");
     const docRef = doc(db, "students", uid);
     const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return;
     const isAdmin = docSnap.data().admin;
     if (isAdmin) {
         const target = document.getElementById("makeAdminButton");
@@ -34,6 +35,7 @@ export const makeAdmin = async function(){
     const uid = sessionStorage.getItem("studentUID");
     const docRef = doc(db, "students", uid);
     const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return;
     const isAdmin = docSnap.data().admin;
     if (isAdmin) {
         await updateDoc(docRef, { admin: false });

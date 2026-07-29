@@ -7,7 +7,8 @@ import {
     getFirestore,
     Timestamp,
     updateDoc,
-    getCountFromServer
+    getCountFromServer,
+    increment
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {checkAdminStatus, checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 
@@ -49,15 +50,27 @@ export const updateServiceLog = async function(){
     const studentUserId = sessionStorage.getItem('studentUID');
     const opportunityRef = doc(db, "studentServiceLog", studentUserId, "logs", opportunityId);
 
+    const oldSnap = await getDoc(opportunityRef);
+    const oldHours = (oldSnap.exists() && oldSnap.data().hours) ? oldSnap.data().hours : 0;
+    const newHours = Number(document.getElementById('hours').value);
+    const delta = newHours - oldHours;
+
     const updatedEntry = {
         description: document.getElementById('description').value,
         date: document.getElementById('date').value,
         contact: document.getElementById('contact').value,
-        hours: Number(document.getElementById('hours').value),
+        hours: newHours,
         lastUpdated: Timestamp.now(),
     };
 
     await updateDoc(opportunityRef, updatedEntry);
+    
+    if (delta !== 0) {
+        const studentRef = doc(db, "students", studentUserId);
+        await updateDoc(studentRef, {
+            totalSchoolHours: increment(delta)
+        });
+    }
     window.location.href = "serviceAdminPanel.html";
 };
 

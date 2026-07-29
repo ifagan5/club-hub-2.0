@@ -70,7 +70,6 @@ export const getLogActivity = async function() {
             if (isPast) {
                 console.log("MUST DELETE: " + data.opportunityName);
                 await deleteDoc(doc(db, "serviceOpportunities", docSnap.id));
-                window.location.reload();
                 continue;
             }
 
@@ -180,11 +179,10 @@ export const getServiceLogActivity = async function(){
             if (isPast) {
                 console.log("MUST DELETE: " + data.opportunityName);
                 await deleteDoc(doc(db, "serviceOpportunities", docSnap.id));
-                window.location.reload();
                 continue;
             }
 
-            if (true) {
+            if (sessionStorage.getItem("filterBySignedUp") === "true") {
                 const user = await getCurrentUser();
                 if (!data.signedUpUsers || !data.signedUpUsers.includes(user.uid)) {
                     continue;

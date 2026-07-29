@@ -13,13 +13,6 @@ export const firebaseConfig = {
     measurementId: "G-P97ML6ZP15"
 };
 
-(async () => {
-    const yr = await getGradYr();
-    if (yr === "2099" || yr === 2099) {
-        alert("You are not a student, but also have not have been granted admin privileges. Please contact an admin immediately.");
-    }
-})();
-
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
@@ -188,6 +181,11 @@ export const getHours = async function(){
     const loggedIn = await checkLoginStatus();
     if (loggedIn === false) {
         window.location.href = "./serviceStudentLogin.html";
+    } else {
+        const yr = await getGradYr();
+        if (yr === "2099" || yr === 2099) {
+            alert("You are not a student, but also have not have been granted admin privileges. Please contact an admin immediately.");
+        }
     }
 })();
 

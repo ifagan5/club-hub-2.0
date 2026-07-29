@@ -50,8 +50,13 @@ based on the user inputs
 */
 export const createServiceOpportunity = async function(opportunityName, opportunityDescription, opportunityLengthHours, opportunityLengthMinutes, opportunityDate, opportunityTime, opportunityContact, opportunityLocation){
     const logFormId = document.getElementById("loginForm");
-    if (!logFormId.checkValidity()) {
+    if (logFormId && !logFormId.checkValidity()) {
         logFormId.reportValidity();
+        return;
+    }
+    const oppForm = document.getElementById("opportunityForm");
+    if (oppForm && !oppForm.checkValidity()) {
+        oppForm.reportValidity();
         return;
     }
 
