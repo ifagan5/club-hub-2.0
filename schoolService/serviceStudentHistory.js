@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, arrayUnion, getCountFromServer, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, arrayRemove, arrayUnion, getCountFromServer, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import {checkAdminStatus, checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 //import{getCountFromServer} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
@@ -163,46 +163,7 @@ export const getServiceOpportunities = async function() {
 
             // delete if past 14 days
             
-             if (canClaim) {
-                        // code to claim service hours
-                            button.innerText = "Claim Your Service Opportunity Hours";
-                            button.addEventListener("click", async () => {
-                                await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
-                                    signedUpUsers: arrayRemove(user.uid)
-                                });
-                                const uid = user.uid;
-                                console.log(uid);
-                                const studentDocRef = doc(db, "students", uid);
-                                const studentDocSnap = await getDoc(studentDocRef);
-                                const studentData = studentDocSnap.data();
-                                if (studentDocSnap.exists()) {
-                                    const studentTotalHours = studentData.totalSchoolHours || 0; // Default to 0 if it doesn't exist?
-                                    const newHours = Number(studentTotalHours) + Number(data.opportunityLength);
-            
-                                    const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
-                                    const countSnap = await getCountFromServer(serviceLogCollectionRef);
-                                    const i = countSnap.data().count;
-                                    const logEntry = {
-                                        //uid: [`log${snapshot.data().count}`],
-                                        logNum: i+1,
-                                        hours: 0,
-                                        schoolServiceHours: data.opportunityLength,
-                                        description: data.opportunityDescription,
-                                        contact: data.opportunityContact || "Service Opportunity",
-                                        date: data.opportunityDate,
-                                        timestamp: Timestamp.now(), // Add a server-side timestamp
-                                    };
-            
-                                    await addDoc(serviceLogCollectionRef, logEntry);
-            
-                                    alert("Your new total service to the school hours: " +newHours + " hours");
-                                    await updateDoc(studentDocRef, {
-                                        totalSchoolHours: newHours,
-                                    });
-            
-                                }
-                                window.location.reload()
-                            });}
+
             if (isPast) {
                 continue;
             }
@@ -261,10 +222,51 @@ export const getServiceOpportunities = async function() {
                     window.location.href = "./serviceEditOpportunity.html";
                 };
             } else {
-                button2.onclick = () => {
-                    sessionStorage.setItem("opportunityName", data.opportunityName);
-                    window.location.href = "./serviceViewOpportunity.html";
-                };
+                if (canClaim) {
+                    button2.innerText = "Claim Your Service Opportunity Hours";
+                    button2.onclick = async () => {
+                        const user = await getCurrentUser();
+                        await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
+                            signedUpUsers: arrayRemove(user.uid)
+                        });
+                        const uid = user.uid;
+                        console.log(uid);
+                        const studentDocRef = doc(db, "students", uid);
+                        const studentDocSnap = await getDoc(studentDocRef);
+                        const studentData = studentDocSnap.data();
+                        if (studentDocSnap.exists()) {
+                            const studentTotalHours = studentData.totalSchoolHours || 0;
+                            const newHours = Number(studentTotalHours) + Number(data.opportunityLength);
+    
+                            const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
+                            const countSnap = await getCountFromServer(serviceLogCollectionRef);
+                            const i = countSnap.data().count;
+                            const logEntry = {
+                                logNum: i+1,
+                                hours: 0,
+                                schoolServiceHours: data.opportunityLength,
+                                description: data.opportunityDescription,
+                                contact: data.opportunityContact || "Service Opportunity",
+                                date: data.opportunityDate,
+                                timestamp: Timestamp.now(),
+                            };
+    
+                            await addDoc(serviceLogCollectionRef, logEntry);
+    
+                            alert("Your new total service to the school hours: " +newHours + " hours");
+                            await updateDoc(studentDocRef, {
+                                totalSchoolHours: newHours,
+                            });
+    
+                        }
+                        window.location.reload();
+                    };
+                } else {
+                    button2.onclick = () => {
+                        sessionStorage.setItem("opportunityName", data.opportunityName);
+                        window.location.href = "./serviceViewOpportunity.html";
+                    };
+                }
             }
 
             // Append the cloned div to the parent of the original div

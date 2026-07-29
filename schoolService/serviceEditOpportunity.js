@@ -64,16 +64,18 @@ export const updateServiceOpportunity = async function(){
 };
 
 const opportunityId = sessionStorage.getItem('opportunityIDToEdit');
-const opportunityRef = doc(db, "serviceOpportunities", opportunityId);
-const docSnap = await getDoc(opportunityRef);
+if (opportunityId) {
+    const opportunityRef = doc(db, "serviceOpportunities", opportunityId);
+    const docSnap = await getDoc(opportunityRef);
 
-if (docSnap.exists()) {
-    const data = docSnap.data();
-    document.getElementById('opportunityName').value = data.opportunityName;
-    document.getElementById('opportunityDescription').value = data.opportunityDescription;
-    document.getElementById('opportunityLength').value = data.opportunityLength;
-    document.getElementById('opportunityDate').value = data.opportunityDate;
-    document.getElementById('opportunityTime').value = data.opportunityTime;
-    document.getElementById('opportunityContact').value = data.opportunityContact;
-    document.getElementById('opportunityLocation').value = data.opportunityLocation
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById('opportunityName').value = data.opportunityName;
+        document.getElementById('opportunityDescription').value = data.opportunityDescription;
+        document.getElementById('opportunityLength').value = data.opportunityLength;
+        document.getElementById('opportunityDate').value = data.opportunityDate;
+        document.getElementById('opportunityTime').value = data.opportunityTime;
+        document.getElementById('opportunityContact').value = data.opportunityContact;
+        document.getElementById('opportunityLocation').value = data.opportunityLocation
+    }
 }

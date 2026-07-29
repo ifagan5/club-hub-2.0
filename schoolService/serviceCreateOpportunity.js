@@ -55,7 +55,7 @@ export const createServiceOpportunity = async function(opportunityName, opportun
         return;
     }
     const oppForm = document.getElementById("opportunityForm");
-    if (oppForm && !oppForm.checkValidity()) {
+    if (checkbox && checkbox.checked && oppForm && !oppForm.checkValidity()) {
         oppForm.reportValidity();
         return;
     }
@@ -65,7 +65,7 @@ export const createServiceOpportunity = async function(opportunityName, opportun
     const serviceOpportunityEntry = {
         opportunityName: opportunityName,
         opportunityDescription :opportunityDescription,
-        opportunityLength: Math.round(((parseFloat(opportunityLengthHours) + (parseFloat(opportunityLengthMinutes) / 60)) + Number.EPSILON) * 100) / 100, // Convert minutes to hours and add to total length
+        opportunityLength: Math.round((((parseFloat(opportunityLengthHours) || 0) + ((parseFloat(opportunityLengthMinutes) || 0) / 60)) + Number.EPSILON) * 100) / 100, // Convert minutes to hours and add to total length
         opportunityDate: opportunityDate,
         opportunityTime: opportunityTime,
         opportunityContact: opportunityContact,
@@ -87,6 +87,11 @@ export const createServiceOpportunity = async function(opportunityName, opportun
 
         const numRepeat = document.getElementById("repeatTimes").value;
 
+        if (days.length === 0) {
+            alert("Please select at least one day for reoccurring event.");
+            return;
+        }
+
         const earliestDay = Math.min(...days); // returns the numeric timestamps for earliest day on the list after reading list with ...
         let startDate = new Date();
         const currentDayOfWeek = startDate.getDay() === 0 ? 7 : startDate.getDay();
@@ -100,7 +105,7 @@ export const createServiceOpportunity = async function(opportunityName, opportun
                 const newServiceOpportunityEntry = {
                     opportunityName: opportunityName,
                     opportunityDescription :opportunityDescription,
-                    opportunityLength: Math.round(((parseFloat(opportunityLengthHours) + (parseFloat(opportunityLengthMinutes) / 60)) + Number.EPSILON) * 100) / 100,
+                    opportunityLength: Math.round((((parseFloat(opportunityLengthHours) || 0) + ((parseFloat(opportunityLengthMinutes) || 0) / 60)) + Number.EPSILON) * 100) / 100,
                     opportunityDate: dateObj.toISOString().split('T')[0], // also from google because timestamps weird
                     opportunityTime: opportunityTime,
                     opportunityContact: opportunityContact,

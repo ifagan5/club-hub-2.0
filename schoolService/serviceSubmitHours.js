@@ -72,6 +72,7 @@ export const addLog = async function(hours, hoursType, description, contact, dat
         } else {
             alert("ERROR - input type not recognized");
             alert(hoursType);
+            return;
         }
     }
 

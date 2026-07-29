@@ -66,7 +66,7 @@ input.addEventListener("keydown", async function (event) {
     console.log(formattedFirstName);
 
     // Make the query and filter by the first and the last name
-    const q = query(docsRef, where("firstName", "==", formattedFirstName), where("lastName", "==", formattedLastName), where("gradYr", "==", formattedgradYr));
+    const q = query(docsRef, where("firstName", "==", formattedFirstName), where("lastName", "==", formattedLastName));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
@@ -89,9 +89,6 @@ input.addEventListener("keydown", async function (event) {
     const countSnap = await getCountFromServer(q2);
     let countLogs = countSnap.data().count;
     console.log("countLogs:" + countLogs);
-    sessionStorage.setItem("studentUIDArray", docIds);
-    const saved = sessionStorage.getItem("studentUIDArray");
-    console.log("sessionStorage " + saved);
 
     // Clear previous search results
     const container = document.getElementById('adminClubInfoWrapper');
@@ -198,6 +195,9 @@ input.addEventListener("keydown", async function (event) {
         
       }
     }
+    sessionStorage.setItem("studentUIDArray", docIds);
+    const saved = sessionStorage.getItem("studentUIDArray");
+    console.log("sessionStorage " + saved);
       
     }
     }
@@ -525,6 +525,7 @@ export const getElementId = async function(obj){
     console.log("num = " + num);
     //gets the array of students
     const docIDS = sessionStorage.getItem("studentUIDArray");
+    if (!docIDS) return;
     const docIds = docIDS.split(",");
     //if the first interation there is no number at the end of the id so num does not exist
     if (!num){

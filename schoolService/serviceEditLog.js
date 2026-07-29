@@ -12,12 +12,10 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {checkAdminStatus, checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 
-(async () => {
-    const isAdmin = await checkAdminStatus();
-    if (!isAdmin) {
-        window.location.href = "./serviceStudentLogin.html";
-    }
-})();
+const isAdmin = await checkAdminStatus();
+if (!isAdmin) {
+    window.location.href = "./serviceStudentLogin.html";
+}
 
 //haha
 const firebaseConfig = {
@@ -51,7 +49,10 @@ export const updateServiceLog = async function(){
     const opportunityRef = doc(db, "studentServiceLog", studentUserId, "logs", opportunityId);
 
     const oldSnap = await getDoc(opportunityRef);
-    const oldHours = (oldSnap.exists() && oldSnap.data().hours) ? oldSnap.data().hours : 0;
+    const oldData = oldSnap.exists() ? oldSnap.data() : {};
+    
+    const isSchoolHours = oldData.schoolServiceHours > 0;
+    const oldHours = isSchoolHours ? oldData.schoolServiceHours : (oldData.hours || 0);
     const newHours = Number(document.getElementById('hours').value);
     const delta = newHours - oldHours;
 
@@ -59,17 +60,28 @@ export const updateServiceLog = async function(){
         description: document.getElementById('description').value,
         date: document.getElementById('date').value,
         contact: document.getElementById('contact').value,
-        hours: newHours,
         lastUpdated: Timestamp.now(),
     };
+    
+    if (isSchoolHours) {
+        updatedEntry.schoolServiceHours = newHours;
+    } else {
+        updatedEntry.hours = newHours;
+    }
 
     await updateDoc(opportunityRef, updatedEntry);
     
     if (delta !== 0) {
         const studentRef = doc(db, "students", studentUserId);
-        await updateDoc(studentRef, {
-            totalSchoolHours: increment(delta)
-        });
+        if (isSchoolHours) {
+            await updateDoc(studentRef, {
+                totalSchoolHours: increment(delta)
+            });
+        } else {
+            await updateDoc(studentRef, {
+                totalGeneralHours: increment(delta)
+            });
+        }
     }
     window.location.href = "serviceAdminPanel.html";
 };
@@ -83,7 +95,9 @@ if (docSnap.exists()) {
     const data = docSnap.data();
     document.getElementById('description').value = data.description || data.opportunityDescription || '';
 
-    if (data.hours != null) {
+    if (data.schoolServiceHours) {
+        document.getElementById('hours').value = data.schoolServiceHours;
+    } else if (data.hours != null) {
         document.getElementById('hours').value = data.hours;
     } else {
         document.getElementById('hours').value = data.opportunityLength || '';

@@ -263,6 +263,7 @@ it returns 0, and otherwise returns null
 */
 export async function getTotalHours(){
     const user = await getCurrentUser()
+    if (!user) return null;
     const uid = user.uid;
     console.log(uid);
     const docRef = doc(db, "students", uid);
@@ -283,6 +284,7 @@ it returns 0, and otherwise returns null
 */
 export async function getTotalSchoolServiceHours(){
     const user = await getCurrentUser()
+    if (!user) return null;
     const uid = user.uid;
     console.log(uid);
     const docRef = doc(db, "students", uid);
@@ -303,6 +305,7 @@ it returns "0", and otherwise returns null
 */
 export async function getGradYr(){
     const user = await getCurrentUser()
+    if (!user) return null;
     const uid = user.uid;
     console.log(uid);
     const docRef = doc(db, "students", uid);
@@ -322,6 +325,7 @@ it returns "0", and otherwise returns null
 */
 export async function getGradeEntered(){
     const user = await getCurrentUser()
+    if (!user) return null;
     const uid = user.uid;
     console.log(uid);
     const docRef = doc(db, "students", uid);
@@ -352,7 +356,8 @@ export async function calculateSchoolServiceHoursPercentage() {
         const totalSchoolHours = docSnap.data().totalSchoolHours || 0;
         const gradYearFirst = docSnap.data().gradYr || "2030";
         const gradYear = parseInt(gradYearFirst);
-        const gradeEntered = docSnap.data().gradeEntered; 
+        const rawGradeEntered = docSnap.data().gradeEntered;
+        const gradeEntered = (!rawGradeEntered || rawGradeEntered === "0") ? "Freshman" : rawGradeEntered; 
         if (gradYear === 2027) {
             if(gradeEntered === "Freshman" || gradeEntered === "Sophomore" || gradeEntered === "Junior"){
                 const preliminaryResult = (totalSchoolHours / 10) * 100
@@ -415,7 +420,8 @@ export async function calculateNonSchoolServiceHoursPercentage() {
         const totalGeneralHours = docSnap.data().totalGeneralHours || 0;
         const gradYearFirst = docSnap.data().gradYr || "2030";
         const gradYear = parseInt(gradYearFirst);
-        const gradeEntered = docSnap.data().gradeEntered; 
+        const rawGradeEntered = docSnap.data().gradeEntered;
+        const gradeEntered = (!rawGradeEntered || rawGradeEntered === "0") ? "Freshman" : rawGradeEntered; 
         if (gradYear === 2027) {
             if(gradeEntered === "Freshman"){
                 const preliminaryResult = (totalGeneralHours / 30) * 100
@@ -460,6 +466,7 @@ export async function displayAllStudentLogs(divId, studentUid = null) {
     if (!uid) {
         // Get current user
         const user = await getCurrentUser();
+        if (!user) return;
         uid = user.uid;
     }
 
@@ -575,6 +582,7 @@ export async function displayAllStudentServiceOpportunities(divId, onlyUsers) {
     // });
 
     const user = await getCurrentUser();
+    if (!user) return;
     const uid = user.uid;
 
     const originalDiv = document.getElementById(divId);
