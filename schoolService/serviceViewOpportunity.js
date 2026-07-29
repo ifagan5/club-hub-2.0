@@ -1,6 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, addDoc, getCountFromServer, arrayUnion, arrayRemove, deleteDoc, setDoc, Timestamp, query, where} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, addDoc, getCountFromServer, arrayUnion, arrayRemove, deleteDoc, setDoc, Timestamp, query, where, documentId} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {checkAdminStatus, checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 
 
@@ -47,7 +47,7 @@ console.log(serviceName);
 // make the request to firebase
 let q;
 if (serviceId) {
-    q = query(docsRef, where("__name__", "==", serviceId));
+    q = query(docsRef, where(documentId(), "==", serviceId));
 } else {
     q = query(docsRef, where("opportunityName", "==", serviceName));
 }
@@ -177,6 +177,7 @@ if (!querySnapshot.empty) {
                 button.innerText = "Service Opportunity Expired";
             }
         }
+        break;
     }
 }
 else {

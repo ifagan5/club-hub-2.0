@@ -327,7 +327,7 @@ function attachEventsToDay({ container, date }) {
 
             const locationLine = document.createElement('div');
             locationLine.className = 'event-line event-line--location';
-            locationLine.textContent = event.title || 'Error loading name';
+            locationLine.textContent = event.location || 'Error loading name';
 
             // Append lines in order (each will render on its own line)
             eventDiv.appendChild(timeLine);
@@ -422,7 +422,7 @@ function attachEventsToDay({ container, date }) {
                                         //uid: [`log${snapshot.data().count}`],
                                         logNum: i + 1,
                                         hours: 0,
-                                        schoolServiceHours: data.schoolServiceHours,
+                                        schoolServiceHours: data.opportunityLength,
                                         description: "A service to the school opportunity.",
                                         contact: "Unknown",
                                         date: event.date,

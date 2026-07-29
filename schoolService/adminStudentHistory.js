@@ -21,6 +21,7 @@ const studentName = document.getElementById("subheading");
 
 export const checkIsAdmin = async function() {
     const uid = sessionStorage.getItem("studentUID");
+    if (!uid) return;
     const docRef = doc(db, "students", uid);
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return;
@@ -33,6 +34,7 @@ export const checkIsAdmin = async function() {
 
 export const makeAdmin = async function(){
     const uid = sessionStorage.getItem("studentUID");
+    if (!uid) return;
     const docRef = doc(db, "students", uid);
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return;
@@ -60,6 +62,7 @@ export const returnPage = async function(){
 
 export const getLogActivity = async function(){
     const uid = sessionStorage.getItem("studentUID");
+    if (!uid) return;
     await displayAllStudentLogs("log1", uid);
 }
 

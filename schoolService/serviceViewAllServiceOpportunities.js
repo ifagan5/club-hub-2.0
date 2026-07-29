@@ -129,6 +129,7 @@ export const getLogActivity = async function() {
             } else {
                 button.onclick = () => {
                     sessionStorage.setItem("opportunityName", data.opportunityName);
+                    sessionStorage.setItem("opportunityId", id);
                     window.location.href = "./serviceViewOpportunity.html";
                 };
             }
@@ -238,6 +239,7 @@ export const getServiceLogActivity = async function(){
             } else {
                 button.onclick = () => {
                     sessionStorage.setItem("opportunityName", data.opportunityName);
+                    sessionStorage.setItem("opportunityId", id);
                     window.location.href = "./serviceViewOpportunity.html";
                 };
             }
@@ -250,13 +252,15 @@ export const getServiceLogActivity = async function(){
 
 // checkbox JavaScript to filter by signed up service opportunities
 const checkbox = document.getElementById('myCheck');
-checkbox.checked = sessionStorage.getItem("filterBySignedUp") === "true";
-checkbox.addEventListener('change', function() {
-    if (this.checked) {
-        sessionStorage.setItem("filterBySignedUp", "true");
-        window.location.reload();
-    } else {
-        sessionStorage.removeItem("filterBySignedUp");
-        window.location.reload();
-    }
-});
+if (checkbox) {
+    checkbox.checked = sessionStorage.getItem("filterBySignedUp") === "true";
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            sessionStorage.setItem("filterBySignedUp", "true");
+            window.location.reload();
+        } else {
+            sessionStorage.removeItem("filterBySignedUp");
+            window.location.reload();
+        }
+    });
+}

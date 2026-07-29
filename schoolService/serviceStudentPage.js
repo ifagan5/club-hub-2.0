@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore,getDoc,doc,updateDoc,query,collection,orderBy,getDocs,where,arrayRemove,arrayUnion,Timestamp,addDoc,getCountFromServer} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-import {logoutUser, checkLoginStatus, getFirstName, getLastName , getEmail, getCurrentUser, getGradYr, getGradeEntered} from "./serviceAuth.js";
+import {logoutUser, checkLoginStatus, getFirstName, getLastName , getEmail, getCurrentUser, getGradYr, getGradeEntered, getTotalHours} from "./serviceAuth.js";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const firebaseConfig = {
@@ -160,15 +160,17 @@ export const getHours = async function(){
     const uid = user.uid;
     const docRef = doc(db, "students", uid);
     const docFetched = await getDoc(docRef);
-    const numFields = Object.keys(docFetched.data()).length;
-    const numLogs = numFields - 5;
     let hours = 0;
+    if (docFetched.exists()) {
+        const numFields = Object.keys(docFetched.data()).length;
+        const numLogs = numFields - 5;
 
-    for (let i = 1; i <= numLogs; i++) {
-        let mapName = `log${i}`;
-        let myMap = docFetched.data()[mapName];
-        if (myMap && myMap.totalHours) {
-            hours += myMap.totalHours;
+        for (let i = 1; i <= numLogs; i++) {
+            let mapName = `log${i}`;
+            let myMap = docFetched.data()[mapName];
+            if (myMap && myMap.totalHours) {
+                hours += myMap.totalHours;
+            }
         }
     }
 

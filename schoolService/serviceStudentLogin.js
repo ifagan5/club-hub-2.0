@@ -21,7 +21,7 @@ const auth = getAuth(app);
 // kick the user off the page is they should not be here
 (async () => {
     const isUser = await checkLoginStatusNoRedirect();
-    if (isUser === true) {
+    if (isUser) {
         window.location.href = "./serviceStudentPage.html";
     }
 })();

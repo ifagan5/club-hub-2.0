@@ -29,14 +29,11 @@ export const registerService = async function(email, pass, first, last, entered)
     const newGradYear = email.replace(/\D/g, '') || "99";
     const newGradYearFinal = "20" + newGradYear;
 
-    const full_name = first + " " + last;
     // Helper to normalize case (e.g., "jake" -> "Jake") from stack overflow
     const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
-    // Split the input into first name and last name using spaces also from stack overflow
-    const [firstName, ...lastNameParts] = full_name.split(" ");
-    const formattedLastName = lastNameParts.map(capitalize).join(" ");
-    const formattedFirstName = capitalize(firstName);
+    const formattedFirstName = first.split(" ").map(capitalize).join(" ");
+    const formattedLastName = last.split(" ").map(capitalize).join(" ");
     //creates the account using the user input. 
     const gradeEntered = entered;
     await createUser(email, pass, formattedFirstName, formattedLastName, newGradYearFinal, gradeEntered);
