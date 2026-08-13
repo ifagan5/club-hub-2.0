@@ -1,6 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp, addDoc, arrayRemove, arrayUnion, query, where, getCountFromServer} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp, addDoc, arrayRemove, arrayUnion, query, where, getCountFromServer, increment} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {checkLoginStatus, getCurrentUser, checkAdminStatus} from "./serviceAuth.js";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -355,17 +355,11 @@ function attachEventsToDay({ container, date }) {
 
             const infoModal = document.getElementById("eventInfoModal");
 
-            document.getElementById("clubPopUp").innerHTML = "Opportunity Name: ";
-            document.getElementById("datePopUp").innerHTML = "Date: ";
-            document.getElementById("timePopUp").innerHTML = "Time: ";
-            document.getElementById("locationPopUp").innerHTML = "Location: ";
-            document.getElementById("descriptionPopUp").innerHTML = "Description: ";
-
-            document.getElementById("clubPopUp").innerHTML += event.title;
-            document.getElementById("datePopUp").innerHTML += event.date;
-            document.getElementById("timePopUp").innerHTML += event.time;
-            document.getElementById("locationPopUp").innerHTML += event.location;
-            document.getElementById("descriptionPopUp").innerHTML += event.description;
+            document.getElementById("clubPopUp").textContent = "Opportunity Name: " + event.title;
+            document.getElementById("datePopUp").textContent = "Date: " + event.date;
+            document.getElementById("timePopUp").textContent = "Time: " + event.time;
+            document.getElementById("locationPopUp").textContent = "Location: " + event.location;
+            document.getElementById("descriptionPopUp").textContent = "Description: " + event.description;
 
             infoModal.style.display = "flex";
 
@@ -403,6 +397,7 @@ function attachEventsToDay({ container, date }) {
                             // code to claim service hours
                             button.innerText = "Claim Your Service Opportunity Hours";
                             button.onclick = async () => {
+                                button.disabled = true;
                                 await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
                                     signedUpUsers: arrayRemove(user.uid)
                                 });
@@ -410,10 +405,9 @@ function attachEventsToDay({ container, date }) {
                                 console.log(uid);
                                 const studentDocRef = doc(db, "students", uid);
                                 const studentDocSnap = await getDoc(studentDocRef);
-                                const studentData = studentDocSnap.data();
                                 if (studentDocSnap.exists()) {
-                                    const studentTotalHours = studentData.totalSchoolHours || 0; // Default to 0 if it doesn't exist?
-                                    const newHours = Number(studentTotalHours) + Number(data.opportunityLength);
+                                    const studentData = studentDocSnap.data();
+                                    const hoursToAdd = Number(data.opportunityLength);
 
                                     const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
                                     const countSnap = await getCountFromServer(serviceLogCollectionRef);
@@ -431,10 +425,12 @@ function attachEventsToDay({ container, date }) {
 
                                     await addDoc(serviceLogCollectionRef, logEntry);
 
-                                    alert("Your new total service to the school hours: " + newHours + " hours");
                                     await updateDoc(studentDocRef, {
-                                        totalSchoolHours: newHours,
+                                        totalSchoolHours: increment(hoursToAdd),
                                     });
+
+                                    const newApproxTotal = (studentData.totalSchoolHours || 0) + hoursToAdd;
+                                    alert("Your new total service to the school hours: " + newApproxTotal + " hours");
 
                                 }
                                 window.location.reload()
@@ -471,7 +467,7 @@ function attachEventsToDay({ container, date }) {
                     }
                 }
             } else {
-                opportunityName.innerHTML = "Error: No Opportunity Found";
+                opportunityName.textContent = "Error: No Opportunity Found";
             }
 
         });
@@ -557,6 +553,3 @@ onAuthStateChanged(auth, (user) => {
 
 const isLoggedIn = await checkLoginStatus();
 console.log(isLoggedIn);
-if (!isLoggedIn) {
-    window.location.href = "serviceStudentLogin.html";
-}

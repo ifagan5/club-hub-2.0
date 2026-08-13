@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, arrayRemove, arrayUnion, getCountFromServer, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, arrayRemove, arrayUnion, getCountFromServer, collection, collectionGroup, addDoc, getDocs,getDoc, doc, updateDoc, deleteDoc, setDoc, Timestamp, query, where, orderBy, increment } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import {checkAdminStatus, checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 //import{getCountFromServer} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
@@ -130,13 +130,7 @@ Automatically deletes opporunities once passed
 export const getServiceOpportunities = async function() {
     
     // NEW LOOP AURA
-     if (true) {
-        sessionStorage.setItem("filterBySignedUp", "true");
-        
-    } else {
-        sessionStorage.removeItem("filterBySignedUp");
-        window.location.reload();
-    };
+    sessionStorage.setItem("filterBySignedUp", "true");
     const logsRef = collection(db, "studentServiceLog");
     const originalDiv = document.getElementById('opportunity1');
     originalDiv.style.display = 'none';
@@ -225,6 +219,7 @@ export const getServiceOpportunities = async function() {
                 if (canClaim) {
                     button2.innerText = "Claim Your Service Opportunity Hours";
                     button2.onclick = async () => {
+                        button2.disabled = true;
                         const user = await getCurrentUser();
                         await updateDoc(doc(db, "serviceOpportunities", docSnap.id), {
                             signedUpUsers: arrayRemove(user.uid)
@@ -233,10 +228,9 @@ export const getServiceOpportunities = async function() {
                         console.log(uid);
                         const studentDocRef = doc(db, "students", uid);
                         const studentDocSnap = await getDoc(studentDocRef);
-                        const studentData = studentDocSnap.data();
                         if (studentDocSnap.exists()) {
-                            const studentTotalHours = studentData.totalSchoolHours || 0;
-                            const newHours = Number(studentTotalHours) + Number(data.opportunityLength);
+                            const studentData = studentDocSnap.data();
+                            const hoursToAdd = Number(data.opportunityLength);
     
                             const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
                             const countSnap = await getCountFromServer(serviceLogCollectionRef);
@@ -253,10 +247,12 @@ export const getServiceOpportunities = async function() {
     
                             await addDoc(serviceLogCollectionRef, logEntry);
     
-                            alert("Your new total service to the school hours: " +newHours + " hours");
                             await updateDoc(studentDocRef, {
-                                totalSchoolHours: newHours,
+                                totalSchoolHours: increment(hoursToAdd),
                             });
+
+                            const newApproxTotal = (studentData.totalSchoolHours || 0) + hoursToAdd;
+                            alert("Your new total service to the school hours: " + newApproxTotal + " hours");
     
                         }
                         window.location.reload();

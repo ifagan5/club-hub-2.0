@@ -66,10 +66,9 @@ export const getLogActivity = async function() {
             const differenceTimeInMs = currentDateTimeInMs - timestampDateTimeInMs;
             const isPast = differenceTimeInMs > 0 && differenceTimeInMs > 1210000000;
 
-            // delete if past 14 days
+            // hide if past 14 days
             if (isPast) {
-                console.log("MUST DELETE: " + data.opportunityName);
-                await deleteDoc(doc(db, "serviceOpportunities", docSnap.id));
+                console.log("Passed opportunity (should be deleted from DB by admin): " + data.opportunityName);
                 continue;
             }
 
@@ -176,10 +175,9 @@ export const getServiceLogActivity = async function(){
             const differenceTimeInMs = currentDateTimeInMs - timestampDateTimeInMs;
             const isPast = differenceTimeInMs > 0 && differenceTimeInMs > 1210000000;
 
-            // delete if past 14 days
+            // hide if past 14 days
             if (isPast) {
-                console.log("MUST DELETE: " + data.opportunityName);
-                await deleteDoc(doc(db, "serviceOpportunities", docSnap.id));
+                console.log("Passed opportunity (should be deleted from DB by admin): " + data.opportunityName);
                 continue;
             }
 

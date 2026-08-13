@@ -1,5 +1,5 @@
 // // goofy file ignore aura test 4
-// const wow = atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ5OTQ2MDg4MjY2NzY2NzUyNy9wd29ibmJvTGZIWFZmT2ZYWFhpTEM5M3RwenFKR2lwQTl5NHhWcEhmUnZPUVFGZHkzZUxqbng2M1lkdlZ4d3llR2ZCZg==');
+// const wow = process.env.DISCORD_WEBHOOK_URL; // Removed hardcoded credential
 //
 //
 // function sendToDiscord(title, message, source = "N/A", stack = "N/A") {

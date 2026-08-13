@@ -88,21 +88,26 @@ export const updateServiceLog = async function(){
 
 const opportunityId = sessionStorage.getItem('editLogId');
 const studentUserId = sessionStorage.getItem('studentUID');
-const opportunityRef = doc(db, "studentServiceLog", studentUserId, "logs", opportunityId);
-const docSnap = await getDoc(opportunityRef);
 
-if (docSnap.exists()) {
-    const data = docSnap.data();
-    document.getElementById('description').value = data.description || data.opportunityDescription || '';
+if (!opportunityId || !studentUserId) {
+    window.location.href = "./serviceAdminPanel.html";
+} else {
+    const opportunityRef = doc(db, "studentServiceLog", studentUserId, "logs", opportunityId);
+    const docSnap = await getDoc(opportunityRef);
 
-    if (data.schoolServiceHours) {
-        document.getElementById('hours').value = data.schoolServiceHours;
-    } else if (data.hours != null) {
-        document.getElementById('hours').value = data.hours;
-    } else {
-        document.getElementById('hours').value = data.opportunityLength || '';
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById('description').value = data.description || data.opportunityDescription || '';
+
+        if (data.schoolServiceHours) {
+            document.getElementById('hours').value = data.schoolServiceHours;
+        } else if (data.hours != null) {
+            document.getElementById('hours').value = data.hours;
+        } else {
+            document.getElementById('hours').value = data.opportunityLength || '';
+        }
+
+        document.getElementById('date').value = data.date || data.opportunityDate || '';
+        document.getElementById('contact').value = data.contact || data.opportunityContact || '';
     }
-
-    document.getElementById('date').value = data.date || data.opportunityDate || '';
-    document.getElementById('contact').value = data.contact || data.opportunityContact || '';
 }

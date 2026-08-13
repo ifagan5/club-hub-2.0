@@ -15,10 +15,12 @@ import {
     getDoc,
     getDocs,
     getFirestore,
+    increment,
     orderBy,
     query,
     serverTimestamp,
     setDoc,
+    updateDoc,
     limit,
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
@@ -38,7 +40,7 @@ export const db   = getFirestore(app);
 export const auth = getAuth(app);
 
 // Caches to prevent redundant read requests
-let cachedAdminStatus = null;
+
 let cachedStudentDoc = null;
 
 // aura
@@ -123,15 +125,12 @@ checkAdminStatus()
 Checks in the user's "admin" field is set to true in firebase and returns true if it is a false if not
 */
 export async function checkAdminStatus() {
-    if (cachedAdminStatus !== null) return cachedAdminStatus;
     const user = await getCurrentUser();
     if (!user) return false;
     const docRef = doc(db, "students", user.uid);
     const docSnap = await getDoc(docRef);
-    const userData = docSnap.data();
     if (docSnap.exists()) {
-        cachedAdminStatus = userData.admin === true;
-        return cachedAdminStatus;
+        return docSnap.data().admin === true;
     }
     return false;
 }
@@ -185,7 +184,7 @@ logs out the user and replaces the location with serviceHome.html
 export async function logoutUser() {
     try {
         await signOut(auth);
-        cachedAdminStatus = null;
+
         cachedStudentDoc = null;
         window.location.href = "./serviceHome.html";
     } catch (err) {
@@ -495,6 +494,7 @@ export async function displayAllStudentLogs(divId, studentUid = null) {
 
 
     let i = 0;
+    const studentRef = doc(db, "students", uid);
     docSnap.forEach((doc) => {
         const data = doc.data();
         const contact = data.contact;
@@ -556,6 +556,14 @@ export async function displayAllStudentLogs(divId, studentUid = null) {
             deleteBtn.style.setProperty("transition", "background-color 0.3s");
             deleteBtn.style.setProperty("font-size", "medium");
             deleteBtn.onclick = async () => {
+                const schoolHrs = Number(data.schoolServiceHours) || 0;
+                const generalHrs = Number(data.hours) || 0;
+                const hourUpdates = {};
+                if (schoolHrs > 0) hourUpdates.totalSchoolHours = increment(-schoolHrs);
+                if (generalHrs > 0) hourUpdates.totalGeneralHours = increment(-generalHrs);
+                if (Object.keys(hourUpdates).length > 0) {
+                    await updateDoc(studentRef, hourUpdates);
+                }
                 await deleteDoc(doc.ref);
                 window.location.reload();
             };
@@ -592,7 +600,7 @@ export async function displayAllStudentServiceOpportunities(divId, onlyUsers) {
     const querySnapshot = await getDocs(q);
 
     let id = 0;
-    let needsReload = false;
+
     for (const doc of querySnapshot.docs) {
         const data = doc.data();
 
@@ -658,8 +666,6 @@ export async function displayAllStudentServiceOpportunities(divId, onlyUsers) {
         originalDiv.parentNode.appendChild(noOppMsg);
     }
 
-    if (needsReload) {
-        window.location.reload();
-    }
+
     //haha
 }

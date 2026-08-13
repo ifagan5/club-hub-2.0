@@ -148,12 +148,12 @@ input.addEventListener("keydown", async function (event) {
           const originalDiv = document.getElementById('studentWrapper');
           if (i===countLogs){
             console.log(i + " first iteration");
-            document.getElementById("adminStudentName").innerHTML = fullName;
-            document.getElementById("adminStudentGrade").innerHTML = grade;
-            document.getElementById("adminStudentNonSchoolHours").innerHTML = totalHours + " " + communityRequirement;
-            document.getElementById("adminStudentSchoolHours").innerHTML = schoolHours + " " + schoolRequirement;
-            document.getElementById("adminBigStudentName").innerHTML = fullName;
-            document.getElementById("adminViewLog").innerHTML = fullName + "'s Log";
+            document.getElementById("adminStudentName").textContent = fullName;
+            document.getElementById("adminStudentGrade").textContent = grade;
+            document.getElementById("adminStudentNonSchoolHours").textContent = totalHours + " " + communityRequirement;
+            document.getElementById("adminStudentSchoolHours").textContent = schoolHours + " " + schoolRequirement;
+            document.getElementById("adminBigStudentName").textContent = fullName;
+            document.getElementById("adminViewLog").textContent = fullName + "'s Log";
             selectedStudentUID = tempDocumentUID;
             //sessionStorage.setItem("studentUID", tempDocumentUID);
           }
@@ -168,12 +168,12 @@ input.addEventListener("keydown", async function (event) {
             clonedDiv.querySelector('#adminBigStudentName').id = `adminBigStudentName${i}`;
             clonedDiv.querySelector('#adminViewLog').id = `adminViewLog${i}`;
             // Update text content of the cloned elements
-            clonedDiv.querySelector(`#adminStudentName${i}`).innerHTML = fullName;
-            clonedDiv.querySelector(`#adminStudentGrade${i}`).innerHTML = grade;
-            clonedDiv.querySelector(`#adminStudentNonSchoolHours${i}`).innerHTML = totalHours + " " + communityRequirement;
-            clonedDiv.querySelector(`#adminStudentSchoolHours${i}`).innerHTML = schoolHours + " " + schoolRequirement;
-            clonedDiv.querySelector(`#adminBigStudentName${i}`).innerHTML = fullName;
-            clonedDiv.querySelector(`#adminViewLog${i}`).innerHTML = fullName + "'s Log";
+            clonedDiv.querySelector(`#adminStudentName${i}`).textContent = fullName;
+            clonedDiv.querySelector(`#adminStudentGrade${i}`).textContent = grade;
+            clonedDiv.querySelector(`#adminStudentNonSchoolHours${i}`).textContent = totalHours + " " + communityRequirement;
+            clonedDiv.querySelector(`#adminStudentSchoolHours${i}`).textContent = schoolHours + " " + schoolRequirement;
+            clonedDiv.querySelector(`#adminBigStudentName${i}`).textContent = fullName;
+            clonedDiv.querySelector(`#adminViewLog${i}`).textContent = fullName + "'s Log";
 
             // Append the cloned div to the parent of the original div
             originalDiv.parentNode.appendChild(clonedDiv);
@@ -308,7 +308,7 @@ export const displayStudentsInDanger = async function() {
 
     const span = document.createElement("span");
     const fullName = `${student.data().firstName} ${student.data().lastName}`;
-    span.innerHTML = fullName;
+    span.textContent = fullName;
 
     studentInDanger.onclick = function () {
       const data = student.data();
@@ -377,12 +377,12 @@ export const displayStudentsInDanger = async function() {
         }
       }
 
-      document.getElementById("adminBigStudentName").innerHTML = fullName;
-      document.getElementById("adminStudentName").innerHTML = fullName;
-      document.getElementById("adminStudentGrade").innerHTML = grade;
-      document.getElementById("adminStudentNonSchoolHours").innerHTML = totalHours + " " + communityRequirement;
-      document.getElementById("adminStudentSchoolHours").innerHTML = schoolHours + " " + schoolRequirement;
-      document.getElementById("adminViewLog").innerHTML = fullName + "'s Log";
+      document.getElementById("adminBigStudentName").textContent = fullName;
+      document.getElementById("adminStudentName").textContent = fullName;
+      document.getElementById("adminStudentGrade").textContent = grade;
+      document.getElementById("adminStudentNonSchoolHours").textContent = totalHours + " " + communityRequirement;
+      document.getElementById("adminStudentSchoolHours").textContent = schoolHours + " " + schoolRequirement;
+      document.getElementById("adminViewLog").textContent = fullName + "'s Log";
       sessionStorage.setItem("studentUIDArray", student.id);
     };
 

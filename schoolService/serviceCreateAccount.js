@@ -26,7 +26,8 @@ export const registerService = async function(email, pass, first, last, entered)
     }
 
     // stack over flow lookup for how to remove all non numebr charaacters from string
-    const newGradYear = email.replace(/\D/g, '') || "99";
+    const match = email.match(/(\d{2})@/);
+    const newGradYear = match ? match[1] : "99";
     const newGradYearFinal = "20" + newGradYear;
 
     // Helper to normalize case (e.g., "jake" -> "Jake") from stack overflow
