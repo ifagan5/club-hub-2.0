@@ -1,6 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, addDoc, getCountFromServer, arrayUnion, arrayRemove, deleteDoc, setDoc, Timestamp, query, where, documentId} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, collection, getDoc, getDocs, doc, updateDoc, addDoc, getCountFromServer, arrayUnion, arrayRemove, deleteDoc, setDoc, Timestamp, query, where, documentId, increment} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {checkAdminStatus, checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 
 
@@ -71,14 +71,14 @@ if (!querySnapshot.empty) {
         }
 
         // set innerhtml of elements to update data
-        opportunityName.innerHTML = data.opportunityName;
-        opportunityDescription.innerHTML = data.opportunityDescription;
-        opportunityLength.innerHTML = data.opportunityLength + " hours";
-        opportunityDate.innerHTML = data.opportunityDate;
-        opportunityTime.innerHTML = finalTime;
+        opportunityName.textContent = data.opportunityName;
+        opportunityDescription.textContent = data.opportunityDescription;
+        opportunityLength.textContent = data.opportunityLength + " hours";
+        opportunityDate.textContent = data.opportunityDate;
+        opportunityTime.textContent = finalTime;
         console.log("This should be the HTML: " + data.opportunityContact);
-        opportunityContact.innerHTML = data.opportunityContact;
-        opportunityLocation.innerHTML = data.opportunityLocation;
+        opportunityContact.textContent = data.opportunityContact;
+        opportunityLocation.textContent = data.opportunityLocation;
 
         const oppDesc = data.opportunityDescription;
         const h = data.opportunityLength;
@@ -114,10 +114,9 @@ if (!querySnapshot.empty) {
                         console.log(uid);
                         const studentDocRef = doc(db, "students", uid);
                         const studentDocSnap = await getDoc(studentDocRef);
-                        const studentData = studentDocSnap.data();
                         if (studentDocSnap.exists()) {
-                            const studentTotalHours = studentData.totalSchoolHours || 0; // Default to 0 if it doesn't exist?
-                            const newHours = Number(studentTotalHours) + Number(data.opportunityLength);
+                            const studentData = studentDocSnap.data();
+                            const hoursToAdd = Number(data.opportunityLength);
 
                             const serviceLogCollectionRef = collection(db, "studentServiceLog", uid, "logs");
                             const countSnap = await getCountFromServer(serviceLogCollectionRef);
@@ -135,10 +134,12 @@ if (!querySnapshot.empty) {
 
                             await addDoc(serviceLogCollectionRef, logEntry);
 
-                            alert("Your new total service to the school hours: " +newHours + " hours");
                             await updateDoc(studentDocRef, {
-                                totalSchoolHours: newHours,
+                                totalSchoolHours: increment(hoursToAdd),
                             });
+
+                            const newApproxTotal = (studentData.totalSchoolHours || 0) + hoursToAdd;
+                            alert("Your new total service to the school hours: " + newApproxTotal + " hours");
 
                         }
                         window.location.reload()
@@ -181,6 +182,6 @@ if (!querySnapshot.empty) {
     }
 }
 else {
-    opportunityName.innerHTML = "Error: No Opportunity Found";
+    opportunityName.textContent = "Error: No Opportunity Found";
 }
 // error handeling

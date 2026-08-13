@@ -1,7 +1,14 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore, collection, getDocs, getDoc, doc, getCountFromServer, updateDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getAuth} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-import { displayAllStudentLogs } from "./serviceAuth.js";
+import { displayAllStudentLogs, checkAdminStatus } from "./serviceAuth.js";
+
+(async () => {
+    const isAdmin = await checkAdminStatus();
+    if (!isAdmin) {
+        window.location.href = "./serviceStudentLogin.html";
+    }
+})();
 //haha
 const firebaseConfig = {
     apiKey: "AIzaSyDKBBs0TWerQno_u8yjNqV5qmvQImf6xA0",

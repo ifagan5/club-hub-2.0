@@ -7,7 +7,8 @@ import {
     getFirestore,
     Timestamp,
     updateDoc,
-    getCountFromServer
+    getCountFromServer,
+    increment
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {checkAdminStatus, checkLoginStatus, getCurrentUser} from "./serviceAuth.js";
 
@@ -54,26 +55,18 @@ export const addLog = async function(hours, hoursType, description, contact, dat
     const uid = user.uid;
     console.log(uid);
     const docRef = doc(db, "students", uid);
-    const docSnap = await getDoc(docRef);
-    const data = docSnap.data();
-    if (docSnap.exists()) {
-        if (hoursType === "General Community Service") {
-            const studentTotalGeneralHours = data.totalGeneralHours || 0; // Default to 0 if it doesn't exist?
-            const newHours = parseFloat(String(studentTotalGeneralHours)) + parseFloat(String(hours));
-            await updateDoc(docRef, {
-                totalGeneralHours: newHours,
-            });
-        } else if (hoursType === "Service to the School") {
-            const studentTotalSchoolHours = data.totalSchoolHours || 0 // Default to 0 if it doesn't exist?
-            const newHours = parseFloat(studentTotalSchoolHours) + parseFloat(hours);
-            await updateDoc(docRef, { // Fix: Update totalSchoolHours instead of totalHours
-                totalSchoolHours: newHours,
-            });
-        } else {
-            alert("ERROR - input type not recognized");
-            alert(hoursType);
-            return;
-        }
+    if (hoursType === "General Community Service") {
+        await updateDoc(docRef, {
+            totalGeneralHours: increment(parseFloat(String(hours))),
+        });
+    } else if (hoursType === "Service to the School") {
+        await updateDoc(docRef, {
+            totalSchoolHours: increment(parseFloat(String(hours))),
+        });
+    } else {
+        alert("ERROR - input type not recognized");
+        alert(hoursType);
+        return;
     }
 
 
